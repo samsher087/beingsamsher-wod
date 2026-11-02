@@ -76,70 +76,94 @@ export const ContactPage = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
           {/* Contact Details & Headquarters */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="p-8 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 shadow-2xl space-y-6 card-top-line">
-              <h3 className="text-xl font-bold text-white uppercase tracking-wider border-l-2 border-cyan-400 pl-3">
-                Official Arena Office
-              </h3>
-
-              <div className="space-y-4 text-sm">
-                <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/20 shrink-0">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-white">Compound Location</h4>
-                    <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                      {settings.headquartersAddress || 'Kusaiya, Giridih, Jharkhand'}
-                    </p>
-                  </div>
+          <div className="lg:col-span-5 flex flex-col h-full">
+            <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 shadow-2xl card-top-line flex flex-col justify-between h-full">
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-bold text-white uppercase tracking-wider border-l-2 border-cyan-400 pl-3">
+                    Official Arena Office
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-2 pl-3">
+                    Headquarters for arena bookings, media & stunt academy.
+                  </p>
                 </div>
 
-                <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-xl bg-amber-400/15 text-amber-400 border border-amber-400/20 shrink-0">
-                    <Phone className="w-5 h-5" />
+                <div className="space-y-5 text-sm pt-2">
+                  <div className="flex items-start gap-3.5">
+                    <div className="p-2.5 rounded-xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/20 shrink-0">
+                      <MapPin className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white">Compound Location</h4>
+                      <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                        {settings.headquartersAddress || 'Kusaiya, Giridih, Jharkhand'}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-white">Direct Phone & WhatsApp</h4>
-                    <a
-                      href={`tel:${settings.contactPhone || '+917488405975'}`}
-                      className="text-xs text-slate-300 hover:text-white transition-colors block mt-1"
-                    >
-                      {settings.contactPhone || '+91 7488405975'}
-                    </a>
-                    {settings.contactWhatsApp && (
+
+                  <div className="flex items-start gap-3.5">
+                    <div className="p-2.5 rounded-xl bg-amber-400/15 text-amber-400 border border-amber-400/20 shrink-0">
+                      <Phone className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white">Direct Phone & WhatsApp</h4>
                       <a
-                        href={`https://wa.me/${settings.contactWhatsApp.replace(/[^0-9]/g, '')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[11px] text-emerald-400 hover:underline mt-0.5 block font-semibold"
+                        href={`tel:${settings.contactPhone || '+917488405975'}`}
+                        className="text-xs text-slate-300 hover:text-white transition-colors block mt-1"
                       >
-                        Open WhatsApp Chat →
+                        {settings.contactPhone || '+91 7488405975'}
                       </a>
-                    )}
+                      {settings.contactWhatsApp && (
+                        <a
+                          href={`https://wa.me/${settings.contactWhatsApp.replace(/[^0-9]/g, '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[11px] text-emerald-400 hover:underline mt-0.5 block font-semibold"
+                        >
+                          Open WhatsApp Chat →
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3.5">
+                    <div className="p-2.5 rounded-xl bg-teal-500/15 text-teal-400 border border-teal-500/20 shrink-0">
+                      <Mail className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white">Email Inquiries</h4>
+                      <a
+                        href={`mailto:${settings.contactEmail}`}
+                        className="text-xs text-slate-300 hover:text-white transition-colors block mt-1"
+                      >
+                        {settings.contactEmail || 'contact@samsher-wod.com'}
+                      </a>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-xl bg-teal-500/15 text-teal-400 border border-teal-500/20 shrink-0">
-                    <Mail className="w-5 h-5" />
+                {/* Status / Working Hours Pill */}
+                <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5">
+                    <span className="relative flex h-2.5 w-2.5 shrink-0">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    <div>
+                      <span className="text-xs font-bold text-white block">Arena Tours Active</span>
+                      <span className="text-[11px] text-slate-400 block">Mon - Sun: 9:00 AM - 10:00 PM IST</span>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-white">Email Inquiries</h4>
-                    <a
-                      href={`mailto:${settings.contactEmail}`}
-                      className="text-xs text-slate-300 hover:text-white transition-colors block mt-1"
-                    >
-                      {settings.contactEmail || 'contact@samsher-wod.com'}
-                    </a>
-                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20 shrink-0">
+                    Live Shows
+                  </span>
                 </div>
               </div>
 
               {/* Social Channels */}
-              <div className="pt-6 border-t border-slate-800">
+              <div className="pt-6 border-t border-slate-800/80 mt-6">
                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
                   Follow the Action
                 </h4>
@@ -183,14 +207,16 @@ export const ContactPage = () => {
           </div>
 
           {/* Contact & Booking Form */}
-          <div className="lg:col-span-7">
-            <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 shadow-2xl relative card-top-line">
-              <h3 className="text-xl font-bold text-white uppercase tracking-wider mb-2">
-                Send an Inquiry
-              </h3>
-              <p className="text-xs text-slate-400 mb-6">
-                Our management will respond within 24 business hours.
-              </p>
+          <div className="lg:col-span-7 flex flex-col h-full">
+            <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 shadow-2xl relative card-top-line flex flex-col justify-between h-full">
+              <div className="mb-6">
+                <h3 className="text-xl font-bold text-white uppercase tracking-wider mb-2">
+                  Send an Inquiry
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Our management will respond within 24 business hours.
+                </p>
+              </div>
 
               {submitted ? (
                 <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3">
