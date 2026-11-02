@@ -1,4 +1,4 @@
-const BASE_URL = '/api';
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 export const apiClient = {
   async request(endpoint, options = {}) {
@@ -24,7 +24,10 @@ export const apiClient = {
     }
 
     try {
-      const response = await fetch(`${BASE_URL}${endpoint}`, config);
+      const url = endpoint.startsWith('http')
+        ? endpoint
+        : `${BASE_URL.replace(/\/$/, '')}/${endpoint.replace(/^\//, '')}`;
+      const response = await fetch(url, config);
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
