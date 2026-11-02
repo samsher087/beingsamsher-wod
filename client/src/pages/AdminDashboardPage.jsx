@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useSettings } from '../context/SettingsContext';
 import { apiClient } from '../api/client';
@@ -31,6 +31,8 @@ import {
   Unlock,
   ChevronRight,
   Loader2,
+  Upload,
+  X,
 } from 'lucide-react';
 
 export const AdminDashboardPage = () => {
@@ -79,6 +81,11 @@ export const AdminDashboardPage = () => {
     caption: '',
     location: '',
   });
+  const [photoSourceType, setPhotoSourceType] = useState('file'); // 'file' or 'url'
+  const [selectedPhotoFile, setSelectedPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState('');
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const photoFileInputRef = useRef(null);
 
   const [publicVideos, setPublicVideos] = useState([]);
   const [newVideo, setNewVideo] = useState({
@@ -89,6 +96,11 @@ export const AdminDashboardPage = () => {
     duration: '3:30',
     description: '',
   });
+  const [videoThumbSourceType, setVideoThumbSourceType] = useState('url');
+  const [selectedVideoThumbFile, setSelectedVideoThumbFile] = useState(null);
+  const [videoThumbPreview, setVideoThumbPreview] = useState('');
+  const [isPublishingVideo, setIsPublishingVideo] = useState(false);
+  const videoThumbInputRef = useRef(null);
 
   // Audit Logs
   const [auditLogs, setAuditLogs] = useState([]);
@@ -208,16 +220,84 @@ export const AdminDashboardPage = () => {
     }
   };
 
+  const handlePhotoFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setMsg({ type: 'error', text: 'Please select a valid image file (JPEG, PNG, WebP, GIF, SVG).' });
+      return;
+    }
+
+    if (file.size > 25 * 1024 * 1024) {
+      setMsg({ type: 'error', text: 'Image file size must be less than 25MB.' });
+      return;
+    }
+
+    if (photoPreview) {
+      URL.revokeObjectURL(photoPreview);
+    }
+
+    setSelectedPhotoFile(file);
+    setPhotoPreview(URL.createObjectURL(file));
+
+    // Autofill title if currently empty
+    if (!newPhoto.title.trim()) {
+      const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+      setNewPhoto((prev) => ({ ...prev, title: cleanName }));
+    }
+  };
+
+  const handleClearSelectedPhoto = () => {
+    setSelectedPhotoFile(null);
+    if (photoPreview) {
+      URL.revokeObjectURL(photoPreview);
+      setPhotoPreview('');
+    }
+    if (photoFileInputRef.current) {
+      photoFileInputRef.current.value = '';
+    }
+  };
+
   // Add Gallery Photo
   const handleAddPhoto = async (e) => {
     e.preventDefault();
     try {
-      const res = await apiClient.post('/gallery/admin', newPhoto);
-      setMsg({ type: 'success', text: res.message });
+      let finalImageUrl = newPhoto.imageUrl;
+
+      if (photoSourceType === 'file') {
+        if (!selectedPhotoFile && !newPhoto.imageUrl) {
+          setMsg({ type: 'error', text: 'Please browse and select an image file to upload.' });
+          return;
+        }
+
+        if (selectedPhotoFile) {
+          setIsUploadingPhoto(true);
+          const formData = new FormData();
+          formData.append('image', selectedPhotoFile);
+          const uploadRes = await apiClient.upload('/upload', formData);
+          finalImageUrl = uploadRes.url;
+        }
+      } else {
+        if (!newPhoto.imageUrl || !newPhoto.imageUrl.trim()) {
+          setMsg({ type: 'error', text: 'Please enter a valid image URL.' });
+          return;
+        }
+      }
+
+      const res = await apiClient.post('/gallery/admin', {
+        ...newPhoto,
+        imageUrl: finalImageUrl,
+      });
+
+      setMsg({ type: 'success', text: res.message || 'Photo added to gallery successfully!' });
       setNewPhoto({ title: '', category: 'Live Shows', imageUrl: '', caption: '', location: '' });
+      handleClearSelectedPhoto();
       loadAllAdminData();
     } catch (err) {
-      setMsg({ type: 'error', text: err.message });
+      setMsg({ type: 'error', text: err.message || 'Failed to add photo' });
+    } finally {
+      setIsUploadingPhoto(false);
     }
   };
 
@@ -233,12 +313,54 @@ export const AdminDashboardPage = () => {
     }
   };
 
+  const handleVideoThumbChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setMsg({ type: 'error', text: 'Please select a valid image file for video thumbnail.' });
+      return;
+    }
+
+    if (videoThumbPreview) {
+      URL.revokeObjectURL(videoThumbPreview);
+    }
+
+    setSelectedVideoThumbFile(file);
+    setVideoThumbPreview(URL.createObjectURL(file));
+  };
+
+  const handleClearVideoThumb = () => {
+    setSelectedVideoThumbFile(null);
+    if (videoThumbPreview) {
+      URL.revokeObjectURL(videoThumbPreview);
+      setVideoThumbPreview('');
+    }
+    if (videoThumbInputRef.current) {
+      videoThumbInputRef.current.value = '';
+    }
+  };
+
   // Add Public Video
   const handleAddVideo = async (e) => {
     e.preventDefault();
     try {
-      const res = await apiClient.post('/videos/admin', newVideo);
-      setMsg({ type: 'success', text: res.message });
+      setIsPublishingVideo(true);
+      let finalThumbUrl = newVideo.thumbnailUrl;
+
+      if (videoThumbSourceType === 'file' && selectedVideoThumbFile) {
+        const formData = new FormData();
+        formData.append('image', selectedVideoThumbFile);
+        const uploadRes = await apiClient.upload('/upload', formData);
+        finalThumbUrl = uploadRes.url;
+      }
+
+      const res = await apiClient.post('/videos/admin', {
+        ...newVideo,
+        thumbnailUrl: finalThumbUrl,
+      });
+
+      setMsg({ type: 'success', text: res.message || 'Video published successfully' });
       setNewVideo({
         title: '',
         category: 'Stunt Highlights',
@@ -247,9 +369,12 @@ export const AdminDashboardPage = () => {
         duration: '3:30',
         description: '',
       });
+      handleClearVideoThumb();
       loadAllAdminData();
     } catch (err) {
       setMsg({ type: 'error', text: err.message });
+    } finally {
+      setIsPublishingVideo(false);
     }
   };
 
@@ -1061,15 +1186,109 @@ export const AdminDashboardPage = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-zinc-300 block mb-1">Image URL *</label>
-                  <input
-                    type="url"
-                    required
-                    value={newPhoto.imageUrl}
-                    onChange={(e) => setNewPhoto({ ...newPhoto, imageUrl: e.target.value })}
-                    placeholder="https://..."
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
-                  />
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-xs font-bold text-zinc-300">
+                      {photoSourceType === 'file' ? 'Photo Image *' : 'Image URL *'}
+                    </label>
+                    <div className="flex items-center gap-1 bg-slate-950 p-0.5 rounded-lg border border-slate-800">
+                      <button
+                        type="button"
+                        onClick={() => setPhotoSourceType('file')}
+                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${
+                          photoSourceType === 'file'
+                            ? 'bg-cyan-500 text-black shadow-sm'
+                            : 'text-zinc-400 hover:text-white'
+                        }`}
+                        title="Browse local photo file"
+                      >
+                        📁 Browse
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPhotoSourceType('url')}
+                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${
+                          photoSourceType === 'url'
+                            ? 'bg-cyan-500 text-black shadow-sm'
+                            : 'text-zinc-400 hover:text-white'
+                        }`}
+                        title="Enter direct image URL"
+                      >
+                        🔗 URL
+                      </button>
+                    </div>
+                  </div>
+
+                  {photoSourceType === 'file' ? (
+                    <div>
+                      <input
+                        ref={photoFileInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handlePhotoFileChange}
+                      />
+                      {!selectedPhotoFile ? (
+                        <div
+                          onClick={() => photoFileInputRef.current?.click()}
+                          className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-dashed border-slate-700 hover:border-cyan-500 cursor-pointer transition-colors flex items-center justify-between group"
+                        >
+                          <div className="flex items-center gap-2 overflow-hidden text-zinc-400 group-hover:text-zinc-200">
+                            <Upload className="w-4 h-4 text-cyan-400 shrink-0 group-hover:scale-110 transition-transform" />
+                            <span className="text-xs truncate">Choose from device...</span>
+                          </div>
+                          <span className="px-2.5 py-1 text-[10px] font-bold text-black bg-cyan-400 rounded-lg group-hover:bg-cyan-300 transition-colors shrink-0">
+                            Browse
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-between gap-2 p-1.5 rounded-xl bg-slate-950 border border-cyan-500/50">
+                          <div className="flex items-center gap-2 overflow-hidden">
+                            <img
+                              src={photoPreview}
+                              alt="Selected preview"
+                              className="w-8 h-8 rounded-lg object-cover border border-slate-800 shrink-0"
+                            />
+                            <div className="truncate">
+                              <p className="text-xs font-semibold text-white truncate max-w-[130px]">
+                                {selectedPhotoFile.name}
+                              </p>
+                              <p className="text-[10px] text-zinc-400">
+                                {selectedPhotoFile.size / (1024 * 1024) >= 1
+                                  ? `${(selectedPhotoFile.size / (1024 * 1024)).toFixed(1)} MB`
+                                  : `${Math.round(selectedPhotoFile.size / 1024)} KB`}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 shrink-0">
+                            <button
+                              type="button"
+                              onClick={() => photoFileInputRef.current?.click()}
+                              className="px-2 py-1 text-[10px] font-bold text-cyan-400 hover:text-white rounded bg-slate-900 border border-slate-800 transition-colors"
+                            >
+                              Change
+                            </button>
+                            <button
+                              type="button"
+                              onClick={handleClearSelectedPhoto}
+                              className="p-1 text-zinc-400 hover:text-red-400 rounded transition-colors"
+                              title="Remove selected file"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <input
+                      type="url"
+                      required={photoSourceType === 'url'}
+                      value={newPhoto.imageUrl}
+                      onChange={(e) => setNewPhoto({ ...newPhoto, imageUrl: e.target.value })}
+                      placeholder="https://..."
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-500"
+                    />
+                  )}
                 </div>
                 <div>
                   <label className="text-xs font-bold text-zinc-300 block mb-1">Location</label>
@@ -1093,10 +1312,20 @@ export const AdminDashboardPage = () => {
                 <div className="lg:col-span-3">
                   <button
                     type="submit"
-                    className="px-6 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider transition-colors inline-flex items-center gap-1.5"
+                    disabled={isUploadingPhoto}
+                    className="px-6 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white font-bold text-xs uppercase tracking-wider transition-colors inline-flex items-center gap-1.5"
                   >
-                    <Plus className="w-4 h-4" />
-                    <span>Upload & Add to Gallery</span>
+                    {isUploadingPhoto ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Uploading & Adding Photo...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="w-4 h-4" />
+                        <span>Upload & Add to Gallery</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </form>
@@ -1181,21 +1410,120 @@ export const AdminDashboardPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-zinc-300 block mb-1">Thumbnail URL</label>
-                  <input
-                    type="url"
-                    value={newVideo.thumbnailUrl}
-                    onChange={(e) => setNewVideo({ ...newVideo, thumbnailUrl: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
-                  />
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-xs font-bold text-zinc-300">Thumbnail</label>
+                    <div className="flex items-center gap-1 bg-slate-950 p-0.5 rounded-lg border border-slate-800">
+                      <button
+                        type="button"
+                        onClick={() => setVideoThumbSourceType('file')}
+                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${
+                          videoThumbSourceType === 'file'
+                            ? 'bg-cyan-500 text-black shadow-sm'
+                            : 'text-zinc-400 hover:text-white'
+                        }`}
+                      >
+                        📁 Browse
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setVideoThumbSourceType('url')}
+                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${
+                          videoThumbSourceType === 'url'
+                            ? 'bg-cyan-500 text-black shadow-sm'
+                            : 'text-zinc-400 hover:text-white'
+                        }`}
+                      >
+                        🔗 URL
+                      </button>
+                    </div>
+                  </div>
+
+                  {videoThumbSourceType === 'file' ? (
+                    <div>
+                      <input
+                        ref={videoThumbInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleVideoThumbChange}
+                      />
+                      {!selectedVideoThumbFile ? (
+                        <div
+                          onClick={() => videoThumbInputRef.current?.click()}
+                          className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-dashed border-slate-700 hover:border-cyan-500 cursor-pointer transition-colors flex items-center justify-between group"
+                        >
+                          <div className="flex items-center gap-2 overflow-hidden text-zinc-400 group-hover:text-zinc-200">
+                            <Upload className="w-4 h-4 text-cyan-400 shrink-0 group-hover:scale-110 transition-transform" />
+                            <span className="text-xs truncate">Choose thumbnail...</span>
+                          </div>
+                          <span className="px-2 py-1 text-[10px] font-bold text-black bg-cyan-400 rounded-lg group-hover:bg-cyan-300 transition-colors shrink-0">
+                            Browse
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-between gap-2 p-1.5 rounded-xl bg-slate-950 border border-cyan-500/50">
+                          <div className="flex items-center gap-2 overflow-hidden">
+                            <img
+                              src={videoThumbPreview}
+                              alt="Thumbnail preview"
+                              className="w-8 h-8 rounded-lg object-cover border border-slate-800 shrink-0"
+                            />
+                            <div className="truncate">
+                              <p className="text-xs font-semibold text-white truncate max-w-[120px]">
+                                {selectedVideoThumbFile.name}
+                              </p>
+                              <p className="text-[10px] text-zinc-400">
+                                {Math.round(selectedVideoThumbFile.size / 1024)} KB
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 shrink-0">
+                            <button
+                              type="button"
+                              onClick={() => videoThumbInputRef.current?.click()}
+                              className="px-2 py-1 text-[10px] font-bold text-cyan-400 hover:text-white rounded bg-slate-900 border border-slate-800 transition-colors"
+                            >
+                              Change
+                            </button>
+                            <button
+                              type="button"
+                              onClick={handleClearVideoThumb}
+                              className="p-1 text-zinc-400 hover:text-red-400 rounded transition-colors"
+                              title="Remove selected file"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <input
+                      type="url"
+                      value={newVideo.thumbnailUrl}
+                      onChange={(e) => setNewVideo({ ...newVideo, thumbnailUrl: e.target.value })}
+                      placeholder="https://..."
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-cyan-500"
+                    />
+                  )}
                 </div>
                 <div className="sm:col-span-3">
                   <button
                     type="submit"
-                    className="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider transition-colors inline-flex items-center gap-1.5"
+                    disabled={isPublishingVideo}
+                    className="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold text-xs uppercase tracking-wider transition-colors inline-flex items-center gap-1.5"
                   >
-                    <Plus className="w-4 h-4" />
-                    <span>Publish Video</span>
+                    {isPublishingVideo ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Publishing Video...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="w-4 h-4" />
+                        <span>Publish Video</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </form>

@@ -3,9 +3,10 @@ const BASE_URL = '/api';
 export const apiClient = {
   async request(endpoint, options = {}) {
     const token = localStorage.getItem('wod_token');
+    const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
 
     const headers = {
-      'Content-Type': 'application/json',
+      ...(!isFormData && { 'Content-Type': 'application/json' }),
       ...options.headers,
     };
 
@@ -18,7 +19,7 @@ export const apiClient = {
       headers,
     };
 
-    if (options.body && typeof options.body === 'object') {
+    if (options.body && typeof options.body === 'object' && !isFormData) {
       config.body = JSON.stringify(options.body);
     }
 
@@ -50,6 +51,10 @@ export const apiClient = {
 
   post(endpoint, body, options = {}) {
     return this.request(endpoint, { ...options, method: 'POST', body });
+  },
+
+  upload(endpoint, formData, options = {}) {
+    return this.request(endpoint, { ...options, method: 'POST', body: formData });
   },
 
   put(endpoint, body, options = {}) {
