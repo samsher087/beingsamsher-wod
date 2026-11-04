@@ -124,11 +124,17 @@ export const AdminDashboardPage = () => {
 
       // 2. Applications
       const appRes = await apiClient.get('/applications/admin/all');
-      if (appRes?.applications) setAllApplications(appRes.applications);
+      if (appRes?.applications) {
+        setAllApplications(appRes.applications);
+        try { localStorage.setItem('wod_applications', JSON.stringify(appRes.applications)); } catch {}
+      }
 
       // 3. Users
       const uRes = await apiClient.get('/admin/users');
-      if (uRes?.users) setUsersList(uRes.users);
+      if (uRes?.users) {
+        setUsersList(uRes.users);
+        try { localStorage.setItem('wod_users', JSON.stringify(uRes.users)); } catch {}
+      }
 
       // 4. Payments
       const pRes = await apiClient.get('/payments/admin/all');
