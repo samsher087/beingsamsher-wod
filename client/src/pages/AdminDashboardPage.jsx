@@ -1610,193 +1610,224 @@ export const AdminDashboardPage = () => {
 
       {/* Application Review & Decision Modal */}
       {adminActionModal && selectedApplication && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in">
-          <div className="relative w-full max-w-2xl bg-slate-900/95 border border-slate-800 card-top-line rounded-3xl p-8 shadow-2xl space-y-6">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div>
-                <h3 className="text-lg font-black text-white uppercase">
-                  Candidate Application Review
-                </h3>
-                <span className="text-xs text-zinc-400">
-                  Application ID: <code className="font-mono text-cyan-400">{selectedApplication._id}</code>
-                </span>
-              </div>
-              <StatusBadge status={selectedApplication.status} />
-            </div>
-
-            {/* Candidate details */}
-            <div className="grid grid-cols-2 gap-4 text-xs">
-              <div>
-                <span className="text-zinc-500 block">Full Name:</span>
-                <span className="font-bold text-white">{selectedApplication.fullName}</span>
-              </div>
-              <div>
-                <span className="text-zinc-500 block">Email & Mobile:</span>
-                <span className="text-zinc-300">{selectedApplication.email} • {selectedApplication.phone}</span>
-              </div>
-              <div>
-                <span className="text-zinc-500 block">Age / Location:</span>
-                <span className="text-zinc-300">{selectedApplication.age} yrs • {selectedApplication.city}, {selectedApplication.state}</span>
-              </div>
-              <div>
-                <span className="text-zinc-500 block">Riding Level:</span>
-                <span className="text-cyan-400 font-semibold">{selectedApplication.experienceLevel}</span>
-              </div>
-              <div className="col-span-2">
-                <span className="text-zinc-500 block">Emergency Contact:</span>
-                <span className="text-red-300 font-semibold">{selectedApplication.emergencyContactName} ({selectedApplication.emergencyContactPhone})</span>
-              </div>
-              <div className="col-span-2 p-3 rounded-xl bg-white/5 border border-white/5">
-                <span className="text-zinc-500 block font-semibold mb-1">Candidate Statement / Reason:</span>
-                <p className="text-zinc-300 leading-relaxed italic">"{selectedApplication.reason}"</p>
-              </div>
-            </div>
-
-            {/* STEP 2 PAYMENT VERIFICATION BLOCK */}
-            <div className="p-4 rounded-2xl bg-cyan-950/30 border border-cyan-500/30 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <CreditCard className="w-4 h-4 text-cyan-400" />
-                  <span className="text-xs font-bold text-white uppercase tracking-wider">
-                    Step 02: Candidate Attached Payment Details
-                  </span>
-                </div>
-                {selectedApplication.paymentRefNo ? (
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                    Ref Attached
-                  </span>
-                ) : (
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                    Pending Ref Attachment
-                  </span>
-                )}
-              </div>
-
-              {selectedApplication.paymentRefNo ? (
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-                  <div className="sm:col-span-2 bg-slate-950/80 p-3 rounded-xl border border-cyan-500/20">
-                    <span className="text-[10px] uppercase font-bold text-zinc-400 block mb-1">
-                      Payment Ref No / UTR / Txn ID
-                    </span>
-                    <code className="text-sm font-mono font-black text-cyan-300 select-all tracking-wide">
-                      {selectedApplication.paymentRefNo}
-                    </code>
-                  </div>
-                  <div className="bg-slate-950/80 p-3 rounded-xl border border-white/5">
-                    <span className="text-[10px] uppercase font-bold text-zinc-400 block mb-1">
-                      Reported Amount
-                    </span>
-                    <span className="text-sm font-black text-emerald-400">
-                      ₹{(selectedApplication.paymentAmount || customFee || 9999).toLocaleString('en-IN')}
-                    </span>
-                  </div>
-                  <div className="sm:col-span-3 text-[11px] text-zinc-400 flex items-center justify-between pt-1">
-                    <span>
-                      Method: <strong className="text-zinc-200">{selectedApplication.paymentMethod || 'UPI / Bank Transfer'}</strong>
-                    </span>
-                    <span>
-                      Attached:{' '}
-                      <strong className="text-zinc-300">
-                        {selectedApplication.paymentSubmittedAt
-                          ? new Date(selectedApplication.paymentSubmittedAt).toLocaleString()
-                          : 'Recent'}
-                      </strong>
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <p className="text-xs text-amber-300/90 italic bg-amber-950/20 p-2.5 rounded-xl border border-amber-500/20">
-                  Candidate has submitted their application (Step 01), but has not yet attached their payment reference number (Step 02).
-                </p>
-              )}
-            </div>
-
-            {/* Decision Controls */}
-            <div className="space-y-4 pt-2 border-t border-white/10">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-zinc-300 block mb-1">
-                    Tuition Fee (INR)
-                  </label>
-                  <input
-                    type="number"
-                    value={customFee}
-                    onChange={(e) => setCustomFee(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
-                  />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-4 animate-in fade-in">
+          <div className="relative w-full max-w-xl bg-slate-900/95 border border-slate-800 card-top-line rounded-2xl p-4 sm:p-5 shadow-2xl flex flex-col max-h-[92vh] overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3 shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 flex items-center justify-center shrink-0 font-bold">
+                  <FileText className="w-4 h-4" />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-zinc-300 block mb-1">
-                    Internal Admin Notes
-                  </label>
-                  <input
-                    type="text"
-                    value={adminNotes}
-                    onChange={(e) => setAdminNotes(e.target.value)}
-                    placeholder="e.g. UTR verified in bank statement, cleared for Academy."
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
-                  />
+                  <h3 className="text-sm sm:text-base font-black text-white uppercase tracking-tight">
+                    Candidate Application Review
+                  </h3>
+                  <span className="text-[10px] sm:text-[11px] text-zinc-400">
+                    Application ID: <code className="font-mono text-cyan-400">{selectedApplication._id}</code>
+                  </span>
                 </div>
               </div>
-
-              <div>
-                <label className="text-xs font-bold text-red-300 block mb-1">
-                  Rejection Reason (Required only if rejecting)
-                </label>
-                <input
-                  type="text"
-                  value={rejectionReason}
-                  onChange={(e) => setRejectionReason(e.target.value)}
-                  placeholder="e.g. Invalid UTR reference number or payment not received"
-                  className="w-full px-3 py-2 rounded-xl bg-black/40 border border-red-500/20 text-xs text-white"
-                />
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                {(selectedApplication.status === 'Training Unlocked' || selectedApplication.status === 'approved' || selectedApplication.courseAccessGranted) ? (
-                  <div className="flex-1 py-3 px-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center justify-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                    <span>Training Unlocked & Active</span>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleApproveApplication(selectedApplication._id, 'Training Unlocked')}
-                    className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs uppercase tracking-wider transition-all shadow-lg shadow-emerald-900/30 flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <Unlock className="w-4 h-4" />
-                    <span>Verify Payment & Unlock Training</span>
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  onClick={() => handleRejectApplication(selectedApplication._id)}
-                  className="py-3 px-4 rounded-xl bg-red-600/30 hover:bg-red-600/50 text-red-300 border border-red-500/30 font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <XCircle className="w-4 h-4" />
-                  <span>Reject</span>
-                </button>
-
-                {selectedApplication.status === 'Training Unlocked' && (
-                  <button
-                    type="button"
-                    onClick={() => handleRevokeStudentAccess(selectedApplication.user?._id || selectedApplication.user)}
-                    className="py-3 px-4 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
-                  >
-                    Revoke Access
-                  </button>
-                )}
-
+              <div className="flex items-center gap-2">
+                <StatusBadge status={selectedApplication.status} />
                 <button
                   type="button"
                   onClick={() => setAdminActionModal(null)}
-                  className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer"
+                  className="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                  title="Close modal"
                 >
-                  Close
+                  <X className="w-4 h-4" />
                 </button>
               </div>
+            </div>
+
+            {/* Scrollable Modal Body */}
+            <div className="overflow-y-auto space-y-3 pr-1 text-xs">
+              {/* Candidate Details Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-950/70 p-3 rounded-xl border border-white/5">
+                <div>
+                  <span className="text-zinc-500 block text-[10px] uppercase font-bold">Full Name</span>
+                  <span className="font-bold text-white text-xs truncate block">{selectedApplication.fullName}</span>
+                </div>
+                <div>
+                  <span className="text-zinc-500 block text-[10px] uppercase font-bold">Mobile</span>
+                  <span className="text-zinc-300 text-xs block">{selectedApplication.phone || 'N/A'}</span>
+                </div>
+                <div>
+                  <span className="text-zinc-500 block text-[10px] uppercase font-bold">Age & City</span>
+                  <span className="text-zinc-300 text-xs truncate block">
+                    {selectedApplication.age ? `${selectedApplication.age} yrs` : ''} • {selectedApplication.city || 'N/A'}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-zinc-500 block text-[10px] uppercase font-bold">Riding Level</span>
+                  <span className="text-cyan-400 font-semibold text-xs block truncate">
+                    {selectedApplication.experienceLevel || `${selectedApplication.ridingExperienceYears || 2} yrs exp`}
+                  </span>
+                </div>
+
+                {(selectedApplication.emergencyContactName || selectedApplication.emergencyContactPhone) && (
+                  <div className="col-span-2 sm:col-span-4 pt-1.5 border-t border-white/5 text-[11px]">
+                    <span className="text-zinc-500 font-bold">Emergency Contact:</span>{' '}
+                    <span className="text-red-300 font-semibold">
+                      {selectedApplication.emergencyContactName} ({selectedApplication.emergencyContactPhone})
+                    </span>
+                  </div>
+                )}
+
+                {selectedApplication.reason && (
+                  <div className="col-span-2 sm:col-span-4 pt-1 border-t border-white/5 text-[11px] text-zinc-400">
+                    <span className="text-zinc-500 font-bold">Statement:</span>{' '}
+                    <span className="italic text-zinc-300">"{selectedApplication.reason}"</span>
+                  </div>
+                )}
+              </div>
+
+              {/* STEP 2 PAYMENT VERIFICATION BLOCK */}
+              <div className="p-3 rounded-xl bg-cyan-950/30 border border-cyan-500/30 space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <CreditCard className="w-3.5 h-3.5 text-cyan-400" />
+                    <span className="text-[11px] font-bold text-white uppercase tracking-wider">
+                      Step 02: Candidate Attached Payment Details
+                    </span>
+                  </div>
+                  {selectedApplication.paymentRefNo ? (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                      Ref Attached
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                      Pending Ref
+                    </span>
+                  )}
+                </div>
+
+                {selectedApplication.paymentRefNo ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-0.5">
+                    <div className="sm:col-span-2 bg-slate-950/90 px-3 py-2 rounded-lg border border-cyan-500/20">
+                      <span className="text-[9px] uppercase font-bold text-zinc-400 block mb-0.5">
+                        Payment Ref No / UTR / Txn ID
+                      </span>
+                      <code className="text-xs sm:text-sm font-mono font-black text-cyan-300 select-all tracking-wide">
+                        {selectedApplication.paymentRefNo}
+                      </code>
+                    </div>
+                    <div className="bg-slate-950/90 px-3 py-2 rounded-lg border border-white/5">
+                      <span className="text-[9px] uppercase font-bold text-zinc-400 block mb-0.5">
+                        Reported Amount
+                      </span>
+                      <span className="text-xs sm:text-sm font-black text-emerald-400">
+                        ₹{(selectedApplication.paymentAmount || customFee || 9999).toLocaleString('en-IN')}
+                      </span>
+                    </div>
+                    <div className="sm:col-span-3 text-[10px] text-zinc-400 flex items-center justify-between pt-0.5">
+                      <span>
+                        Method: <strong className="text-zinc-200">{selectedApplication.paymentMethod || 'UPI / QR Transfer'}</strong>
+                      </span>
+                      <span>
+                        Attached:{' '}
+                        <strong className="text-zinc-300">
+                          {selectedApplication.paymentSubmittedAt
+                            ? new Date(selectedApplication.paymentSubmittedAt).toLocaleDateString()
+                            : 'Recent'}
+                        </strong>
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-[11px] text-amber-300/90 italic bg-amber-950/20 p-2 rounded-lg border border-amber-500/20">
+                    Candidate has submitted application, but has not yet attached payment reference.
+                  </p>
+                )}
+              </div>
+
+              {/* Decision Controls */}
+              <div className="space-y-2.5 pt-1 border-t border-white/10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div>
+                    <label className="text-[11px] font-bold text-zinc-300 block mb-1">
+                      Tuition Fee (INR)
+                    </label>
+                    <input
+                      type="number"
+                      value={customFee}
+                      onChange={(e) => setCustomFee(e.target.value)}
+                      className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:border-cyan-500 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[11px] font-bold text-zinc-300 block mb-1">
+                      Internal Admin Notes
+                    </label>
+                    <input
+                      type="text"
+                      value={adminNotes}
+                      onChange={(e) => setAdminNotes(e.target.value)}
+                      placeholder="e.g. UTR verified in bank statement"
+                      className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:border-cyan-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-red-300 block mb-1">
+                    Rejection Reason (Required only if rejecting)
+                  </label>
+                  <input
+                    type="text"
+                    value={rejectionReason}
+                    onChange={(e) => setRejectionReason(e.target.value)}
+                    placeholder="e.g. Invalid UTR reference number or payment not received"
+                    className="w-full px-3 py-1.5 rounded-lg bg-black/40 border border-red-500/20 text-xs text-white focus:border-red-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Fixed Bottom Action Buttons Bar */}
+            <div className="flex items-center gap-2 pt-3 mt-2.5 border-t border-white/10 shrink-0">
+              {(selectedApplication.status === 'Training Unlocked' || selectedApplication.status === 'approved' || selectedApplication.courseAccessGranted) ? (
+                <div className="flex-1 py-2.5 px-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>Training Unlocked & Active</span>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => handleApproveApplication(selectedApplication._id, 'Training Unlocked')}
+                  className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs uppercase tracking-wider transition-all shadow-md shadow-emerald-900/30 flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <Unlock className="w-4 h-4" />
+                  <span>Verify Payment & Unlock</span>
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={() => handleRejectApplication(selectedApplication._id)}
+                className="py-2.5 px-3.5 rounded-xl bg-red-600/30 hover:bg-red-600/50 text-red-300 border border-red-500/30 font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <XCircle className="w-4 h-4" />
+                <span>Reject</span>
+              </button>
+
+              {selectedApplication.status === 'Training Unlocked' && (
+                <button
+                  type="button"
+                  onClick={() => handleRevokeStudentAccess(selectedApplication.user?._id || selectedApplication.user)}
+                  className="py-2.5 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  Revoke
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={() => setAdminActionModal(null)}
+                className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
