@@ -29,7 +29,7 @@ export const Navbar = () => {
     { name: 'Gallery', path: '/gallery' },
     { name: 'Stunt Videos', path: '/videos' },
     { name: 'Training Academy', path: '/training' },
-    { name: 'Contact & Booking', path: '/contact' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   const handleLogout = () => {
