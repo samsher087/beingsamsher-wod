@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
 import { apiClient } from '../api/client';
+import { DirtyTitle } from './DirtyTitle';
 import {
   Play,
   ChevronLeft,
@@ -126,20 +127,20 @@ export const Hero = () => {
       </button>
 
       {/* Hero Core Title & Headline */}
-      <div className="relative z-10 my-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-8">
-        {/* Headline - Transparent & Muddy Well of Death Display Font */}
-        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-wider max-w-6xl mx-auto leading-[1.08] select-none">
-          <span className="hero-muddy-title block">
-            {settings.heroHeadline && settings.heroHeadline !== 'Experience the Thrill of Well of Death'
+      <div className="relative z-10 my-auto w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 text-center pt-4">
+        {/* Dirty Style Headline */}
+        <DirtyTitle
+          text={
+            settings.heroHeadline && settings.heroHeadline !== 'Experience the Thrill of Well of Death'
               ? settings.heroHeadline
-              : 'Well of Death'}
-          </span>
-        </h1>
+              : 'WELL OF DEATH'
+          }
+        />
 
         {/* Subheadline (Optional CMS Text) */}
         {settings.heroSubheadline &&
           settings.heroSubheadline !== 'Witness the Courage. Learn the Discipline. Respect the Risk.' && (
-            <p className="mt-6 text-base sm:text-xl md:text-2xl text-slate-200 font-light max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
+            <p className="mt-4 text-base sm:text-xl md:text-2xl text-slate-200 font-light max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
               {settings.heroSubheadline}
             </p>
           )}
