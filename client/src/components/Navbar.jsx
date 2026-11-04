@@ -249,11 +249,11 @@ export const Navbar = () => {
               </span>
               <span className="text-slate-600">•</span>
               <span className="flex items-center gap-2">
-                <span className="text-cyan-400 font-bold">88° WALL CLIMB:</span> Pure Gyroscopic Inertia & Physics Mastery
+                <span className="text-cyan-400 font-bold">JOIN Training:</span> Register Now for training.
               </span>
               <span className="text-slate-600">•</span>
               <span className="flex items-center gap-2">
-                <span className="text-emerald-400 font-bold">BATCH 08 ADMISSIONS:</span> Structured Online & In-Arena Certification Open
+                <span className="text-emerald-400 font-bold">⚡ Naju Rider:</span> Follow on Instagram @naju_rider_18
               </span>
               <span className="text-slate-600">•</span>
               <span className="flex items-center gap-2">
@@ -261,7 +261,7 @@ export const Navbar = () => {
               </span>
               <span className="text-slate-600">•</span>
               <span className="flex items-center gap-2">
-                <span className="text-amber-400 font-bold">⚡ ARENA TOUR 2026:</span> India's Premier Centrifugal Wall of Death Arena
+                <span className="text-amber-400 font-bold">⚡ Naju Rider:</span> Follow on Instagram @naju_rider_18
               </span>
               <span className="text-slate-600">•</span>
               <span className="flex items-center gap-2">
@@ -269,7 +269,7 @@ export const Navbar = () => {
               </span>
               <span className="text-slate-600">•</span>
               <span className="flex items-center gap-2">
-                <span className="text-emerald-400 font-bold">BATCH 08 ADMISSIONS:</span> Structured Online & In-Arena Certification Open
+                <span className="text-emerald-400 font-bold">JOIN Training:</span> Register Now for training.
               </span>
               <span className="text-slate-600">•</span>
               <span className="flex items-center gap-2">

@@ -244,8 +244,8 @@ export const TrainingPage = () => {
                   {togglingSub
                     ? 'Updating...'
                     : isSubscribed
-                    ? 'Trainee Active (Demo)'
-                    : 'Simulate Subscription'}
+                      ? 'Trainee Active (Demo)'
+                      : 'Simulate Subscription'}
                 </span>
               </button>
             )}
@@ -403,11 +403,10 @@ export const TrainingPage = () => {
                       <button
                         type="button"
                         onClick={toggleMute}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold backdrop-blur-md transition-all shadow-lg ${
-                          isMuted
-                            ? 'bg-amber-500/90 hover:bg-amber-500 text-slate-950 animate-bounce'
-                            : 'bg-slate-900/80 hover:bg-slate-900 text-cyan-400 border border-cyan-500/40'
-                        }`}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold backdrop-blur-md transition-all shadow-lg ${isMuted
+                          ? 'bg-amber-500/90 hover:bg-amber-500 text-slate-950 animate-bounce'
+                          : 'bg-slate-900/80 hover:bg-slate-900 text-cyan-400 border border-cyan-500/40'
+                          }`}
                       >
                         {isMuted ? (
                           <>
@@ -565,18 +564,16 @@ export const TrainingPage = () => {
                         <div
                           key={les._id}
                           onClick={() => handleSelectLesson({ ...les, isLocked: !isSubscribed && !les.isPreview }, mod.title)}
-                          className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all flex items-start gap-2.5 ${
-                            isActive
-                              ? 'bg-slate-850 border-cyan-500/60 shadow-lg shadow-cyan-950/40 ring-1 ring-cyan-500/30'
-                              : 'bg-slate-900/60 border-slate-800/70 hover:bg-slate-850 hover:border-slate-700'
-                          }`}
+                          className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all flex items-start gap-2.5 ${isActive
+                            ? 'bg-slate-850 border-cyan-500/60 shadow-lg shadow-cyan-950/40 ring-1 ring-cyan-500/30'
+                            : 'bg-slate-900/60 border-slate-800/70 hover:bg-slate-850 hover:border-slate-700'
+                            }`}
                         >
                           <div
-                            className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
-                              les.isLocked
-                                ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                                : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30'
-                            }`}
+                            className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${les.isLocked
+                              ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                              : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30'
+                              }`}
                           >
                             {les.isLocked ? (
                               <Lock className="w-3.5 h-3.5" />
@@ -588,9 +585,8 @@ export const TrainingPage = () => {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-1">
                               <h4
-                                className={`text-xs font-bold truncate ${
-                                  isActive ? 'text-cyan-300' : 'text-slate-200'
-                                }`}
+                                className={`text-xs font-bold truncate ${isActive ? 'text-cyan-300' : 'text-slate-200'
+                                  }`}
                               >
                                 {les.title}
                               </h4>
@@ -718,19 +714,17 @@ export const TrainingPage = () => {
                             <div
                               key={les._id}
                               onClick={() => handleSelectLesson(les, mod.title)}
-                              className={`p-4 rounded-xl border flex items-center justify-between gap-4 cursor-pointer transition-all ${
-                                isCurrentActive
-                                  ? 'bg-slate-850 border-cyan-500/60 ring-1 ring-cyan-500/30'
-                                  : 'bg-slate-950 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900'
-                              }`}
+                              className={`p-4 rounded-xl border flex items-center justify-between gap-4 cursor-pointer transition-all ${isCurrentActive
+                                ? 'bg-slate-850 border-cyan-500/60 ring-1 ring-cyan-500/30'
+                                : 'bg-slate-950 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900'
+                                }`}
                             >
                               <div className="flex items-center gap-3">
                                 <div
-                                  className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                                    les.isLocked
-                                      ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
-                                      : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30'
-                                  }`}
+                                  className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${les.isLocked
+                                    ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
+                                    : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30'
+                                    }`}
                                 >
                                   {les.isLocked ? (
                                     <Lock className="w-3.5 h-3.5" />
@@ -760,11 +754,10 @@ export const TrainingPage = () => {
 
                               <div className="flex items-center gap-2">
                                 <span
-                                  className={`text-[11px] font-bold px-2.5 py-1 rounded border whitespace-nowrap ${
-                                    les.isLocked
-                                      ? 'bg-rose-500/10 text-rose-400 border-rose-500/30'
-                                      : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                                  }`}
+                                  className={`text-[11px] font-bold px-2.5 py-1 rounded border whitespace-nowrap ${les.isLocked
+                                    ? 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                                    : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                                    }`}
                                 >
                                   {les.isLocked ? 'Locked (Paid)' : les.isPreview ? 'Free Preview' : 'Unlocked'}
                                 </span>
@@ -845,11 +838,11 @@ export const TrainingPage = () => {
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>Motorcycle Mechanical Blueprint & Carburetor Setup</span>
+                    <span>Naju Rider will guide you step by step</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>Eligibility for Live Supervised Arena Sessions</span>
+                    <span>Eligibility for Live Supervised Sessions</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />

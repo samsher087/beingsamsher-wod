@@ -7,8 +7,8 @@ export const TestimonialsSection = () => {
 
   const defaultTestimonials = [
     {
-      name: 'Vikramaditya Rathore',
-      role: 'Extreme Motorsports Journalist',
+      name: 'Being Samsher',
+      role: 'SW Engineer',
       quote:
         'Watching Naju Rider ride the vertical wooden wall hands-free is nothing short of hypnotic physics. He treats risk with immense respect and scientific discipline.',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
