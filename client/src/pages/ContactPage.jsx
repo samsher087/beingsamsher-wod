@@ -27,6 +27,7 @@ export const ContactPage = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [lastWhatsAppUrl, setLastWhatsAppUrl] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,7 +45,22 @@ export const ContactPage = () => {
     setSubmitting(true);
     setError('');
 
-    // Simulate sending message
+    const targetPhone = (settings.contactWhatsApp || settings.contactPhone || '7488405975').replace(/[^0-9]/g, '');
+    const cleanPhone = targetPhone.startsWith('91') ? targetPhone : `91${targetPhone}`;
+
+    const text = `*New Arena Inquiry - ${settings.brandName || 'Naju Rider / Well of Death'}*\n\n` +
+      `👤 *Name:* ${formData.name}\n` +
+      `📧 *Email:* ${formData.email}\n` +
+      `📱 *Phone:* ${formData.phone}\n` +
+      `📋 *Nature of Inquiry:* ${formData.inquiryType}\n\n` +
+      `💬 *Message:*\n${formData.message}`;
+
+    const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
+    setLastWhatsAppUrl(whatsappUrl);
+
+    // Open WhatsApp in new window / tab
+    window.open(whatsappUrl, '_blank');
+
     setTimeout(() => {
       setSubmitting(false);
       setSubmitted(true);
@@ -56,7 +72,7 @@ export const ContactPage = () => {
         message: '',
         honeypot: '',
       });
-    }, 700);
+    }, 400);
   };
 
   return (
@@ -219,20 +235,33 @@ export const ContactPage = () => {
               </div>
 
               {submitted ? (
-                <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3">
+                <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-4">
                   <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
                     <CheckCircle2 className="w-6 h-6" />
                   </div>
-                  <h4 className="text-lg font-bold text-white">Message Received!</h4>
-                  <p className="text-xs text-slate-300 max-w-md mx-auto">
-                    Thank you for reaching out. Master Rider Naju Rider’s team will review your message and contact you via phone or email shortly.
+                  <h4 className="text-lg font-bold text-white">Inquiry Forwarded to WhatsApp!</h4>
+                  <p className="text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
+                    Thank you for reaching out. We have opened WhatsApp with your inquiry pre-filled for Master Rider Naju Rider. If it didn't open automatically, click below to chat:
                   </p>
-                  <button
-                    onClick={() => setSubmitted(false)}
-                    className="mt-4 px-6 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-xs font-bold text-white transition-colors"
-                  >
-                    Send Another Message
-                  </button>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                    {lastWhatsAppUrl && (
+                      <a
+                        href={lastWhatsAppUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg shadow-emerald-950/50"
+                      >
+                        <MessageSquare className="w-4 h-4" />
+                        <span>Open WhatsApp Chat</span>
+                      </a>
+                    )}
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-colors"
+                    >
+                      Send Another Inquiry
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -338,14 +367,14 @@ export const ContactPage = () => {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-bold text-sm tracking-wide uppercase transition-all shadow-lg shadow-cyan-950/60 flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-bold text-sm tracking-wide uppercase transition-all shadow-lg shadow-cyan-950/60 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   >
                     {submitting ? (
-                      <span>Sending Message...</span>
+                      <span>Redirecting to WhatsApp...</span>
                     ) : (
                       <>
-                        <Send className="w-4 h-4" />
-                        <span>Submit Inquiry</span>
+                        <MessageSquare className="w-4 h-4" />
+                        <span>Send Inquiry on WhatsApp</span>
                       </>
                     )}
                   </button>
