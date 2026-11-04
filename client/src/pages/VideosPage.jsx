@@ -69,19 +69,11 @@ export const VideosPage = () => {
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-bold uppercase tracking-wider mb-4">
-              <InstagramReelIcon className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">
-                Instagram Reels Showcase
-              </span>
-              <span className="text-[10px] text-slate-400">@naju_rider_18</span>
-            </div>
+
             <h1 className="text-4xl sm:text-6xl font-black text-white uppercase tracking-tight">
               Stunt Reels & <span className="text-gradient-fire">Videos</span>
             </h1>
-            <p className="mt-4 text-base text-slate-400 leading-relaxed">
-              Watch official Instagram reels and viral high-speed wall footage by Naju Rider. Click any video to open the interactive reel popup screen with instant autoplay and audio controls.
-            </p>
+
           </div>
 
           <a
@@ -91,7 +83,8 @@ export const VideosPage = () => {
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-900 border border-slate-800 text-cyan-300 hover:text-white hover:border-cyan-500/50 hover:bg-slate-850 font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-950/50 transition-all shrink-0 self-start md:self-auto"
           >
             <InstagramIcon className="w-4 h-4 text-cyan-400" />
-            <span>Follow on Instagram</span>
+            <span> naju_rider_18
+            </span>
           </a>
         </div>
 
@@ -129,11 +122,10 @@ export const VideosPage = () => {
             <button
               key={cat}
               onClick={() => handleCategoryChange(cat)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all ${
-                activeCategory === cat
-                  ? 'bg-gradient-to-r from-cyan-600 to-teal-500 text-white shadow-md shadow-cyan-950/50'
-                  : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
-              }`}
+              className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all ${activeCategory === cat
+                ? 'bg-gradient-to-r from-cyan-600 to-teal-500 text-white shadow-md shadow-cyan-950/50'
+                : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                }`}
             >
               {cat}
             </button>

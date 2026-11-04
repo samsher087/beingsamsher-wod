@@ -224,21 +224,32 @@ export const DashboardPage = () => {
     }
   };
 
-  const handlePaymentSuccess = (receipt) => {
-    setReceiptData(receipt);
+  const isAcademyUnlocked = Boolean(
+    application &&
+    (application.status === 'Training Unlocked' ||
+      application.status === 'approved' ||
+      application.status === 'Approved' ||
+      application.courseAccessGranted)
+  );
+
+  const handlePaymentSuccess = () => {
     fetchDashboardData();
-    setActiveTab('academy');
+    setActiveTab('status'); // Stay on Application Timeline tab to show Step 03: Waiting for Admin Approval!
   };
 
   // Timeline Step calculation
   // Process: 1. Application Submitted -> 2. Payment Process (attach ref no.) -> 3. Admin Approval -> 4. Training Unlocked
   const getTimelineStep = () => {
     if (!application) return 0;
-    if (application.status === 'Training Unlocked' || application.status === 'Completed') return 4;
+    if (isAcademyUnlocked || application.status === 'Completed') return 4;
     if (
+      application.paymentRefNo ||
+      application.paymentStatus === 'processing' ||
+      application.paymentStatus === 'paid' ||
       application.status === 'Payment Submitted — Pending Admin Approval' ||
-      application.status === 'Pending Admin Approval' ||
-      (application.paymentRefNo && application.status !== 'Rejected')
+      application.status === 'Payment Processing — Waiting for Admin Approval' ||
+      application.status === 'Waiting for Admin Approval' ||
+      application.status === 'Pending Admin Approval'
     ) {
       return 3; // Step 1 & 2 completed, Step 3 Admin Approval in progress
     }
@@ -246,11 +257,12 @@ export const DashboardPage = () => {
       application.status === 'Application Submitted' ||
       application.status === 'Payment Pending' ||
       application.status === 'Pending Approval' ||
+      application.status === 'pending' ||
       application.status === 'Approved — Payment Required'
     ) {
       return 2; // Step 1 completed, Step 2 Payment Process active
     }
-    if (application.status === 'Rejected') return -1;
+    if (application.status === 'Rejected' || application.status === 'rejected') return -1;
     return 1;
   };
 
@@ -324,7 +336,7 @@ export const DashboardPage = () => {
               }`}
           >
             <GraduationCap className="w-3.5 h-3.5" />
-            <span>Training Academy {application?.status === 'Training Unlocked' ? '(Unlocked)' : '(Locked)'}</span>
+            <span>Training Academy {isAcademyUnlocked ? '(Unlocked)' : '(Locked)'}</span>
           </button>
 
           <button
@@ -379,7 +391,7 @@ export const DashboardPage = () => {
                   <p className="text-[11px] text-zinc-400 mt-1">Credentials, experience & safety waiver saved.</p>
                 </div>
 
-                {/* Step 2: Payment Process (attach ref no.) */}
+                {/* Step 2: Payment Process / Processing */}
                 <div
                   className={`p-5 rounded-2xl border transition-all ${currentStep >= 3
                     ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-300'
@@ -398,8 +410,14 @@ export const DashboardPage = () => {
                       <CreditCard className="w-4 h-4" />
                     )}
                   </div>
-                  <h4 className="text-sm font-bold text-white">Payment Process</h4>
-                  <p className="text-[11px] text-zinc-400 mt-1">Tuition fee payment & attach payment ref no.</p>
+                  <h4 className="text-sm font-bold text-white">
+                    {currentStep >= 3 ? 'Payment Processing (Done)' : 'Payment Process'}
+                  </h4>
+                  <p className="text-[11px] text-zinc-400 mt-1">
+                    {currentStep >= 3
+                      ? 'Payment reference attached & submitted.'
+                      : 'Tuition fee payment & attach payment ref no.'}
+                  </p>
                 </div>
 
                 {/* Step 3: Admin Approval */}
@@ -422,7 +440,9 @@ export const DashboardPage = () => {
                     )}
                   </div>
                   <h4 className="text-sm font-bold text-white">Admin Approval</h4>
-                  <p className="text-[11px] text-zinc-400 mt-1">Review by Master Rider Naju Rider.</p>
+                  <p className="text-[11px] text-zinc-400 mt-1">
+                    {currentStep === 3 ? 'Waiting for admin approval...' : 'Review by Master Rider Naju Rider.'}
+                  </p>
                 </div>
 
                 {/* Step 4: Training Unlocked */}
@@ -507,7 +527,7 @@ export const DashboardPage = () => {
                       Resubmit Application
                     </button>
                   </div>
-                ) : application.paymentRefNo ? (
+                ) : (application.paymentRefNo || application.paymentStatus === 'processing' || currentStep === 3) ? (
                   /* Step 03 Active: Payment reference attached, awaiting Admin Approval */
                   <div className="p-6 rounded-2xl bg-slate-900/90 border border-amber-500/40 card-top-line flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-xl">
                     <div className="flex items-start gap-4">
@@ -517,13 +537,13 @@ export const DashboardPage = () => {
                       <div className="space-y-2">
                         <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-300 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30">
                           <Clock className="w-3 h-3 text-amber-400" />
-                          Step 03: Admin Approval in Progress
+                          Step 01 & Step 02 Done • Waiting for Admin Approval
                         </div>
                         <h4 className="text-xl font-black text-white">
-                          Payment Reference Attached & Under Review
+                          Payment Processing — Waiting for Admin Approval
                         </h4>
                         <p className="text-xs text-zinc-300 max-w-xl leading-relaxed">
-                          Your payment reference has been recorded. Master Rider Naju Rider & the academy admin team are verifying your transaction reference and riding credentials. Training access will unlock automatically upon verification.
+                          Your application has been submitted and your payment reference has been recorded! Master Rider Naju Rider & the academy admin team are reviewing your details. Once approved, your complete video training curriculum will unlock immediately.
                         </p>
 
                         {/* Reference Number & Payment Details Pill Box */}
@@ -870,7 +890,7 @@ export const DashboardPage = () => {
         {/* TAB 3: UNLOCKED TRAINING ACADEMY (COURSE PLAYER) */}
         {activeTab === 'academy' && (
           <div className="animate-in fade-in duration-200">
-            {application?.status !== 'Training Unlocked' ? (
+            {!isAcademyUnlocked ? (
               <div className="p-12 text-center rounded-3xl bg-slate-900/90 border border-slate-800 card-top-line shadow-2xl max-w-2xl mx-auto space-y-4">
                 <div className="w-16 h-16 rounded-full bg-red-600/20 text-red-400 border border-red-500/30 flex items-center justify-center mx-auto">
                   <Lock className="w-8 h-8" />
@@ -928,7 +948,7 @@ export const DashboardPage = () => {
                       {activeLesson ? (
                         <video
                           key={activeLesson._id}
-                          src={activeLesson.streamUrl}
+                          src={activeLesson.videoUrl || activeLesson.streamUrl || '/videos/stunt_wod_solo_wall.mp4'}
                           controls
                           autoPlay
                           className="w-full h-full object-contain"
@@ -1225,6 +1245,7 @@ export const DashboardPage = () => {
         onClose={() => setPaymentModalOpen(false)}
         trainingFee={application?.trainingFee || settings.trainingFee || 9999}
         existingRefNo={application?.paymentRefNo || ''}
+        applicationId={application?._id}
         onPaymentSuccess={handlePaymentSuccess}
       />
 

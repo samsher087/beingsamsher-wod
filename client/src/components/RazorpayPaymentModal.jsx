@@ -24,6 +24,7 @@ export const RazorpayPaymentModal = ({
   onClose,
   trainingFee = 9999,
   existingRefNo = '',
+  applicationId = '',
   onPaymentSuccess,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -61,7 +62,9 @@ export const RazorpayPaymentModal = ({
       setError('');
 
       const res = await apiClient.post('/applications/submit-payment-ref', {
+        applicationId: applicationId || undefined,
         paymentRefNo: paymentRefNo.trim(),
+        paymentReference: paymentRefNo.trim(),
         paymentMethod:
           selectedMethod === 'UPI'
             ? 'UPI / QR Transfer'

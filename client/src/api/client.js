@@ -383,7 +383,29 @@ const mockRouter = async (method, endpoint, body) => {
 
   // 6. COURSE & CURRICULUM ROUTES
   if (path === '/courses/public-overview' && method === 'GET') {
-    return { success: true, course: store.course };
+    let isSubscribedUser = false;
+    if (currentUser) {
+      if (currentUser.role === 'admin') {
+        isSubscribedUser = true;
+      } else {
+        const myApp = store.applications.find(
+          (a) =>
+            (a.user && a.user._id === currentUser._id) ||
+            (a.email && a.email.toLowerCase() === currentUser.email?.toLowerCase())
+        );
+        if (
+          myApp &&
+          (myApp.courseAccessGranted ||
+            myApp.status === 'Training Unlocked' ||
+            myApp.status === 'approved' ||
+            myApp.status === 'Approved' ||
+            myApp.status === 'Completed')
+        ) {
+          isSubscribedUser = true;
+        }
+      }
+    }
+    return { success: true, course: store.course, isSubscribedUser };
   }
 
   if (path === '/courses/student-curriculum' && method === 'GET') {
@@ -510,31 +532,65 @@ const mockRouter = async (method, endpoint, body) => {
   }
 
   if (path === '/applications/submit-payment-ref' && method === 'POST') {
-    const { applicationId, paymentReference, paymentMethod, amount } = body || {};
-    const app = store.applications.find((a) => a._id === applicationId);
+    const { applicationId, paymentReference, paymentRefNo, paymentMethod, amount, paymentNotes } = body || {};
+    const ref = (paymentRefNo || paymentReference || '').trim();
+
+    let app = store.applications.find((a) => a._id === applicationId);
+    if (!app && currentUser) {
+      app = store.applications.find(
+        (a) =>
+          (a.user && a.user._id === currentUser._id) ||
+          (a.email && a.email.toLowerCase() === currentUser.email?.toLowerCase())
+      );
+    }
+
+    if (!app && currentUser) {
+      app = {
+        _id: `app_${Date.now()}`,
+        user: { _id: currentUser._id, name: currentUser.name, email: currentUser.email, phone: currentUser.phone },
+        fullName: currentUser.name,
+        email: currentUser.email,
+        phone: currentUser.phone || '',
+        appliedAt: new Date().toISOString(),
+      };
+      store.applications.unshift(app);
+    }
+
     if (app) {
-      app.paymentStatus = 'paid';
-      app.status = 'approved';
-      app.courseAccessGranted = true;
+      app.paymentRefNo = ref;
+      app.paymentReference = ref;
+      app.paymentMethod = paymentMethod || 'UPI / QR Transfer';
+      app.paymentAmount = amount || 9999;
+      app.paymentNotes = paymentNotes || '';
+      app.paymentStatus = 'processing';
+      app.status = 'Payment Processing — Waiting for Admin Approval';
+      app.courseAccessGranted = false; // Remains locked until admin explicitly approves
+      app.paymentSubmittedAt = new Date().toISOString();
       saveStorage('wod_applications', store.applications);
     }
 
     const newPayment = {
       _id: `pay_${Date.now()}`,
-      user: app?.user || { name: currentUser?.name || 'Trainee' },
-      application: applicationId,
+      user: app?.user || { name: currentUser?.name || 'Trainee', email: currentUser?.email },
+      application: app?._id || applicationId,
       amount: amount || 9999,
       currency: 'INR',
-      method: paymentMethod || 'UPI QR',
-      transactionId: paymentReference || `TXN_${Date.now()}`,
-      status: 'successful',
+      method: paymentMethod || 'UPI / QR Transfer',
+      transactionId: ref || `TXN_${Date.now()}`,
+      status: 'pending_verification',
+      notes: paymentNotes || '',
       paidAt: new Date().toISOString(),
     };
 
     store.payments.unshift(newPayment);
     saveStorage('wod_payments', store.payments);
 
-    return { success: true, message: 'Payment recorded and verified!', payment: newPayment };
+    return {
+      success: true,
+      message: 'Payment reference submitted! Waiting for Admin Approval.',
+      application: app,
+      payment: newPayment,
+    };
   }
 
   if (path === '/applications/admin/all' && method === 'GET') {
@@ -545,14 +601,36 @@ const mockRouter = async (method, endpoint, body) => {
     const id = path.split('/')[3];
     const app = store.applications.find((a) => a._id === id);
     if (app) {
-      app.status = body.status;
-      if (body.status === 'approved') {
+      if (
+        body.status === 'Training Unlocked' ||
+        body.status === 'approved' ||
+        body.status === 'Approved'
+      ) {
+        app.status = 'Training Unlocked';
         app.courseAccessGranted = true;
-      } else if (body.status === 'rejected') {
+        app.paymentStatus = 'paid';
+        app.approvedAt = new Date().toISOString();
+        if (body.adminNotes) app.adminNotes = body.adminNotes;
+        if (body.trainingFee) app.trainingFee = Number(body.trainingFee);
+
+        // Update matching payment to successful
+        const p = store.payments.find(
+          (pay) => pay.application === id || (app.paymentRefNo && pay.transactionId === app.paymentRefNo)
+        );
+        if (p) {
+          p.status = 'successful';
+        }
+      } else if (body.status === 'rejected' || body.status === 'Rejected') {
+        app.status = 'Rejected';
         app.courseAccessGranted = false;
+        app.rejectionReason = body.rejectionReason || 'Application rejected by Admin';
+        if (body.adminNotes) app.adminNotes = body.adminNotes;
+      } else {
+        app.status = body.status;
       }
       saveStorage('wod_applications', store.applications);
-      return { success: true, message: `Application status updated to ${body.status}`, application: app };
+      saveStorage('wod_payments', store.payments);
+      return { success: true, message: `Application status updated to ${app.status}`, application: app };
     }
     throw new Error('Application not found');
   }

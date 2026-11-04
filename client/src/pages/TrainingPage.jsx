@@ -63,7 +63,8 @@ export const TrainingPage = () => {
         const allLessons = [];
         res.course.modules?.forEach((m) => {
           m.lessons?.forEach((l) => {
-            allLessons.push({ ...l, moduleTitle: m.title });
+            const isLocked = !userSubscribed && !l.isPreview;
+            allLessons.push({ ...l, isLocked, moduleTitle: m.title });
           });
         });
 
@@ -131,7 +132,8 @@ export const TrainingPage = () => {
   };
 
   const handleSelectLesson = (lesson, moduleTitle = '') => {
-    const fullLesson = { ...lesson, moduleTitle: moduleTitle || lesson.moduleTitle };
+    const isLocked = !isSubscribed && !lesson.isPreview;
+    const fullLesson = { ...lesson, isLocked, moduleTitle: moduleTitle || lesson.moduleTitle };
     setActiveLesson(fullLesson);
 
     // Scroll to player smoothly
@@ -562,7 +564,7 @@ export const TrainingPage = () => {
                       return (
                         <div
                           key={les._id}
-                          onClick={() => handleSelectLesson(les, mod.title)}
+                          onClick={() => handleSelectLesson({ ...les, isLocked: !isSubscribed && !les.isPreview }, mod.title)}
                           className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all flex items-start gap-2.5 ${
                             isActive
                               ? 'bg-slate-850 border-cyan-500/60 shadow-lg shadow-cyan-950/40 ring-1 ring-cyan-500/30'

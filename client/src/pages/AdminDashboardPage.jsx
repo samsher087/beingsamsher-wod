@@ -709,12 +709,25 @@ export const AdminDashboardPage = () => {
                     .filter((app) => {
                       if (appFilterStatus === 'All') return true;
                       if (appFilterStatus === 'Payment Attached (Awaiting Approval)') {
-                        return Boolean(app.paymentRefNo) && app.status !== 'Training Unlocked' && app.status !== 'Rejected';
+                        return (
+                          Boolean(app.paymentRefNo || app.paymentStatus === 'processing') &&
+                          app.status !== 'Training Unlocked' &&
+                          app.status !== 'approved' &&
+                          app.status !== 'Rejected'
+                        );
                       }
                       if (appFilterStatus === 'Application Submitted') {
-                        return !app.paymentRefNo && app.status !== 'Training Unlocked' && app.status !== 'Rejected';
+                        return (
+                          !app.paymentRefNo &&
+                          app.paymentStatus !== 'processing' &&
+                          app.status !== 'Training Unlocked' &&
+                          app.status !== 'approved' &&
+                          app.status !== 'Rejected'
+                        );
                       }
-                      if (appFilterStatus === 'Training Unlocked') return app.status === 'Training Unlocked';
+                      if (appFilterStatus === 'Training Unlocked') {
+                        return app.status === 'Training Unlocked' || app.status === 'approved' || app.courseAccessGranted;
+                      }
                       if (appFilterStatus === 'Rejected') return app.status === 'Rejected';
                       return app.status === appFilterStatus;
                     })
@@ -1741,7 +1754,7 @@ export const AdminDashboardPage = () => {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
-                {selectedApplication.status === 'Training Unlocked' ? (
+                {(selectedApplication.status === 'Training Unlocked' || selectedApplication.status === 'approved' || selectedApplication.courseAccessGranted) ? (
                   <div className="flex-1 py-3 px-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center justify-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                     <span>Training Unlocked & Active</span>
