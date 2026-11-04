@@ -2,6 +2,7 @@
 
 export const initialSettings = {
   brandName: 'Naju Rider',
+  logoUrl: '/images/logo.png',
   tagline: 'Witness the Courage. Learn the Discipline. Respect the Risk.',
   heroHeadline: 'Well of Death',
   heroSubheadline: 'Witness the Courage. Learn the Discipline. Respect the Risk.',

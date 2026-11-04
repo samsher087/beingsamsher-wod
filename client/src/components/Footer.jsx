@@ -46,9 +46,13 @@ export const Footer = () => {
           {/* Brand Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 via-teal-500 to-emerald-400 p-[2px]">
-                <div className="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
-                  <Flame className="w-5 h-5 text-cyan-400" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-teal-500 to-emerald-400 p-[2px] shrink-0">
+                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center overflow-hidden p-0.5">
+                  <img
+                    src={settings.logoUrl || '/images/logo.png'}
+                    alt={settings.brandName || 'Well of Death'}
+                    className="w-full h-full object-contain filter drop-shadow"
+                  />
                 </div>
               </div>
               <span className="text-base font-black text-white uppercase tracking-wider">

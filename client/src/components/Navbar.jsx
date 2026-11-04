@@ -50,9 +50,13 @@ export const Navbar = () => {
           <div className="flex items-center justify-between h-20">
             {/* Brand Logo */}
             <Link to="/" className="flex items-center gap-3 group shrink-0">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-teal-500 to-emerald-400 p-[2px] transition-transform duration-300 group-hover:scale-105 shadow-lg shadow-cyan-500/20">
-                <div className="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
-                  <Flame className="w-5 h-5 text-cyan-400 group-hover:text-teal-300 transition-colors" />
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-600 via-teal-500 to-emerald-400 p-[2px] transition-transform duration-300 group-hover:scale-105 shadow-lg shadow-cyan-500/20 shrink-0">
+                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center overflow-hidden p-0.5">
+                  <img
+                    src={settings.logoUrl || '/images/logo.png'}
+                    alt={settings.brandName || 'Well of Death'}
+                    className="w-full h-full object-contain filter drop-shadow"
+                  />
                 </div>
               </div>
               <div className="flex flex-col">

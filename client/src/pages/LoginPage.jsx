@@ -67,9 +67,13 @@ export const LoginPage = () => {
       <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2.5 mb-4 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-teal-500 to-emerald-400 p-[2px] transition-transform group-hover:scale-105 shadow-lg shadow-cyan-950/50">
-              <div className="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
-                <Flame className="w-5 h-5 text-cyan-400 group-hover:text-teal-300 transition-colors" />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-600 via-teal-500 to-emerald-400 p-[2px] transition-transform group-hover:scale-105 shadow-lg shadow-cyan-950/50">
+              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center overflow-hidden p-0.5">
+                <img
+                  src="/images/logo.png"
+                  alt="Well of Death"
+                  className="w-full h-full object-contain filter drop-shadow"
+                />
               </div>
             </div>
             <span className="text-lg font-black text-white tracking-wider uppercase">

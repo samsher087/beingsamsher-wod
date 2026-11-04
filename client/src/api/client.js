@@ -34,7 +34,7 @@ const saveStorage = (key, data) => {
 // Initialize default storage collections if not present
 const getStore = () => {
   return {
-    settings: loadStorage('wod_settings', initialSettings),
+    settings: { ...initialSettings, ...loadStorage('wod_settings', initialSettings) },
     users: loadStorage('wod_users', initialUsers),
     course: loadStorage('wod_course', initialCourse),
     gallery: loadStorage('wod_gallery', initialGallery),
