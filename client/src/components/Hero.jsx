@@ -83,27 +83,26 @@ export const Hero = () => {
           <div
             key={slide._id || slide.imageUrl || idx}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              idx === currentSlide ? 'opacity-55' : 'opacity-0 pointer-events-none'
+              idx === currentSlide ? 'opacity-85' : 'opacity-0 pointer-events-none'
             }`}
           >
             <img
               src={slide.imageUrl}
               alt={slide.title || 'Well of Death Stunt'}
-              className={`w-full h-full object-cover filter brightness-95 contrast-110 transition-transform duration-7000 ease-out ${
+              className={`w-full h-full object-cover filter brightness-105 contrast-105 transition-transform duration-7000 ease-out ${
                 idx === currentSlide ? 'scale-105' : 'scale-100'
               }`}
             />
           </div>
         ))}
 
-        {/* SoftDeals Slate Cinematic Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-transparent to-slate-950/70" />
-        <div className="absolute inset-0 bg-radial from-transparent via-slate-950/40 to-slate-950/90" />
+        {/* Cinematic Overlays (Lighter & more vivid to keep stunt arena clearly visible) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/15 to-slate-950/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/30 via-transparent to-slate-950/30" />
+        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-slate-950/40" />
 
-        {/* Ambient Cyan/Teal Glow Orbs */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-cyan-600/20 via-teal-500/15 to-emerald-500/10 blur-[130px] pointer-events-none" />
-        <div className="absolute bottom-10 left-10 w-96 h-96 bg-cyan-500/10 blur-[120px] pointer-events-none" />
+        {/* Subtle Ambient Glow */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-tr from-amber-600/10 via-teal-500/10 to-transparent blur-[140px] pointer-events-none" />
       </div>
 
       {/* Slideshow Arrow Left */}
@@ -128,9 +127,9 @@ export const Hero = () => {
 
       {/* Hero Core Title & Headline */}
       <div className="relative z-10 my-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-8">
-        {/* Headline */}
-        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tight max-w-5xl mx-auto leading-[1.05] drop-shadow-2xl">
-          <span className="text-gradient-fire">
+        {/* Headline - Transparent & Muddy Well of Death Display Font */}
+        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-wider max-w-6xl mx-auto leading-[1.08] select-none">
+          <span className="hero-muddy-title block">
             {settings.heroHeadline && settings.heroHeadline !== 'Experience the Thrill of Well of Death'
               ? settings.heroHeadline
               : 'Well of Death'}
