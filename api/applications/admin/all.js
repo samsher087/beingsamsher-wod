@@ -1,4 +1,4 @@
-import { connectDB, TrainingApplication } from '../../../_db.js';
+import { connectDB, TrainingApplication } from '../../_db.js';
 
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json');
@@ -23,4 +23,3 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, message: error.message || 'Server error' });
   }
 }
-

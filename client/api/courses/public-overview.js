@@ -1,4 +1,4 @@
-import { connectDB, Course } from '../../_db.js';
+import { connectDB, Course } from '../_db.js';
 
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json');
