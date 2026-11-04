@@ -2,20 +2,10 @@
   "name": "beingsamsher-wod",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "server",
-    "client"
-  ],
   "scripts": {
-    "start": "node server/index.js",
+    "dev": "npm --prefix client run dev",
+    "start": "npm --prefix client run dev",
     "build": "npm --prefix client run build",
-    "dev:server": "npm run dev --prefix server",
-    "dev:client": "npm run dev --prefix client",
-    "seed": "node server/utils/seedData.js",
-    "test:e2e": "node test_e2e_flow.js"
-  },
-  "dependencies": {
-    "btch-downloader": "^6.4.0",
-    "ffmpeg-static": "^5.3.0"
+    "preview": "npm --prefix client run preview"
   }
 }

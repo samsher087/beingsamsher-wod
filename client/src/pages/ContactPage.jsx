@@ -82,7 +82,7 @@ export const ContactPage = () => {
             <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 shadow-2xl card-top-line flex flex-col justify-between h-full">
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-xl font-bold text-white uppercase tracking-wider border-l-2 border-cyan-400 pl-3">
+                  <h3 className="text-xl font-bold text-white uppercase tracking-wider mb-2">
                     Official Arena Office
                   </h3>
                   <p className="text-xs text-slate-400 mt-2 pl-3">
