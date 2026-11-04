@@ -20,8 +20,6 @@ import {
   Calendar,
   Sparkles,
   Zap,
-  ChevronLeft,
-  ChevronRight,
 } from 'lucide-react';
 
 export const HomePage = () => {
@@ -49,63 +47,6 @@ export const HomePage = () => {
       }
     }).catch(console.warn);
   }, []);
-
-  const defaultSlides = [
-    {
-      imageUrl: '/images/gallery/jagannathpur_mela_wod.jpg',
-      title: 'Jagannathpur Mela Stunt',
-      category: 'Live Shows',
-      location: 'Ranchi, Jharkhand',
-    },
-    {
-      imageUrl: '/images/gallery/mudma_mela_varsha_rider.jpg',
-      title: 'Mudma Mela Stunt Team',
-      category: 'Events',
-      location: 'Mudma, Ranchi',
-    },
-    {
-      imageUrl: '/images/gallery/tandem_wall_orbit.jpg',
-      title: 'Twin Bike Tandem Stunt',
-      category: 'Live Shows',
-      location: 'Carnival Arena',
-    },
-    {
-      imageUrl: '/images/gallery/arena_grounds_portrait.jpg',
-      title: 'Maut Ka Kuan Arena Grounds',
-      category: 'Behind the Scenes',
-      location: 'Jharkhand',
-    },
-    {
-      imageUrl: '/images/naju_rider_banner.jpg',
-      title: 'Naju Rider Stunt Team',
-      category: 'Achievements',
-      location: 'National Tour',
-    },
-  ];
-
-  const slides = featuredPhotos.length > 0 ? featuredPhotos : defaultSlides;
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-
-  useEffect(() => {
-    if (!isAutoPlaying || slides.length <= 1) return;
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, [isAutoPlaying, slides.length]);
-
-  const handlePrevSlide = (e) => {
-    e.stopPropagation();
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  const handleNextSlide = (e) => {
-    e.stopPropagation();
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const activeSlide = slides[currentSlide] || slides[0];
 
   const openLightbox = (idx) => {
     setLightboxIndex(idx);
@@ -169,89 +110,6 @@ export const HomePage = () => {
                 {settings.aboutBio ||
                   'For over 14 uninterrupted years, Naju Rider has thrilled audiences across India with jaw-dropping vertical wall climbs, high-speed hands-free maneuvers, and synchronized team performances inside the legendary Well of Death (Maut Ka Kuan).'}
               </p>
-
-              {/* Image Slideshow directly after "Well of Death" */}
-              <div className="pt-2">
-                <div
-                  onMouseEnter={() => setIsAutoPlaying(false)}
-                  onMouseLeave={() => setIsAutoPlaying(true)}
-                  onClick={() => openLightbox(currentSlide)}
-                  className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl card-top-line group cursor-pointer aspect-[16/10] sm:aspect-[16/9]"
-                >
-                  {/* Slide Image */}
-                  <img
-                    src={activeSlide.imageUrl}
-                    alt={activeSlide.title || 'Well of Death Stunt'}
-                    className="w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-105"
-                  />
-
-                  {/* Gradient overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-slate-950/40 pointer-events-none" />
-
-                  {/* Top Bar: Category badge and slide counter */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10 pointer-events-none">
-                    <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-cyan-300 border border-cyan-500/30 shadow-md">
-                      {activeSlide.category || 'Live Stunt'}
-                    </span>
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-slate-950/80 backdrop-blur-md text-slate-300 border border-slate-700/80 shadow-md">
-                      {currentSlide + 1} / {slides.length}
-                    </span>
-                  </div>
-
-                  {/* Left / Right Navigation Arrows */}
-                  <button
-                    type="button"
-                    onClick={handlePrevSlide}
-                    aria-label="Previous slide"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-slate-950/70 backdrop-blur-md border border-slate-700/80 text-white hover:text-black hover:bg-cyan-400 hover:border-cyan-300 transition-all flex items-center justify-center opacity-80 sm:opacity-0 sm:group-hover:opacity-100 shadow-lg z-20"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={handleNextSlide}
-                    aria-label="Next slide"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-slate-950/70 backdrop-blur-md border border-slate-700/80 text-white hover:text-black hover:bg-cyan-400 hover:border-cyan-300 transition-all flex items-center justify-center opacity-80 sm:opacity-0 sm:group-hover:opacity-100 shadow-lg z-20"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-
-                  {/* Bottom Info Bar & Dots */}
-                  <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between z-10">
-                    <div className="max-w-[75%]">
-                      <h4 className="text-sm font-bold text-white drop-shadow-md truncate">
-                        {activeSlide.title}
-                      </h4>
-                      {activeSlide.location && (
-                        <p className="text-[11px] text-cyan-400/90 font-medium truncate">
-                          {activeSlide.location}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Dot Indicators */}
-                    <div className="flex items-center gap-1.5 pb-1">
-                      {slides.map((_, idx) => (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setCurrentSlide(idx);
-                          }}
-                          aria-label={`Go to slide ${idx + 1}`}
-                          className={`transition-all rounded-full ${
-                            idx === currentSlide
-                              ? 'w-5 h-1.5 bg-cyan-400 shadow-sm shadow-cyan-400/50'
-                              : 'w-1.5 h-1.5 bg-slate-500/70 hover:bg-slate-300'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
