@@ -4,7 +4,6 @@ import { useSettings } from '../context/SettingsContext';
 import { apiClient } from '../api/client';
 import {
   Play,
-  Pause,
   ChevronLeft,
   ChevronRight,
   Compass,
@@ -169,57 +168,6 @@ export const Hero = () => {
             <Play className="w-4 h-4 text-cyan-400 fill-current" />
             <span>Watch Stunts</span>
           </Link>
-        </div>
-      </div>
-
-      {/* Floating Bottom Slideshow Control Dock */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5 sm:gap-4 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full bg-slate-900/85 backdrop-blur-md border border-slate-700/80 shadow-2xl max-w-[92vw] sm:max-w-none">
-        {/* Category Badge & Slide Title */}
-        <div className="flex items-center gap-2 max-w-[160px] sm:max-w-xs truncate">
-          <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 shrink-0">
-            {activeSlide.category || 'Live Stunt'}
-          </span>
-          <span className="text-xs font-semibold text-slate-200 truncate hidden xs:inline">
-            {activeSlide.title}
-          </span>
-        </div>
-
-        {/* Separator */}
-        <div className="w-[1px] h-4 bg-slate-700 shrink-0" />
-
-        {/* Dot Indicators */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          {slides.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setCurrentSlide(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-              className={`transition-all rounded-full cursor-pointer ${
-                idx === currentSlide
-                  ? 'w-6 h-2 bg-gradient-to-r from-cyan-400 to-emerald-400 shadow-sm shadow-cyan-400/50'
-                  : 'w-2 h-2 bg-slate-600 hover:bg-slate-400'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Separator */}
-        <div className="w-[1px] h-4 bg-slate-700 shrink-0" />
-
-        {/* Slide Counter & Play/Pause */}
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="text-[11px] font-mono font-bold text-slate-300">
-            {currentSlide + 1} / {slides.length}
-          </span>
-          <button
-            type="button"
-            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-            title={isAutoPlaying ? 'Pause Slideshow' : 'Resume Auto-play'}
-            className="p-1 rounded-full text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
-          >
-            {isAutoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
-          </button>
         </div>
       </div>
     </section>
