@@ -59,9 +59,7 @@ export const Footer = () => {
                 {settings.brandName || 'Naju Rider'}
               </span>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              {settings.tagline || 'Witness the Courage. Learn the Discipline. Respect the Risk.'}
-            </p>
+
             <p className="text-xs text-slate-500">
               India’s pioneer in centrifugal arena wall riding, high-incline motorcycle acrobatics, and professional stunt training.
             </p>

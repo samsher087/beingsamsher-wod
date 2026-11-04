@@ -137,10 +137,13 @@ export const Hero = () => {
           </span>
         </h1>
 
-        {/* Subheadline */}
-        <p className="mt-6 text-base sm:text-xl md:text-2xl text-slate-200 font-light max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
-          {settings.heroSubheadline || 'Witness the Courage. Learn the Discipline. Respect the Risk.'}
-        </p>
+        {/* Subheadline (Optional CMS Text) */}
+        {settings.heroSubheadline &&
+          settings.heroSubheadline !== 'Witness the Courage. Learn the Discipline. Respect the Risk.' && (
+            <p className="mt-6 text-base sm:text-xl md:text-2xl text-slate-200 font-light max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
+              {settings.heroSubheadline}
+            </p>
+          )}
 
         {/* CTA Buttons */}
         <div className="mt-32 sm:mt-44 lg:mt-56 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto sm:max-w-none">

@@ -6,9 +6,9 @@ const SettingsContext = createContext();
 export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({
     brandName: 'Naju Rider',
-    tagline: 'Witness the Courage. Learn the Discipline. Respect the Risk.',
+    tagline: 'Well of Death',
     heroHeadline: 'Well of Death',
-    heroSubheadline: 'Witness the Courage. Learn the Discipline. Respect the Risk.',
+    heroSubheadline: '',
     riderTitle: 'Master Centrifugal Wall Stunt Specialist',
     heroVideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
     heroImageUrl: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1920&q=80',

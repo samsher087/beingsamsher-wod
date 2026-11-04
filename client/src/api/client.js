@@ -33,8 +33,12 @@ const saveStorage = (key, data) => {
 
 // Initialize default storage collections if not present
 const getStore = () => {
+  const loadedSettings = { ...initialSettings, ...loadStorage('wod_settings', initialSettings) };
+  if (loadedSettings.heroSubheadline === 'Witness the Courage. Learn the Discipline. Respect the Risk.') {
+    loadedSettings.heroSubheadline = '';
+  }
   return {
-    settings: { ...initialSettings, ...loadStorage('wod_settings', initialSettings) },
+    settings: loadedSettings,
     users: loadStorage('wod_users', initialUsers),
     course: loadStorage('wod_course', initialCourse),
     gallery: loadStorage('wod_gallery', initialGallery),

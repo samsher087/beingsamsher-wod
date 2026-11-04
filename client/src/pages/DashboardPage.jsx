@@ -297,8 +297,8 @@ export const DashboardPage = () => {
           <button
             onClick={() => setActiveTab('status')}
             className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'status'
-                ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
-                : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
+              ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
+              : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
           >
             <Clock className="w-3.5 h-3.5" />
@@ -308,8 +308,8 @@ export const DashboardPage = () => {
           <button
             onClick={() => setActiveTab('apply')}
             className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'apply'
-                ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
-                : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
+              ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
+              : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
           >
             <FileText className="w-3.5 h-3.5" />
@@ -319,8 +319,8 @@ export const DashboardPage = () => {
           <button
             onClick={() => setActiveTab('academy')}
             className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'academy'
-                ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
-                : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
+              ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
+              : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
           >
             <GraduationCap className="w-3.5 h-3.5" />
@@ -330,8 +330,8 @@ export const DashboardPage = () => {
           <button
             onClick={() => setActiveTab('payments')}
             className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'payments'
-                ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
-                : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
+              ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
+              : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
           >
             <CreditCard className="w-3.5 h-3.5" />
@@ -341,8 +341,8 @@ export const DashboardPage = () => {
           <button
             onClick={() => setActiveTab('profile')}
             className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'profile'
-                ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
-                : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
+              ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
+              : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
           >
             <User className="w-3.5 h-3.5" />
@@ -363,8 +363,8 @@ export const DashboardPage = () => {
                 {/* Step 1: Application Submitted */}
                 <div
                   className={`p-5 rounded-2xl border transition-all ${currentStep >= 1
-                      ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-300'
-                      : 'border-white/10 bg-white/5 text-zinc-500'
+                    ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-300'
+                    : 'border-white/10 bg-white/5 text-zinc-500'
                     }`}
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -382,10 +382,10 @@ export const DashboardPage = () => {
                 {/* Step 2: Payment Process (attach ref no.) */}
                 <div
                   className={`p-5 rounded-2xl border transition-all ${currentStep >= 3
-                      ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-300'
-                      : currentStep === 2
-                        ? 'border-cyan-500/60 bg-cyan-950/30 text-cyan-300 shadow-md ring-1 ring-cyan-500/30'
-                        : 'border-white/10 bg-white/5 text-zinc-500'
+                    ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-300'
+                    : currentStep === 2
+                      ? 'border-cyan-500/60 bg-cyan-950/30 text-cyan-300 shadow-md ring-1 ring-cyan-500/30'
+                      : 'border-white/10 bg-white/5 text-zinc-500'
                     }`}
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -405,10 +405,10 @@ export const DashboardPage = () => {
                 {/* Step 3: Admin Approval */}
                 <div
                   className={`p-5 rounded-2xl border transition-all ${currentStep >= 4
-                      ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-300'
-                      : currentStep === 3
-                        ? 'border-amber-500/60 bg-amber-950/30 text-amber-300 shadow-md ring-1 ring-amber-500/30'
-                        : 'border-white/10 bg-white/5 text-zinc-500'
+                    ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-300'
+                    : currentStep === 3
+                      ? 'border-amber-500/60 bg-amber-950/30 text-amber-300 shadow-md ring-1 ring-amber-500/30'
+                      : 'border-white/10 bg-white/5 text-zinc-500'
                     }`}
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -428,8 +428,8 @@ export const DashboardPage = () => {
                 {/* Step 4: Training Unlocked */}
                 <div
                   className={`p-5 rounded-2xl border transition-all ${currentStep >= 4
-                      ? 'border-emerald-500/60 bg-emerald-950/30 text-emerald-300 shadow-md'
-                      : 'border-white/10 bg-white/5 text-zinc-500'
+                    ? 'border-emerald-500/60 bg-emerald-950/30 text-emerald-300 shadow-md'
+                    : 'border-white/10 bg-white/5 text-zinc-500'
                     }`}
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -618,8 +618,8 @@ export const DashboardPage = () => {
             {formMsg.text && (
               <div
                 className={`mb-3 p-2.5 rounded-lg text-xs flex items-center gap-2 ${formMsg.type === 'success'
-                    ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300'
-                    : 'bg-red-500/10 border border-red-500/30 text-red-300'
+                  ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300'
+                  : 'bg-red-500/10 border border-red-500/30 text-red-300'
                   }`}
               >
                 {formMsg.type === 'success' ? (
@@ -950,8 +950,8 @@ export const DashboardPage = () => {
                           <button
                             onClick={(e) => handleToggleLessonComplete(activeLesson, e)}
                             className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 ${activeLesson.isCompleted
-                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                                : 'bg-white/5 text-zinc-400 hover:text-white border border-white/10'
+                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                              : 'bg-white/5 text-zinc-400 hover:text-white border border-white/10'
                               }`}
                           >
                             <CheckCircle2 className="w-4 h-4" />
@@ -994,8 +994,8 @@ export const DashboardPage = () => {
                                     key={les._id}
                                     onClick={() => setActiveLesson(les)}
                                     className={`p-3 rounded-xl border text-left cursor-pointer transition-all flex items-center justify-between gap-3 ${isCurrent
-                                        ? 'bg-cyan-600/15 border-cyan-500/50 text-white'
-                                        : 'bg-black/30 border-white/5 hover:bg-white/5 text-zinc-400'
+                                      ? 'bg-cyan-600/15 border-cyan-500/50 text-white'
+                                      : 'bg-black/30 border-white/5 hover:bg-white/5 text-zinc-400'
                                       }`}
                                   >
                                     <div className="flex items-center gap-2.5 min-w-0">
@@ -1076,10 +1076,10 @@ export const DashboardPage = () => {
                           <td className="py-4">
                             <span
                               className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${p.status === 'successful'
-                                  ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                  : p.status === 'created'
-                                    ? 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/30'
-                                    : 'bg-red-500/15 text-red-400 border border-red-500/30'
+                                ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                                : p.status === 'created'
+                                  ? 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/30'
+                                  : 'bg-red-500/15 text-red-400 border border-red-500/30'
                                 }`}
                             >
                               {p.status}
@@ -1131,8 +1131,8 @@ export const DashboardPage = () => {
             {profileMsg.text && (
               <div
                 className={`mb-6 p-4 rounded-xl text-xs flex items-center gap-2.5 ${profileMsg.type === 'success'
-                    ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300'
-                    : 'bg-red-500/10 border border-red-500/30 text-red-300'
+                  ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300'
+                  : 'bg-red-500/10 border border-red-500/30 text-red-300'
                   }`}
               >
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
