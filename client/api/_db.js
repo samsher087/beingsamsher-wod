@@ -14,13 +14,15 @@ export async function connectDB() {
   }
   if (!cached.promise) {
     const uri = process.env.MONGODB_URI || DEFAULT_URI;
-    cached.promise = mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 5000,
-      bufferCommands: false,
-    }).then((mongooseInstance) => {
-      console.log('[Mongo Atlas Connected]:', mongooseInstance.connection.host);
-      return mongooseInstance;
-    });
+    cached.promise = mongoose
+      .connect(uri, {
+        serverSelectionTimeoutMS: 5000,
+        bufferCommands: false,
+      })
+      .then((mongooseInstance) => {
+        console.log('[Mongo Atlas Connected]:', mongooseInstance.connection.host);
+        return mongooseInstance;
+      });
   }
   try {
     cached.conn = await cached.promise;
@@ -70,6 +72,8 @@ const trainingAppSchema = new mongoose.Schema(
     paymentRefNo: { type: String, default: '' },
     paymentAmount: { type: Number, default: 4999 },
     paymentMethod: { type: String, default: 'UPI / QR Transfer' },
+    adminNotes: { type: String, default: '' },
+    rejectionReason: { type: String, default: '' },
     agreedToSafetyWaiver: { type: Boolean, default: true },
     appliedAt: { type: Date, default: Date.now },
   },
@@ -87,7 +91,8 @@ const paymentSchema = new mongoose.Schema(
     amount: { type: Number, required: true },
     currency: { type: String, default: 'INR' },
     paymentMethod: { type: String, default: 'UPI / QR Transfer' },
-    transactionId: { type: String, required: true },
+    transactionId: { type: String, default: '' },
+    paymentRefNo: { type: String, default: '' },
     status: { type: String, enum: ['successful', 'failed', 'pending'], default: 'pending' },
     verifiedByAdmin: { type: Boolean, default: false },
     verifiedAt: { type: Date },
@@ -101,12 +106,105 @@ export const Payment = mongoose.models.Payment || mongoose.model('Payment', paym
 const settingSchema = new mongoose.Schema(
   {
     siteName: { type: String, default: 'Well of Death' },
+    heroHeadline: { type: String, default: 'Well of Death' },
+    heroSubheadline: { type: String, default: '' },
+    aboutBio: { type: String, default: '' },
     trainingFee: { type: Number, default: 9999 },
     upiId: { type: String, default: 'samsher.alam@okaxis' },
     contactPhone: { type: String, default: '+91 98765 43210' },
+    contactEmail: { type: String, default: 'info@najurider.com' },
   },
   { timestamps: true }
 );
 
 export const Setting = mongoose.models.Setting || mongoose.model('Setting', settingSchema);
 
+// GalleryItem Schema
+const galleryItemSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    category: { type: String, default: 'Live Shows' },
+    imageUrl: { type: String, required: true },
+    caption: { type: String, default: '' },
+    location: { type: String, default: '' },
+    dateTaken: { type: String, default: '' },
+    featured: { type: Boolean, default: false },
+    order: { type: Number, default: 0 },
+  },
+  { timestamps: true }
+);
+
+export const GalleryItem = mongoose.models.GalleryItem || mongoose.model('GalleryItem', galleryItemSchema);
+
+// PublicVideo Schema
+const publicVideoSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    category: { type: String, default: 'Stunt Highlights' },
+    videoUrl: { type: String, required: true },
+    thumbnailUrl: { type: String, default: '' },
+    duration: { type: String, default: '3:45' },
+    description: { type: String, default: '' },
+    views: { type: Number, default: 1420 },
+    likes: { type: Number, default: 2450 },
+    commentsCount: { type: Number, default: 184 },
+    instagramUrl: { type: String, default: 'https://instagram.com/najurider' },
+    youtubeUrl: { type: String, default: '' },
+    audioTrack: { type: String, default: 'Original Audio - Naju Rider' },
+    authorHandle: { type: String, default: '@najurider' },
+    isReel: { type: Boolean, default: true },
+  },
+  { timestamps: true }
+);
+
+export const PublicVideo = mongoose.models.PublicVideo || mongoose.model('PublicVideo', publicVideoSchema);
+
+// AdminAuditLog Schema
+const adminAuditLogSchema = new mongoose.Schema(
+  {
+    admin: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    action: { type: String, required: true },
+    targetType: { type: String, required: true },
+    targetId: { type: String, default: '' },
+    details: { type: String, default: '' },
+    ipAddress: { type: String, default: '' },
+  },
+  { timestamps: true }
+);
+
+export const AdminAuditLog =
+  mongoose.models.AdminAuditLog || mongoose.model('AdminAuditLog', adminAuditLogSchema);
+
+// Course Schema
+const lessonSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, default: '' },
+  duration: { type: String, default: '15 mins' },
+  order: { type: Number, default: 1 },
+  videoUrl: { type: String, required: true },
+  videoTokenSecret: { type: String, default: '' },
+  isPreview: { type: Boolean, default: false },
+  safetyNotice: { type: String, default: 'Supervised arena practice only. Never attempt alone.' },
+});
+
+const moduleSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, default: '' },
+  order: { type: Number, default: 1 },
+  lessons: [lessonSchema],
+});
+
+const courseSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    subtitle: { type: String, default: '' },
+    slug: { type: String, default: 'well-of-death-mastery' },
+    description: { type: String, default: '' },
+    thumbnail: { type: String, default: '' },
+    difficulty: { type: String, default: 'Professional' },
+    modules: [moduleSchema],
+  },
+  { timestamps: true }
+);
+
+export const Course = mongoose.models.Course || mongoose.model('Course', courseSchema);
