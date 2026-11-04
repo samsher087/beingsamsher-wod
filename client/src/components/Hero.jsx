@@ -76,7 +76,7 @@ export const Hero = () => {
   const activeSlide = slides[currentSlide] || slides[0] || defaultSlides[0];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-20 select-none">
+    <section className="relative min-h-screen flex flex-col justify-between overflow-hidden pt-28 pb-10 sm:pb-14 select-none">
       {/* Background Slideshow Layer */}
       <div className="absolute inset-0 z-0 bg-slate-950 overflow-hidden">
         {slides.map((slide, idx) => (
@@ -126,8 +126,8 @@ export const Hero = () => {
         <ChevronRight className="w-6 h-6 transition-transform group-hover:translate-x-0.5 text-cyan-400" />
       </button>
 
-      {/* Hero Core Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-6">
+      {/* Hero Core Title & Headline */}
+      <div className="relative z-10 my-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-8">
         {/* Headline */}
         <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tight max-w-5xl mx-auto leading-[1.05] drop-shadow-2xl">
           <span className="text-gradient-fire">
@@ -144,9 +144,11 @@ export const Hero = () => {
               {settings.heroSubheadline}
             </p>
           )}
+      </div>
 
-        {/* CTA Buttons */}
-        <div className="mt-32 sm:mt-44 lg:mt-56 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto sm:max-w-none">
+      {/* Hero CTA Buttons Anchored Down at the Bottom */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto sm:max-w-none">
           <Link
             to="/training"
             className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-extrabold text-sm sm:text-base tracking-wider uppercase shadow-xl shadow-cyan-950/60 hover:shadow-cyan-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group cursor-pointer"
