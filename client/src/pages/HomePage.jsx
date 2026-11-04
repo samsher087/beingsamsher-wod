@@ -97,10 +97,7 @@ export const HomePage = () => {
 
             {/* Content Column */}
             <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold uppercase tracking-wider">
-                <Zap className="w-3.5 h-3.5" />
-                The Legend of Maut Ka Kuan
-              </div>
+
 
               <h2 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight leading-tight">
                 Mastering the 30-Foot <span className="text-gradient-fire">Wooden Cylinder</span>

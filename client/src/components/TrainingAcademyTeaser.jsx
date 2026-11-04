@@ -74,33 +74,43 @@ export const TrainingAcademyTeaser = () => {
             return (
               <div
                 key={s.num}
-                className="relative p-6 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/50 transition-all duration-300 group hover:-translate-y-1 shadow-xl hover:shadow-cyan-500/10 flex flex-col justify-between card-top-line"
+                className="relative p-6 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/60 transition-all duration-300 group hover:-translate-y-1 shadow-xl hover:shadow-cyan-500/15 flex flex-col justify-between card-top-line overflow-hidden"
               >
-                <div>
+                {/* Background Stunt Image with 50% Opacity */}
+                <div
+                  className="absolute inset-0 bg-cover bg-center opacity-50 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500 pointer-events-none"
+                  style={{ backgroundImage: `url('/images/naju_rider_stunt_rx100.jpg')` }}
+                />
+
+                {/* Subtle dark gradient overlay for optimal text readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/70 to-slate-950/90 pointer-events-none" />
+
+                {/* Block Content */}
+                <div className="relative z-10">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-bold text-cyan-300 bg-cyan-500/10 px-2.5 py-0.5 rounded-full border border-cyan-500/20">
+                    <span className="text-xs font-bold text-cyan-300 bg-cyan-950/80 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-cyan-500/30">
                       {s.badge}
                     </span>
-                    <span className="text-2xl font-black text-slate-700 group-hover:text-cyan-400/40 transition-colors">
+                    <span className="text-2xl font-black text-slate-400 group-hover:text-cyan-300 transition-colors drop-shadow">
                       {s.num}
                     </span>
                   </div>
 
-                  <div className="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/10 group-hover:border-cyan-500/40 transition-all mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-slate-950/90 backdrop-blur-md border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/20 group-hover:border-cyan-500/50 transition-all mb-4 shadow-lg">
                     <Icon className="w-6 h-6" />
                   </div>
 
-                  <h3 className="text-base font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
+                  <h3 className="text-base font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors drop-shadow">
                     {s.title}
                   </h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-slate-200 leading-relaxed drop-shadow-sm font-medium">
                     {s.desc}
                   </p>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center gap-1.5 text-[11px] text-slate-500">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Strict Safety Requirement</span>
+                <div className="relative z-10 pt-4 mt-4 border-t border-slate-700/60 flex items-center gap-1.5 text-[11px] text-slate-300">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span className="font-semibold">Strict Safety Requirement</span>
                 </div>
               </div>
             );
