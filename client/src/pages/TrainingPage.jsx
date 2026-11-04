@@ -188,15 +188,15 @@ export const TrainingPage = () => {
     <div className="bg-slate-950 min-h-screen pt-32 pb-24 text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="max-w-3xl mb-10">
+        <div className="max-w-5xl mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold uppercase tracking-wider mb-4">
             <GraduationCap className="w-4 h-4 text-cyan-400" />
             Official Stunt Certification Portal
           </div>
-          <h1 className="text-4xl sm:text-6xl font-black text-white uppercase tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight sm:whitespace-nowrap">
             Well of Death <span className="text-gradient-fire">Training Academy</span>
           </h1>
-          <p className="mt-4 text-base text-slate-400 leading-relaxed">
+          <p className="mt-4 text-base text-slate-400 leading-relaxed max-w-3xl">
             The world's first structured academic curriculum on centrifugal wall riding, custom stunt motorcycle engineering, and supervised arena launch mechanics.
           </p>
         </div>
