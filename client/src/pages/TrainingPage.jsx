@@ -201,24 +201,6 @@ export const TrainingPage = () => {
           </p>
         </div>
 
-        {/* Warning Banner */}
-        <div className="mb-12 p-6 rounded-2xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 border-l-4 border-l-amber-400 shadow-xl card-top-line">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="p-3 rounded-xl bg-amber-400/10 text-amber-400 border border-amber-400/20 shrink-0">
-              <ShieldAlert className="w-7 h-7" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-base font-bold text-slate-200 uppercase tracking-wide">
-                Rigorous Screening & Arena Supervised Requirement
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed">
-                Online instructional videos alone <strong className="text-amber-400 font-semibold">do not qualify</strong> an individual to attempt Well of Death riding independently.
-                All applications are thoroughly reviewed by Master Rider Naju Rider. Live arena practices are strictly conducted under expert supervision with emergency medical support on standby.
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* Pricing & Enrollment Card */}
         <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/40 mb-14 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8 card-top-line transition-colors">
           <div className="space-y-3">
