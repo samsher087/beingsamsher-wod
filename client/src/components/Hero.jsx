@@ -1,10 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
 import {
   Play,
-  Volume2,
-  VolumeX,
   ChevronRight,
   Compass,
   GraduationCap,
@@ -12,30 +10,11 @@ import {
 
 export const Hero = () => {
   const { settings } = useSettings();
-  const [isMuted, setIsMuted] = useState(true);
-  const videoRef = useRef(null);
-
-  const toggleSound = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-20">
-      {/* Background Video / Visual Layer */}
-      <div className="absolute inset-0 z-0">
-        <video
-          ref={videoRef}
-          src={settings.heroVideoUrl || '/videos/trailer.mp4'}
-          poster={settings.heroImageUrl || '/images/naju_rider_banner.jpg'}
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          className="w-full h-full object-cover opacity-30 scale-105 filter brightness-90 contrast-110"
-        />
+      {/* Background Visual Layer */}
+      <div className="absolute inset-0 z-0 bg-slate-950">
         {/* SoftDeals Slate Cinematic Overlays */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/90" />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-transparent to-slate-950/80" />
@@ -44,16 +23,6 @@ export const Hero = () => {
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-cyan-600/20 via-teal-500/15 to-emerald-500/10 blur-[130px] pointer-events-none" />
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-cyan-500/10 blur-[120px] pointer-events-none" />
       </div>
-
-      {/* Floating Audio Toggle Pill */}
-      <button
-        onClick={toggleSound}
-        className="absolute bottom-8 right-8 z-20 flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/80 text-xs font-semibold text-slate-300 hover:text-white hover:border-cyan-500/50 transition-all shadow-lg"
-        title={isMuted ? 'Unmute video audio' : 'Mute video audio'}
-      >
-        {isMuted ? <VolumeX className="w-4 h-4 text-cyan-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
-        <span className="hidden sm:inline">{isMuted ? 'Enable Sound' : 'Mute Audio'}</span>
-      </button>
 
       {/* Hero Core Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-6">
