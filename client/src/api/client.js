@@ -37,6 +37,13 @@ const getStore = () => {
   if (loadedSettings.heroSubheadline === 'Witness the Courage. Learn the Discipline. Respect the Risk.') {
     loadedSettings.heroSubheadline = '';
   }
+  if (
+    !loadedSettings.aboutBio ||
+    loadedSettings.aboutBio.includes('Riding on nearly vertical wooden walls') ||
+    loadedSettings.aboutBio.includes('With over 14 years of daredevil riding experience')
+  ) {
+    loadedSettings.aboutBio = initialSettings.aboutBio;
+  }
   return {
     settings: loadedSettings,
     users: loadStorage('wod_users', initialUsers),

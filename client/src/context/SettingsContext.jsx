@@ -13,7 +13,7 @@ export const SettingsProvider = ({ children }) => {
     heroVideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
     heroImageUrl: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1920&q=80',
     aboutBio:
-      'With over 14 years of daredevil riding experience across India’s grandest cultural melas and stunt arenas, Naju Rider has mastered the perilous physics of the wooden cylindrical Well of Death (Maut Ka Kuan). Performing at dizzying 88-degree vertical inclines purely powered by centrifugal force and surgical balance, he has elevated traditional Indian stunt artistry to an internationally admired discipline.',
+      'Welcome to the world of Naju Rider — where courage meets passion and every ride is a test of skill, balance, and fearless determination. Since 2016, I have been pursuing my passion for Well of Death (Maut Ka Kuan) riding, a thrilling and traditional Indian stunt performance that demands extraordinary focus, precision, and confidence.',
     statsYearsExperience: 14,
     statsArenaShows: 650,
     statsWallIncline: '88°',

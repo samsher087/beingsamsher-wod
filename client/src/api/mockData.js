@@ -10,7 +10,7 @@ export const initialSettings = {
   heroVideoUrl: '/videos/trailer.mp4',
   heroImageUrl: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1920&q=80',
   aboutBio:
-    "Welcome to the world of Naju Rider — where courage meets passion and every ride is a test of skill, balance, and fearless determination.\n\nSince 2016, I have been pursuing my passion for Well of Death (Maut Ka Kuan) riding, a thrilling and traditional Indian stunt performance that demands extraordinary focus, precision, and confidence. Riding on nearly vertical wooden walls, I aim to entertain audiences and keep this incredible form of entertainment alive.\n\nFor me, riding is more than just a performance — it's a journey built on dedication, hard work, and the courage to push beyond limits.\n\nThrough this website, I invite you to explore my journey, watch exciting riding videos, discover memorable moments from live shows, and experience the thrill of the Well of Death.\n\nMy Journey. My Passion. My Identity.",
+    'Welcome to the world of Naju Rider — where courage meets passion and every ride is a test of skill, balance, and fearless determination. Since 2016, I have been pursuing my passion for Well of Death (Maut Ka Kuan) riding, a thrilling and traditional Indian stunt performance that demands extraordinary focus, precision, and confidence.',
   statsYearsExperience: 10,
   statsArenaShows: 650,
   statsWallIncline: '88°',

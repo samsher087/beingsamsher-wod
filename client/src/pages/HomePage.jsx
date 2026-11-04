@@ -63,13 +63,13 @@ export const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Visual Column */}
-            <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-900/90 backdrop-blur-xl card-top-line flex flex-col">
+            <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-900/90 backdrop-blur-xl card-top-line flex flex-col group">
               {/* Image Container */}
               <div className="relative aspect-[16/9] overflow-hidden bg-slate-950">
                 <img
                   src="/images/naju_rider_banner.jpg"
                   alt="Naju Rider Maut Ka Kuan Stunt Team"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
                 <span className="absolute top-4 left-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-slate-950/80 backdrop-blur-md text-amber-300 border border-amber-400/30 shadow-md">
@@ -84,8 +84,8 @@ export const HomePage = () => {
                     <Award className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
                   </div>
                   <div>
-                    <h4 className="text-sm sm:text-base font-bold text-white">National Stunt Pioneer</h4>
-                    <p className="text-xs text-cyan-400/90 font-medium">14+ Years Undefeated Safety & Show Record</p>
+                    <h4 className="text-sm sm:text-base font-bold text-white">Naju Rider</h4>
+                    <p className="text-xs text-cyan-400/90 font-medium">10+ Years Undefeated Safety & Show Record</p>
                   </div>
                 </div>
                 <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold uppercase tracking-wider shrink-0">
@@ -102,14 +102,24 @@ export const HomePage = () => {
                 The Legend of Maut Ka Kuan
               </div>
 
-              <h2 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight">
+              <h2 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight leading-tight">
                 Mastering the 30-Foot <span className="text-gradient-fire">Wooden Cylinder</span>
               </h2>
 
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-light">
                 {settings.aboutBio ||
-                  'For over 14 uninterrupted years, Naju Rider has thrilled audiences across India with jaw-dropping vertical wall climbs, high-speed hands-free maneuvers, and synchronized team performances inside the legendary Well of Death (Maut Ka Kuan).'}
+                  'Welcome to the world of Naju Rider — where courage meets passion and every ride is a test of skill, balance, and fearless determination. Since 2016, I have been pursuing my passion for Well of Death (Maut Ka Kuan) riding, a thrilling and traditional Indian stunt performance that demands extraordinary focus, precision, and confidence.'}
               </p>
+
+              <div className="pt-2">
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900/90 hover:bg-slate-850 text-cyan-400 hover:text-cyan-300 border border-slate-700/80 hover:border-cyan-500/50 text-xs sm:text-sm font-bold tracking-wider uppercase transition-all shadow-md group"
+                >
+                  <span>Explore Rider Journey</span>
+                  <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>

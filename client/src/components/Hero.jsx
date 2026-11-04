@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
 import { apiClient } from '../api/client';
-import { DirtyTitle } from './DirtyTitle';
 import {
   Play,
   ChevronLeft,
@@ -84,26 +83,27 @@ export const Hero = () => {
           <div
             key={slide._id || slide.imageUrl || idx}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              idx === currentSlide ? 'opacity-85' : 'opacity-0 pointer-events-none'
+              idx === currentSlide ? 'opacity-55' : 'opacity-0 pointer-events-none'
             }`}
           >
             <img
               src={slide.imageUrl}
               alt={slide.title || 'Well of Death Stunt'}
-              className={`w-full h-full object-cover filter brightness-105 contrast-105 transition-transform duration-7000 ease-out ${
+              className={`w-full h-full object-cover filter brightness-95 contrast-110 transition-transform duration-7000 ease-out ${
                 idx === currentSlide ? 'scale-105' : 'scale-100'
               }`}
             />
           </div>
         ))}
 
-        {/* Cinematic Overlays (Lighter & more vivid to keep stunt arena clearly visible) */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/15 to-slate-950/50" />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/30 via-transparent to-slate-950/30" />
-        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-slate-950/40" />
+        {/* SoftDeals Slate Cinematic Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-transparent to-slate-950/70" />
+        <div className="absolute inset-0 bg-radial from-transparent via-slate-950/40 to-slate-950/90" />
 
-        {/* Subtle Ambient Glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-tr from-amber-600/10 via-teal-500/10 to-transparent blur-[140px] pointer-events-none" />
+        {/* Ambient Cyan/Teal Glow Orbs */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-cyan-600/20 via-teal-500/15 to-emerald-500/10 blur-[130px] pointer-events-none" />
+        <div className="absolute bottom-10 left-10 w-96 h-96 bg-cyan-500/10 blur-[120px] pointer-events-none" />
       </div>
 
       {/* Slideshow Arrow Left */}
@@ -127,20 +127,20 @@ export const Hero = () => {
       </button>
 
       {/* Hero Core Title & Headline */}
-      <div className="relative z-10 my-auto w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 text-center pt-4">
-        {/* Dirty Style Headline */}
-        <DirtyTitle
-          text={
-            settings.heroHeadline && settings.heroHeadline !== 'Experience the Thrill of Well of Death'
+      <div className="relative z-10 my-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-8">
+        {/* Headline */}
+        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tight max-w-5xl mx-auto leading-[1.05] drop-shadow-2xl">
+          <span className="text-gradient-fire">
+            {settings.heroHeadline && settings.heroHeadline !== 'Experience the Thrill of Well of Death'
               ? settings.heroHeadline
-              : 'WELL OF DEATH'
-          }
-        />
+              : 'Well of Death'}
+          </span>
+        </h1>
 
         {/* Subheadline (Optional CMS Text) */}
         {settings.heroSubheadline &&
           settings.heroSubheadline !== 'Witness the Courage. Learn the Discipline. Respect the Risk.' && (
-            <p className="mt-4 text-base sm:text-xl md:text-2xl text-slate-200 font-light max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
+            <p className="mt-6 text-base sm:text-xl md:text-2xl text-slate-200 font-light max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
               {settings.heroSubheadline}
             </p>
           )}
