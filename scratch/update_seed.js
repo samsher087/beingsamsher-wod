@@ -101,3 +101,4 @@ if (normalized.includes(normalizedTarget)) {
 } else {
   console.log('ERROR: Target string not found in normalized content');
 }
+
