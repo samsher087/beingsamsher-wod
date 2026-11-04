@@ -17,7 +17,40 @@ const loadStorage = (key, fallback) => {
       localStorage.setItem(key, JSON.stringify(fallback));
       return fallback;
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+
+    // Merge any missing seed items into existing storage so other browsers get all initial records
+    if (key === 'wod_applications' && Array.isArray(parsed) && Array.isArray(fallback)) {
+      const existingIds = new Set(parsed.map((item) => item._id));
+      const missing = fallback.filter((item) => !existingIds.has(item._id));
+      if (missing.length > 0) {
+        const merged = [...parsed, ...missing];
+        localStorage.setItem(key, JSON.stringify(merged));
+        return merged;
+      }
+    }
+
+    if (key === 'wod_users' && Array.isArray(parsed) && Array.isArray(fallback)) {
+      const existingEmails = new Set(parsed.map((item) => item.email?.toLowerCase()));
+      const missing = fallback.filter((item) => !existingEmails.has(item.email?.toLowerCase()));
+      if (missing.length > 0) {
+        const merged = [...parsed, ...missing];
+        localStorage.setItem(key, JSON.stringify(merged));
+        return merged;
+      }
+    }
+
+    if (key === 'wod_payments' && Array.isArray(parsed) && Array.isArray(fallback)) {
+      const existingIds = new Set(parsed.map((item) => item._id || item.transactionId));
+      const missing = fallback.filter((item) => !existingIds.has(item._id || item.transactionId));
+      if (missing.length > 0) {
+        const merged = [...parsed, ...missing];
+        localStorage.setItem(key, JSON.stringify(merged));
+        return merged;
+      }
+    }
+
+    return parsed;
   } catch {
     return fallback;
   }
@@ -693,6 +726,43 @@ const mockRouter = async (method, endpoint, body) => {
 
   if (path === '/admin/audit-logs' && method === 'GET') {
     return { success: true, logs: store.auditLogs };
+  }
+
+  if (path === '/admin/export-platform-data' && method === 'GET') {
+    return {
+      success: true,
+      data: {
+        exportedAt: new Date().toISOString(),
+        applications: store.applications,
+        users: store.users,
+        payments: store.payments,
+        settings: store.settings,
+      },
+    };
+  }
+
+  if (path === '/admin/import-platform-data' && method === 'POST') {
+    const { data } = body || {};
+    if (data) {
+      if (Array.isArray(data.applications)) {
+        store.applications = data.applications;
+        saveStorage('wod_applications', store.applications);
+      }
+      if (Array.isArray(data.users)) {
+        store.users = data.users;
+        saveStorage('wod_users', store.users);
+      }
+      if (Array.isArray(data.payments)) {
+        store.payments = data.payments;
+        saveStorage('wod_payments', store.payments);
+      }
+      if (data.settings && typeof data.settings === 'object') {
+        store.settings = { ...store.settings, ...data.settings };
+        saveStorage('wod_settings', store.settings);
+      }
+      return { success: true, message: 'Platform data imported and synced successfully!' };
+    }
+    throw new Error('Invalid platform backup data');
   }
 
   // Fallback for unhandled endpoints

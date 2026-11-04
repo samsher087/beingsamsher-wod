@@ -226,6 +226,42 @@ export const AdminDashboardPage = () => {
     }
   };
 
+  // Export platform data (JSON) to sync across browsers/devices
+  const handleExportData = async () => {
+    try {
+      const res = await apiClient.get('/admin/export-platform-data');
+      if (res?.data) {
+        const blob = new Blob([JSON.stringify(res.data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `wod_platform_data_${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        setMsg({ type: 'success', text: 'Platform data exported! Use Import Data in another browser to sync.' });
+      }
+    } catch (err) {
+      setMsg({ type: 'error', text: 'Failed to export data: ' + err.message });
+    }
+  };
+
+  // Import platform data (JSON)
+  const handleImportData = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      const res = await apiClient.post('/admin/import-platform-data', { data: parsed });
+      setMsg({ type: 'success', text: res.message || 'Platform data imported and synced successfully!' });
+      loadAllAdminData();
+    } catch (err) {
+      setMsg({ type: 'error', text: 'Failed to import data: ' + err.message });
+    } finally {
+      e.target.value = '';
+    }
+  };
+
   const handlePhotoFileChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -467,13 +503,37 @@ export const AdminDashboardPage = () => {
             </div>
           </div>
 
-          <button
-            onClick={loadAllAdminData}
-            className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 font-bold text-xs flex items-center gap-2 border border-white/10 transition-colors"
-          >
-            <RefreshCw className="w-3.5 h-3.5" />
-            <span>Refresh All Data</span>
-          </button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              type="button"
+              onClick={handleExportData}
+              className="px-3.5 py-2 rounded-xl bg-cyan-950/40 hover:bg-cyan-950/70 text-cyan-300 font-bold text-xs flex items-center gap-1.5 border border-cyan-500/30 transition-colors cursor-pointer"
+              title="Download backup file to sync with another browser or device"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Export Sync Data</span>
+            </button>
+
+            <label className="px-3.5 py-2 rounded-xl bg-emerald-950/40 hover:bg-emerald-950/70 text-emerald-300 font-bold text-xs flex items-center gap-1.5 border border-emerald-500/30 transition-colors cursor-pointer">
+              <Upload className="w-3.5 h-3.5" />
+              <span>Import Sync Data</span>
+              <input
+                type="file"
+                accept=".json"
+                className="hidden"
+                onChange={handleImportData}
+              />
+            </label>
+
+            <button
+              type="button"
+              onClick={loadAllAdminData}
+              className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 font-bold text-xs flex items-center gap-2 border border-white/10 transition-colors cursor-pointer"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>Refresh</span>
+            </button>
+          </div>
         </div>
 
         {/* Global Toast Notification */}

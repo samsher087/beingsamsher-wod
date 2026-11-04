@@ -75,7 +75,6 @@ export const VideosPage = () => {
             </h1>
 
           </div>
-
           <a
             href={settings.socialLinks?.instagram || 'https://www.instagram.com/naju_rider_18/'}
             target="_blank"
