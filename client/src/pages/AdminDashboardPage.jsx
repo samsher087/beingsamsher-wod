@@ -71,6 +71,8 @@ export const AdminDashboardPage = () => {
 
   // CMS Settings state
   const [cmsForm, setCmsForm] = useState({ ...settings });
+  const [cmsSavedPopup, setCmsSavedPopup] = useState(false);
+  const [cmsSaving, setCmsSaving] = useState(false);
 
   // Gallery & Video Management states
   const [galleryItems, setGalleryItems] = useState([]);
@@ -210,13 +212,17 @@ export const AdminDashboardPage = () => {
   // Save Website CMS settings
   const handleSaveCmsSettings = async (e) => {
     e.preventDefault();
+    setCmsSaving(true);
     try {
       const res = await apiClient.put('/settings/admin', cmsForm);
-      setMsg({ type: 'success', text: res.message });
+      setMsg({ type: 'success', text: res.message || 'CMS configuration saved successfully!' });
       refreshSettings();
       loadAllAdminData();
+      setCmsSavedPopup(true);
     } catch (err) {
       setMsg({ type: 'error', text: err.message });
+    } finally {
+      setCmsSaving(false);
     }
   };
 
@@ -1144,9 +1150,17 @@ export const AdminDashboardPage = () => {
 
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-950/50 hover:opacity-95 transition-all mt-4"
+                disabled={cmsSaving}
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-950/50 hover:opacity-95 transition-all mt-4 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
               >
-                Save CMS Configuration
+                {cmsSaving ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Saving CMS Settings...</span>
+                  </>
+                ) : (
+                  <span>Save CMS Configuration</span>
+                )}
               </button>
             </form>
           </div>
@@ -1770,6 +1784,42 @@ export const AdminDashboardPage = () => {
                   Close
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CMS Saved Success Popup Modal */}
+      {cmsSavedPopup && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setCmsSavedPopup(false)}
+        >
+          <div
+            className="bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl space-y-4 card-top-line animate-in zoom-in-95 duration-150"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-16 h-16 rounded-2xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/10">
+              <CheckCircle2 className="w-9 h-9" />
+            </div>
+
+            <div className="space-y-1.5">
+              <h3 className="text-xl font-black text-white uppercase tracking-tight">
+                Successfully Saved
+              </h3>
+              <p className="text-xs text-zinc-300 leading-relaxed">
+                Website CMS configuration and site settings have been updated and saved successfully!
+              </p>
+            </div>
+
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => setCmsSavedPopup(false)}
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-950/60 transition-all cursor-pointer"
+              >
+                OK
+              </button>
             </div>
           </div>
         </div>
