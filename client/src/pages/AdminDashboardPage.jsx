@@ -56,7 +56,7 @@ export const AdminDashboardPage = () => {
   const [adminActionModal, setAdminActionModal] = useState(null); // 'approve', 'reject', 'details'
   const [rejectionReason, setRejectionReason] = useState('');
   const [adminNotes, setAdminNotes] = useState('');
-  const [customFee, setCustomFee] = useState(9999);
+  const [customFee, setCustomFee] = useState(4999);
 
   // Users tab state
   const [usersList, setUsersList] = useState([]);
@@ -167,7 +167,7 @@ export const AdminDashboardPage = () => {
     try {
       const res = await apiClient.put(`/applications/admin/${appId}/status`, {
         status: targetStatus,
-        trainingFee: Number(customFee) || 9999,
+        trainingFee: Number(customFee) || 4999,
         adminNotes,
       });
       setMsg({ type: 'success', text: res.message });
@@ -539,11 +539,10 @@ export const AdminDashboardPage = () => {
         {/* Global Toast Notification */}
         {msg.text && (
           <div
-            className={`mb-6 p-4 rounded-xl text-xs flex items-center justify-between gap-3 ${
-              msg.type === 'success'
-                ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-300'
-                : 'bg-red-500/15 border border-red-500/30 text-red-300'
-            }`}
+            className={`mb-6 p-4 rounded-xl text-xs flex items-center justify-between gap-3 ${msg.type === 'success'
+              ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-300'
+              : 'bg-red-500/15 border border-red-500/30 text-red-300'
+              }`}
           >
             <div className="flex items-center gap-2">
               {msg.type === 'success' ? (
@@ -578,11 +577,10 @@ export const AdminDashboardPage = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${
-                  active
-                    ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
-                    : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
-                }`}
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${active
+                  ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
+                  : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
+                  }`}
               >
                 <Icon className="w-4 h-4" />
                 <span>{tab.name}</span>
@@ -697,7 +695,7 @@ export const AdminDashboardPage = () => {
                           <button
                             onClick={() => {
                               setSelectedApplication(app);
-                              setCustomFee(app.trainingFee || 9999);
+                              setCustomFee(app.trainingFee || 4999);
                               setAdminNotes(app.adminNotes || '');
                               setAdminActionModal('details');
                             }}
@@ -726,11 +724,10 @@ export const AdminDashboardPage = () => {
                     <button
                       key={st}
                       onClick={() => setAppFilterStatus(st)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
-                        appFilterStatus === st
-                          ? 'bg-cyan-600 text-white'
-                          : 'bg-white/5 text-zinc-400 hover:text-white'
-                      }`}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${appFilterStatus === st
+                        ? 'bg-cyan-600 text-white'
+                        : 'bg-white/5 text-zinc-400 hover:text-white'
+                        }`}
                     >
                       {st}
                     </button>
@@ -904,22 +901,20 @@ export const AdminDashboardPage = () => {
                           <td className="py-4 text-zinc-300">{u.phone}</td>
                           <td className="py-4">
                             <span
-                              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                                u.role === 'admin'
-                                  ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-                                  : 'bg-zinc-800 text-zinc-300'
-                              }`}
+                              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${u.role === 'admin'
+                                ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                                : 'bg-zinc-800 text-zinc-300'
+                                }`}
                             >
                               {u.role}
                             </span>
                           </td>
                           <td className="py-4">
                             <span
-                              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                                u.status === 'active'
-                                  ? 'bg-emerald-500/20 text-emerald-400'
-                                  : 'bg-red-500/20 text-red-400'
-                              }`}
+                              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${u.status === 'active'
+                                ? 'bg-emerald-500/20 text-emerald-400'
+                                : 'bg-red-500/20 text-red-400'
+                                }`}
                             >
                               {u.status}
                             </span>
@@ -931,11 +926,10 @@ export const AdminDashboardPage = () => {
                             {u.role !== 'admin' && (
                               <button
                                 onClick={() => handleToggleUserStatus(u._id)}
-                                className={`px-3 py-1 rounded-lg text-xs font-semibold ${
-                                  u.status === 'active'
-                                    ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
-                                    : 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30'
-                                }`}
+                                className={`px-3 py-1 rounded-lg text-xs font-semibold ${u.status === 'active'
+                                  ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
+                                  : 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30'
+                                  }`}
                               >
                                 {u.status === 'active' ? 'Suspend' : 'Activate'}
                               </button>
@@ -1000,11 +994,10 @@ export const AdminDashboardPage = () => {
                         <td className="py-4 text-zinc-400">{p.paymentMethod}</td>
                         <td className="py-4">
                           <span
-                            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                              p.status === 'successful'
-                                ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                : 'bg-yellow-500/15 text-yellow-400'
-                            }`}
+                            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${p.status === 'successful'
+                              ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                              : 'bg-yellow-500/15 text-yellow-400'
+                              }`}
                           >
                             {p.status}
                           </span>
@@ -1281,11 +1274,10 @@ export const AdminDashboardPage = () => {
                       <button
                         type="button"
                         onClick={() => setPhotoSourceType('file')}
-                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${
-                          photoSourceType === 'file'
-                            ? 'bg-cyan-500 text-black shadow-sm'
-                            : 'text-zinc-400 hover:text-white'
-                        }`}
+                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${photoSourceType === 'file'
+                          ? 'bg-cyan-500 text-black shadow-sm'
+                          : 'text-zinc-400 hover:text-white'
+                          }`}
                         title="Browse local photo file"
                       >
                         📁 Browse
@@ -1293,11 +1285,10 @@ export const AdminDashboardPage = () => {
                       <button
                         type="button"
                         onClick={() => setPhotoSourceType('url')}
-                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${
-                          photoSourceType === 'url'
-                            ? 'bg-cyan-500 text-black shadow-sm'
-                            : 'text-zinc-400 hover:text-white'
-                        }`}
+                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${photoSourceType === 'url'
+                          ? 'bg-cyan-500 text-black shadow-sm'
+                          : 'text-zinc-400 hover:text-white'
+                          }`}
                         title="Enter direct image URL"
                       >
                         🔗 URL
@@ -1503,22 +1494,20 @@ export const AdminDashboardPage = () => {
                       <button
                         type="button"
                         onClick={() => setVideoThumbSourceType('file')}
-                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${
-                          videoThumbSourceType === 'file'
-                            ? 'bg-cyan-500 text-black shadow-sm'
-                            : 'text-zinc-400 hover:text-white'
-                        }`}
+                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${videoThumbSourceType === 'file'
+                          ? 'bg-cyan-500 text-black shadow-sm'
+                          : 'text-zinc-400 hover:text-white'
+                          }`}
                       >
                         📁 Browse
                       </button>
                       <button
                         type="button"
                         onClick={() => setVideoThumbSourceType('url')}
-                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${
-                          videoThumbSourceType === 'url'
-                            ? 'bg-cyan-500 text-black shadow-sm'
-                            : 'text-zinc-400 hover:text-white'
-                        }`}
+                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-colors ${videoThumbSourceType === 'url'
+                          ? 'bg-cyan-500 text-black shadow-sm'
+                          : 'text-zinc-400 hover:text-white'
+                          }`}
                       >
                         🔗 URL
                       </button>

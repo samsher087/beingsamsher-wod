@@ -18,7 +18,7 @@ export const SettingsProvider = ({ children }) => {
     statsArenaShows: 650,
     statsWallIncline: '88°',
     statsSafetyRecord: '100% Zero Severe Injury',
-    trainingFee: 9999,
+    trainingFee: 4999,
     contactEmail: 'contact@najurider.com',
     contactPhone: '+91 7488405975',
     contactWhatsApp: '+917488405975',

@@ -91,7 +91,7 @@ async function runTest() {
     },
     body: JSON.stringify({
       status: 'Approved — Payment Required',
-      trainingFee: 9999,
+      trainingFee: 4999,
       adminNotes: 'Cleared for high-wall intake batch 2026.',
     }),
   }).then((r) => r.json());

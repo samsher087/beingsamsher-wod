@@ -135,7 +135,7 @@ node test_e2e_flow.js
 3. User submits training application with age, experience, reason, emergency contact, and signed waiver.
 4. Application appears in Admin dashboard under `Pending Approval`.
 5. Admin reviews and approves application (status -> `Approved — Payment Required`).
-6. User sees approved tuition fee (₹9,999) and payment CTA.
+6. User sees approved tuition fee (₹4,999) and payment CTA.
 7. Verification that course is locked (403 Forbidden) prior to payment.
 8. Failed / tampered payment signature test (rejected with 400 Bad Request, access remains locked).
 9. User completes Razorpay payment and backend validates signature.

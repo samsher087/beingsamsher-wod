@@ -22,7 +22,7 @@ import {
 export const RazorpayPaymentModal = ({
   isOpen,
   onClose,
-  trainingFee = 9999,
+  trainingFee = 4999,
   existingRefNo = '',
   applicationId = '',
   onPaymentSuccess,
@@ -69,8 +69,8 @@ export const RazorpayPaymentModal = ({
           selectedMethod === 'UPI'
             ? 'UPI / QR Transfer'
             : selectedMethod === 'Bank'
-            ? 'Bank Transfer (IMPS/NEFT)'
-            : 'Online Payment Gateway',
+              ? 'Bank Transfer (IMPS/NEFT)'
+              : 'Online Payment Gateway',
         amount: trainingFee,
         paymentNotes: paymentNotes.trim(),
       });
@@ -158,11 +158,10 @@ export const RazorpayPaymentModal = ({
               <button
                 type="button"
                 onClick={() => setSelectedMethod('UPI')}
-                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${
-                  selectedMethod === 'UPI'
+                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${selectedMethod === 'UPI'
                     ? 'border-cyan-500 bg-cyan-500/15 text-cyan-300 shadow-md'
                     : 'border-slate-800 bg-slate-950 text-slate-400 hover:bg-slate-800'
-                }`}
+                  }`}
               >
                 <Smartphone className="w-4 h-4" />
                 UPI / QR Code
@@ -170,11 +169,10 @@ export const RazorpayPaymentModal = ({
               <button
                 type="button"
                 onClick={() => setSelectedMethod('Bank')}
-                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${
-                  selectedMethod === 'Bank'
+                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${selectedMethod === 'Bank'
                     ? 'border-cyan-500 bg-cyan-500/15 text-cyan-300 shadow-md'
                     : 'border-slate-800 bg-slate-950 text-slate-400 hover:bg-slate-800'
-                }`}
+                  }`}
               >
                 <Building className="w-4 h-4" />
                 Bank Transfer
@@ -182,11 +180,10 @@ export const RazorpayPaymentModal = ({
               <button
                 type="button"
                 onClick={() => setSelectedMethod('Gateway')}
-                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${
-                  selectedMethod === 'Gateway'
+                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${selectedMethod === 'Gateway'
                     ? 'border-cyan-500 bg-cyan-500/15 text-cyan-300 shadow-md'
                     : 'border-slate-800 bg-slate-950 text-slate-400 hover:bg-slate-800'
-                }`}
+                  }`}
               >
                 <CreditCard className="w-4 h-4" />
                 Online / Card

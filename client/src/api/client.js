@@ -198,34 +198,34 @@ const mockRouter = async (method, endpoint, body) => {
         const linkedApp = seedApp
           ? { ...seedApp, user: { _id: user._id, name: user.name, email: user.email, phone: user.phone } }
           : {
-              _id: `app_${Date.now()}`,
-              user: {
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                phone: user.phone || '',
-              },
-              fullName: user.name,
+            _id: `app_${Date.now()}`,
+            user: {
+              _id: user._id,
+              name: user.name,
               email: user.email,
               phone: user.phone || '',
-              age: 22,
-              city: user.city || 'India',
-              state: 'India',
-              experienceLevel: 'Intermediate',
-              ridingExperienceYears: 2,
-              ridingBackground: 'Registered Trainee Candidate',
-              reason: 'Passionate about Well of Death stunt riding under Master Naju.',
-              emergencyContactName: 'Family Contact',
-              emergencyContactPhone: user.phone || '',
-              paymentRefNo: '',
-              paymentAmount: 9999,
-              trainingFee: 9999,
-              paymentMethod: '',
-              paymentStatus: 'unpaid',
-              status: 'Application Submitted',
-              courseAccessGranted: false,
-              appliedAt: new Date().toISOString(),
-            };
+            },
+            fullName: user.name,
+            email: user.email,
+            phone: user.phone || '',
+            age: 22,
+            city: user.city || 'India',
+            state: 'India',
+            experienceLevel: 'Intermediate',
+            ridingExperienceYears: 2,
+            ridingBackground: 'Registered Trainee Candidate',
+            reason: 'Passionate about Well of Death stunt riding under Master Naju.',
+            emergencyContactName: 'Family Contact',
+            emergencyContactPhone: user.phone || '',
+            paymentRefNo: '',
+            paymentAmount: 4999,
+            trainingFee: 4999,
+            paymentMethod: '',
+            paymentStatus: 'unpaid',
+            status: 'Application Submitted',
+            courseAccessGranted: false,
+            appliedAt: new Date().toISOString(),
+          };
         store.applications.unshift(linkedApp);
         saveStorage('wod_applications', store.applications);
       }
@@ -297,8 +297,8 @@ const mockRouter = async (method, endpoint, body) => {
           emergencyContactName: 'Family Contact',
           emergencyContactPhone: (phone || '').trim(),
           paymentRefNo: '',
-          paymentAmount: 9999,
-          trainingFee: 9999,
+          paymentAmount: 4999,
+          trainingFee: 4999,
           paymentMethod: '',
           paymentStatus: 'unpaid',
           status: 'Application Submitted',
@@ -351,8 +351,8 @@ const mockRouter = async (method, endpoint, body) => {
       emergencyContactName: 'Family Contact',
       emergencyContactPhone: (phone || '').trim(),
       paymentRefNo: '',
-      paymentAmount: 9999,
-      trainingFee: 9999,
+      paymentAmount: 4999,
+      trainingFee: 4999,
       paymentMethod: '',
       paymentStatus: 'unpaid',
       status: 'Application Submitted',
@@ -753,7 +753,7 @@ const mockRouter = async (method, endpoint, body) => {
       app.paymentRefNo = ref;
       app.paymentReference = ref;
       app.paymentMethod = paymentMethod || 'UPI / QR Transfer';
-      app.paymentAmount = amount || 9999;
+      app.paymentAmount = amount || 4999;
       app.paymentNotes = paymentNotes || '';
       app.paymentStatus = 'processing';
       app.status = 'Payment Processing — Waiting for Admin Approval';
@@ -929,10 +929,71 @@ const mockRouter = async (method, endpoint, body) => {
   return { success: true, message: 'OK', data: {} };
 };
 
-// Exported apiClient object matching exact existing interface
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
+
+// Exported apiClient object connecting to live MongoDB Atlas with smart fallback
 export const apiClient = {
   async request(endpoint, options = {}) {
     const method = (options.method || 'GET').toUpperCase();
+
+    // 1. Attempt Live MongoDB Atlas API
+    try {
+      const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+      const url = cleanEndpoint.startsWith('http')
+        ? cleanEndpoint
+        : `${BASE_URL.replace(/\/$/, '')}${cleanEndpoint}`;
+
+      const token = localStorage.getItem('wod_token');
+      const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
+
+      const headers = {
+        ...(!isFormData && { 'Content-Type': 'application/json' }),
+        ...options.headers,
+      };
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const config = {
+        ...options,
+        method,
+        headers,
+      };
+
+      if (options.body && typeof options.body === 'object' && !isFormData) {
+        config.body = JSON.stringify(options.body);
+      }
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 6000);
+      config.signal = controller.signal;
+
+      const response = await fetch(url, config);
+      clearTimeout(timeoutId);
+
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        const data = await response.json();
+        if (response.ok) {
+          return data;
+        }
+        if (response.status < 500 && data?.message) {
+          const err = new Error(data.message);
+          err.status = response.status;
+          throw err;
+        }
+      }
+    } catch (err) {
+      if (err.status && err.status < 500) {
+        // Real validation / auth error from MongoDB
+        throw err;
+      }
+      // Live MongoDB backend offline or waiting for Atlas IP whitelist, fallback to in-browser storage
+      console.warn('[MongoDB Atlas Notice]: Live API call to ' + endpoint + ' was unavailable (' + err.message + '). Using local synced storage fallback.');
+    }
+
+    // 2. Fallback to in-browser synced storage
     return mockRouter(method, endpoint, options.body);
   },
 
