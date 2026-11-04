@@ -22,7 +22,8 @@ const loadStorage = (key, fallback) => {
     // Merge any missing seed items into existing storage so other browsers get all initial records
     if (key === 'wod_applications' && Array.isArray(parsed) && Array.isArray(fallback)) {
       const existingIds = new Set(parsed.map((item) => item._id));
-      const missing = fallback.filter((item) => !existingIds.has(item._id));
+      const existingEmails = new Set(parsed.map((item) => item.email?.toLowerCase()).filter(Boolean));
+      const missing = fallback.filter((item) => !existingIds.has(item._id) && !existingEmails.has(item.email?.toLowerCase()));
       if (missing.length > 0) {
         const merged = [...parsed, ...missing];
         localStorage.setItem(key, JSON.stringify(merged));
@@ -187,6 +188,47 @@ const mockRouter = async (method, endpoint, body) => {
         user.password = cleanPass || password || 'Password@123';
         saveStorage('wod_users', store.users);
       }
+
+      // Ensure candidate application exists and is tracked across browsers
+      const existingApp = store.applications.find(
+        (a) => (a.email || '').toLowerCase() === cleanEmail || (a.user && a.user._id === user._id)
+      );
+      if (!existingApp) {
+        const seedApp = initialApplications.find((a) => (a.email || '').toLowerCase() === cleanEmail);
+        const linkedApp = seedApp
+          ? { ...seedApp, user: { _id: user._id, name: user.name, email: user.email, phone: user.phone } }
+          : {
+              _id: `app_${Date.now()}`,
+              user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone || '',
+              },
+              fullName: user.name,
+              email: user.email,
+              phone: user.phone || '',
+              age: 22,
+              city: user.city || 'India',
+              state: 'India',
+              experienceLevel: 'Intermediate',
+              ridingExperienceYears: 2,
+              ridingBackground: 'Registered Trainee Candidate',
+              reason: 'Passionate about Well of Death stunt riding under Master Naju.',
+              emergencyContactName: 'Family Contact',
+              emergencyContactPhone: user.phone || '',
+              paymentRefNo: '',
+              paymentAmount: 9999,
+              trainingFee: 9999,
+              paymentMethod: '',
+              paymentStatus: 'unpaid',
+              status: 'Application Submitted',
+              courseAccessGranted: false,
+              appliedAt: new Date().toISOString(),
+            };
+        store.applications.unshift(linkedApp);
+        saveStorage('wod_applications', store.applications);
+      }
     } else {
       // Strictly enforce Admin password
       if (user.password !== password && user.password !== cleanPass) {
@@ -227,6 +269,46 @@ const mockRouter = async (method, endpoint, body) => {
       if (phone) exists.phone = phone.trim();
       if (city) exists.city = city.trim();
       saveStorage('wod_users', store.users);
+
+      // Ensure application is also present for existing user
+      const existingApp = store.applications.find(
+        (a) => (a.email || '').toLowerCase() === cleanEmail
+      );
+      if (!existingApp) {
+        const seedApp = initialApplications.find((a) => (a.email || '').toLowerCase() === cleanEmail);
+        const linkedApp = seedApp || {
+          _id: `app_${Date.now()}`,
+          user: {
+            _id: exists._id,
+            name: cleanName,
+            email: cleanEmail,
+            phone: (phone || '').trim(),
+          },
+          fullName: cleanName,
+          email: cleanEmail,
+          phone: (phone || '').trim(),
+          age: 22,
+          city: (city || '').trim() || 'India',
+          state: 'India',
+          experienceLevel: 'Beginner / Intermediate',
+          ridingExperienceYears: 1,
+          ridingBackground: 'Enrolled via Online Registration',
+          reason: 'Passionate about Well of Death stunt riding under Master Naju.',
+          emergencyContactName: 'Family Contact',
+          emergencyContactPhone: (phone || '').trim(),
+          paymentRefNo: '',
+          paymentAmount: 9999,
+          trainingFee: 9999,
+          paymentMethod: '',
+          paymentStatus: 'unpaid',
+          status: 'Application Submitted',
+          courseAccessGranted: false,
+          appliedAt: new Date().toISOString(),
+        };
+        store.applications.unshift(linkedApp);
+        saveStorage('wod_applications', store.applications);
+      }
+
       const { password: _, ...safeUser } = exists;
       const token = `wod_token_${exists._id}_${Date.now()}`;
       return { success: true, message: 'Account ready!', token, user: safeUser };
@@ -246,6 +328,39 @@ const mockRouter = async (method, endpoint, body) => {
 
     store.users.push(newUser);
     saveStorage('wod_users', store.users);
+
+    // Automatically initialize linked candidate application so registration is immediately trackable in admin
+    const newApp = {
+      _id: `app_${Date.now()}`,
+      user: {
+        _id: newUser._id,
+        name: cleanName,
+        email: cleanEmail,
+        phone: (phone || '').trim(),
+      },
+      fullName: cleanName,
+      email: cleanEmail,
+      phone: (phone || '').trim(),
+      age: 22,
+      city: (city || '').trim() || 'India',
+      state: 'India',
+      experienceLevel: 'Beginner / Intermediate',
+      ridingExperienceYears: 1,
+      ridingBackground: 'Enrolled via Online Registration',
+      reason: 'Passionate about Well of Death stunt riding under Master Naju.',
+      emergencyContactName: 'Family Contact',
+      emergencyContactPhone: (phone || '').trim(),
+      paymentRefNo: '',
+      paymentAmount: 9999,
+      trainingFee: 9999,
+      paymentMethod: '',
+      paymentStatus: 'unpaid',
+      status: 'Application Submitted',
+      courseAccessGranted: false,
+      appliedAt: new Date().toISOString(),
+    };
+    store.applications.unshift(newApp);
+    saveStorage('wod_applications', store.applications);
 
     const { password: _, ...safeUser } = newUser;
     const token = `wod_token_${newUser._id}_${Date.now()}`;

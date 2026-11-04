@@ -53,6 +53,12 @@ export const LoginPage = () => {
     if (type === 'admin') {
       setEmail('admin@samsher-wod.com');
       setPassword('AdminPassword@123');
+    } else if (type === 'arman') {
+      setEmail('arman@gmail.com');
+      setPassword('Password@123');
+    } else if (type === 'aditya') {
+      setEmail('aditya@gmail.com');
+      setPassword('Password@123');
     } else {
       setEmail('sushil@gmail.com');
       setPassword('Password@123');
@@ -93,22 +99,38 @@ export const LoginPage = () => {
           <span className="text-slate-400 block font-semibold text-[11px] uppercase tracking-wider">
             Quick Fill Demo Credentials:
           </span>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <button
               type="button"
               onClick={() => fillCredentials('admin')}
-              className="py-1.5 px-3 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-300 hover:bg-rose-900/40 text-left transition-colors flex items-center gap-1.5"
+              className="py-1.5 px-2.5 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-300 hover:bg-rose-900/40 text-left transition-colors flex items-center gap-1.5 text-xs"
             >
-              <Shield className="w-3.5 h-3.5 text-rose-400" />
-              <span>Admin Demo</span>
+              <Shield className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+              <span className="truncate">Admin</span>
             </button>
             <button
               type="button"
-              onClick={() => fillCredentials('trainee')}
-              className="py-1.5 px-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-900/40 text-left transition-colors flex items-center gap-1.5"
+              onClick={() => fillCredentials('sushil')}
+              className="py-1.5 px-2.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-900/40 text-left transition-colors flex items-center gap-1.5 text-xs"
             >
-              <User className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Trainee Demo</span>
+              <User className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="truncate">Sushil</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => fillCredentials('arman')}
+              className="py-1.5 px-2.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-900/40 text-left transition-colors flex items-center gap-1.5 text-xs"
+            >
+              <User className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="truncate">Arman</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => fillCredentials('aditya')}
+              className="py-1.5 px-2.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-900/40 text-left transition-colors flex items-center gap-1.5 text-xs"
+            >
+              <User className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="truncate">Aditya</span>
             </button>
           </div>
         </div>
