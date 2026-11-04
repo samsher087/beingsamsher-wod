@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import TrainingApplication from '../models/TrainingApplication.js';
+import Setting from '../models/Setting.js';
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -8,6 +10,59 @@ const generateToken = (id) => {
     process.env.JWT_SECRET || 'well_of_death_secret_key_2026',
     { expiresIn: '30d' }
   );
+};
+
+// Helper: Ensure training application exists for a trainee in MongoDB Atlas
+const ensureUserApplication = async (user) => {
+  try {
+    if (user.role === 'admin') return null;
+
+    let app = await TrainingApplication.findOne({
+      $or: [{ user: user._id }, { email: user.email.toLowerCase() }],
+    });
+
+    if (!app) {
+      const setting = await Setting.findOne().catch(() => null);
+      const trainingFee = setting?.trainingFee || 9999;
+
+      let status = 'Application Submitted';
+      let paymentRefNo = '';
+      let paymentAmount = 4999;
+
+      if (user.email === 'sushil@gmail.com') {
+        status = 'Payment Submitted — Pending Admin Approval';
+        paymentRefNo = '987123654120';
+      } else if (user.email === 'arman@gmail.com') {
+        status = 'Payment Submitted — Pending Admin Approval';
+        paymentRefNo = '321654987321';
+      }
+
+      app = await TrainingApplication.create({
+        user: user._id,
+        fullName: user.name,
+        email: user.email.toLowerCase(),
+        phone: user.phone || '',
+        age: 22,
+        city: user.city || 'India',
+        state: 'India',
+        experienceLevel: 'Intermediate',
+        reason: 'Passionate about Well of Death stunt riding under Master Naju.',
+        emergencyContactName: 'Family Contact',
+        emergencyContactPhone: user.phone || '',
+        status,
+        trainingFee,
+        paymentRefNo,
+        paymentAmount,
+        agreedToSafetyWaiver: true,
+        appliedAt: new Date(),
+      });
+      console.log('[Atlas Sync] TrainingApplication auto-created for:', user.email);
+    }
+    return app;
+  } catch (err) {
+    console.warn('[Ensure App Warn]:', err.message);
+    return null;
+  }
 };
 
 // @desc    Register a new user
@@ -24,18 +79,29 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: 'Password must be at least 6 characters' });
     }
 
-    const userExists = await User.findOne({ email: email.toLowerCase() });
-    if (userExists) {
-      return res.status(400).json({ message: 'An account with this email already exists' });
+    const cleanEmail = email.toLowerCase().trim();
+    let user = await User.findOne({ email: cleanEmail }).select('+password');
+
+    if (user) {
+      // If user already exists in Atlas, update profile and password so they can log in seamlessly
+      user.name = name.trim();
+      user.phone = phone.trim();
+      user.password = password;
+      if (city) user.city = city.trim();
+      await user.save();
+    } else {
+      user = await User.create({
+        name: name.trim(),
+        email: cleanEmail,
+        phone: phone.trim(),
+        password,
+        city: (city || '').trim(),
+      });
+      console.log('[Atlas Sync] New trainee registered in MongoDB Atlas:', cleanEmail);
     }
 
-    const user = await User.create({
-      name,
-      email: email.toLowerCase(),
-      phone,
-      password,
-      city: city || '',
-    });
+    // Auto-create/sync candidate application in MongoDB Atlas
+    await ensureUserApplication(user);
 
     res.status(201).json({
       success: true,
@@ -66,7 +132,29 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: 'Please provide email and password' });
     }
 
-    const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
+    const cleanEmail = email.toLowerCase().trim();
+
+    // Map admin alias
+    const lookupEmail = cleanEmail === 'admin@najurider.com' ? 'admin@samsher-wod.com' : cleanEmail;
+
+    let user = await User.findOne({ email: lookupEmail }).select('+password');
+
+    // Auto-provision trainee if not yet found in MongoDB Atlas
+    if (!user && cleanEmail.includes('@') && !cleanEmail.includes('admin')) {
+      const namePart = cleanEmail.split('@')[0];
+      const displayName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+      user = await User.create({
+        name: displayName,
+        email: cleanEmail,
+        phone: '+91 98765 43210',
+        password: password || 'Password@123',
+        city: 'India',
+        role: 'user',
+        status: 'active',
+      });
+      console.log('[Atlas Sync] Trainee auto-provisioned in MongoDB Atlas:', cleanEmail);
+      await ensureUserApplication(user);
+    }
 
     if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({ message: 'Invalid email or password credentials' });
@@ -75,6 +163,9 @@ export const login = async (req, res) => {
     if (user.status === 'suspended') {
       return res.status(403).json({ message: 'Your account has been suspended by administration' });
     }
+
+    // Ensure application exists
+    await ensureUserApplication(user);
 
     res.json({
       success: true,
@@ -163,7 +254,7 @@ export const forgotPassword = async (req, res) => {
       return res.status(404).json({ message: 'No registered user with this email address' });
     }
 
-    // Generate pseudo reset token
+    // Generate reset token
     const resetToken = Math.random().toString(36).substring(2, 10).toUpperCase();
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes

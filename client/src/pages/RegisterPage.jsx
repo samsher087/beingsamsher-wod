@@ -79,25 +79,25 @@ export const RegisterPage = () => {
   };
 
   return (
-    <div className="bg-slate-950 min-h-screen pt-28 pb-10 flex items-center justify-center px-4 relative overflow-hidden text-slate-100">
+    <div className="bg-slate-950 min-h-screen pt-20 pb-6 flex items-center justify-center px-4 relative overflow-hidden text-slate-100">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-[130px] pointer-events-none" />
 
-      <div className="w-full max-w-md relative z-10">
-        <div className="text-center mb-4">
-          <h1 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight">
+      <div className="w-full max-w-sm sm:max-w-md relative z-10">
+        <div className="text-center mb-3">
+          <h1 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight">
             Create Trainee Account
           </h1>
         </div>
 
-        <div className="p-5 sm:p-6 rounded-2xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 shadow-xl card-top-line">
+        <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 shadow-xl card-top-line">
           {error && (
-            <div className="mb-3 p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300 flex items-start gap-2">
+            <div className="mb-2.5 p-2 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300 flex items-start gap-2">
               <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-2.5">
             <div>
               <label className="text-[11px] font-bold text-slate-300 uppercase tracking-wider block mb-1">
                 Full Legal Name *

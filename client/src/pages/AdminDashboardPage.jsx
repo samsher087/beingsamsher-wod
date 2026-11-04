@@ -1659,19 +1659,19 @@ export const AdminDashboardPage = () => {
 
       {/* Application Review & Decision Modal */}
       {adminActionModal && selectedApplication && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-4 animate-in fade-in">
-          <div className="relative w-full max-w-xl bg-slate-900/95 border border-slate-800 card-top-line rounded-2xl p-4 sm:p-5 shadow-2xl flex flex-col max-h-[92vh] overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-2 sm:p-3 animate-in fade-in">
+          <div className="relative w-full max-w-lg bg-slate-900/95 border border-slate-800 card-top-line rounded-xl p-3 sm:p-4 shadow-2xl flex flex-col max-h-[85vh] overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3 shrink-0">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 flex items-center justify-center shrink-0 font-bold">
-                  <FileText className="w-4 h-4" />
+            <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-2 shrink-0">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 flex items-center justify-center shrink-0 font-bold">
+                  <FileText className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-black text-white uppercase tracking-tight">
+                  <h3 className="text-xs sm:text-sm font-black text-white uppercase tracking-tight">
                     Candidate Application Review
                   </h3>
-                  <span className="text-[10px] sm:text-[11px] text-zinc-400">
+                  <span className="text-[10px] text-zinc-400">
                     Application ID: <code className="font-mono text-cyan-400">{selectedApplication._id}</code>
                   </span>
                 </div>
@@ -1690,32 +1690,32 @@ export const AdminDashboardPage = () => {
             </div>
 
             {/* Scrollable Modal Body */}
-            <div className="overflow-y-auto space-y-3 pr-1 text-xs">
+            <div className="overflow-y-auto space-y-2 pr-1 text-xs">
               {/* Candidate Details Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-950/70 p-3 rounded-xl border border-white/5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-slate-950/70 p-2.5 rounded-lg border border-white/5">
                 <div>
-                  <span className="text-zinc-500 block text-[10px] uppercase font-bold">Full Name</span>
-                  <span className="font-bold text-white text-xs truncate block">{selectedApplication.fullName}</span>
+                  <span className="text-zinc-500 block text-[9px] uppercase font-bold">Full Name</span>
+                  <span className="font-bold text-white text-[11px] truncate block">{selectedApplication.fullName}</span>
                 </div>
                 <div>
-                  <span className="text-zinc-500 block text-[10px] uppercase font-bold">Mobile</span>
-                  <span className="text-zinc-300 text-xs block">{selectedApplication.phone || 'N/A'}</span>
+                  <span className="text-zinc-500 block text-[9px] uppercase font-bold">Mobile</span>
+                  <span className="text-zinc-300 text-[11px] block">{selectedApplication.phone || 'N/A'}</span>
                 </div>
                 <div>
-                  <span className="text-zinc-500 block text-[10px] uppercase font-bold">Age & City</span>
-                  <span className="text-zinc-300 text-xs truncate block">
+                  <span className="text-zinc-500 block text-[9px] uppercase font-bold">Age & City</span>
+                  <span className="text-zinc-300 text-[11px] truncate block">
                     {selectedApplication.age ? `${selectedApplication.age} yrs` : ''} • {selectedApplication.city || 'N/A'}
                   </span>
                 </div>
                 <div>
-                  <span className="text-zinc-500 block text-[10px] uppercase font-bold">Riding Level</span>
-                  <span className="text-cyan-400 font-semibold text-xs block truncate">
+                  <span className="text-zinc-500 block text-[9px] uppercase font-bold">Riding Level</span>
+                  <span className="text-cyan-400 font-semibold text-[11px] block truncate">
                     {selectedApplication.experienceLevel || `${selectedApplication.ridingExperienceYears || 2} yrs exp`}
                   </span>
                 </div>
 
                 {(selectedApplication.emergencyContactName || selectedApplication.emergencyContactPhone) && (
-                  <div className="col-span-2 sm:col-span-4 pt-1.5 border-t border-white/5 text-[11px]">
+                  <div className="col-span-2 sm:col-span-4 pt-1 border-t border-white/5 text-[10px]">
                     <span className="text-zinc-500 font-bold">Emergency Contact:</span>{' '}
                     <span className="text-red-300 font-semibold">
                       {selectedApplication.emergencyContactName} ({selectedApplication.emergencyContactPhone})
@@ -1724,7 +1724,7 @@ export const AdminDashboardPage = () => {
                 )}
 
                 {selectedApplication.reason && (
-                  <div className="col-span-2 sm:col-span-4 pt-1 border-t border-white/5 text-[11px] text-zinc-400">
+                  <div className="col-span-2 sm:col-span-4 pt-0.5 border-t border-white/5 text-[10px] text-zinc-400">
                     <span className="text-zinc-500 font-bold">Statement:</span>{' '}
                     <span className="italic text-zinc-300">"{selectedApplication.reason}"</span>
                   </div>
@@ -1732,44 +1732,44 @@ export const AdminDashboardPage = () => {
               </div>
 
               {/* STEP 2 PAYMENT VERIFICATION BLOCK */}
-              <div className="p-3 rounded-xl bg-cyan-950/30 border border-cyan-500/30 space-y-2">
+              <div className="p-2.5 rounded-lg bg-cyan-950/30 border border-cyan-500/30 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <CreditCard className="w-3.5 h-3.5 text-cyan-400" />
-                    <span className="text-[11px] font-bold text-white uppercase tracking-wider">
+                    <span className="text-[10px] font-bold text-white uppercase tracking-wider">
                       Step 02: Candidate Attached Payment Details
                     </span>
                   </div>
                   {selectedApplication.paymentRefNo ? (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
                       Ref Attached
                     </span>
                   ) : (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30">
                       Pending Ref
                     </span>
                   )}
                 </div>
 
                 {selectedApplication.paymentRefNo ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-0.5">
-                    <div className="sm:col-span-2 bg-slate-950/90 px-3 py-2 rounded-lg border border-cyan-500/20">
-                      <span className="text-[9px] uppercase font-bold text-zinc-400 block mb-0.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 pt-0.5">
+                    <div className="sm:col-span-2 bg-slate-950/90 px-2.5 py-1.5 rounded-lg border border-cyan-500/20">
+                      <span className="text-[8px] uppercase font-bold text-zinc-400 block mb-0.5">
                         Payment Ref No / UTR / Txn ID
                       </span>
-                      <code className="text-xs sm:text-sm font-mono font-black text-cyan-300 select-all tracking-wide">
+                      <code className="text-xs font-mono font-black text-cyan-300 select-all tracking-wide">
                         {selectedApplication.paymentRefNo}
                       </code>
                     </div>
-                    <div className="bg-slate-950/90 px-3 py-2 rounded-lg border border-white/5">
-                      <span className="text-[9px] uppercase font-bold text-zinc-400 block mb-0.5">
+                    <div className="bg-slate-950/90 px-2.5 py-1.5 rounded-lg border border-white/5">
+                      <span className="text-[8px] uppercase font-bold text-zinc-400 block mb-0.5">
                         Reported Amount
                       </span>
-                      <span className="text-xs sm:text-sm font-black text-emerald-400">
+                      <span className="text-xs font-black text-emerald-400">
                         ₹{(selectedApplication.paymentAmount || customFee || 9999).toLocaleString('en-IN')}
                       </span>
                     </div>
-                    <div className="sm:col-span-3 text-[10px] text-zinc-400 flex items-center justify-between pt-0.5">
+                    <div className="sm:col-span-3 text-[9px] text-zinc-400 flex items-center justify-between pt-0.5">
                       <span>
                         Method: <strong className="text-zinc-200">{selectedApplication.paymentMethod || 'UPI / QR Transfer'}</strong>
                       </span>
@@ -1784,28 +1784,28 @@ export const AdminDashboardPage = () => {
                     </div>
                   </div>
                 ) : (
-                  <p className="text-[11px] text-amber-300/90 italic bg-amber-950/20 p-2 rounded-lg border border-amber-500/20">
+                  <p className="text-[10px] text-amber-300/90 italic bg-amber-950/20 p-1.5 rounded-lg border border-amber-500/20">
                     Candidate has submitted application, but has not yet attached payment reference.
                   </p>
                 )}
               </div>
 
               {/* Decision Controls */}
-              <div className="space-y-2.5 pt-1 border-t border-white/10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="space-y-2 pt-1 border-t border-white/10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <div>
-                    <label className="text-[11px] font-bold text-zinc-300 block mb-1">
+                    <label className="text-[10px] font-bold text-zinc-300 block mb-0.5">
                       Tuition Fee (INR)
                     </label>
                     <input
                       type="number"
                       value={customFee}
                       onChange={(e) => setCustomFee(e.target.value)}
-                      className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:border-cyan-500 focus:outline-none"
+                      className="w-full px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:border-cyan-500 focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-zinc-300 block mb-1">
+                    <label className="text-[10px] font-bold text-zinc-300 block mb-0.5">
                       Internal Admin Notes
                     </label>
                     <input
@@ -1813,13 +1813,13 @@ export const AdminDashboardPage = () => {
                       value={adminNotes}
                       onChange={(e) => setAdminNotes(e.target.value)}
                       placeholder="e.g. UTR verified in bank statement"
-                      className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:border-cyan-500 focus:outline-none"
+                      className="w-full px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:border-cyan-500 focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-bold text-red-300 block mb-1">
+                  <label className="text-[10px] font-bold text-red-300 block mb-0.5">
                     Rejection Reason (Required only if rejecting)
                   </label>
                   <input
@@ -1827,14 +1827,14 @@ export const AdminDashboardPage = () => {
                     value={rejectionReason}
                     onChange={(e) => setRejectionReason(e.target.value)}
                     placeholder="e.g. Invalid UTR reference number or payment not received"
-                    className="w-full px-3 py-1.5 rounded-lg bg-black/40 border border-red-500/20 text-xs text-white focus:border-red-500 focus:outline-none"
+                    className="w-full px-2.5 py-1 rounded-lg bg-black/40 border border-red-500/20 text-xs text-white focus:border-red-500 focus:outline-none"
                   />
                 </div>
               </div>
             </div>
 
             {/* Fixed Bottom Action Buttons Bar */}
-            <div className="flex items-center gap-2 pt-3 mt-2.5 border-t border-white/10 shrink-0">
+            <div className="flex items-center gap-2 pt-2.5 mt-2 border-t border-white/10 shrink-0">
               {(selectedApplication.status === 'Training Unlocked' || selectedApplication.status === 'approved' || selectedApplication.courseAccessGranted) ? (
                 <div className="flex-1 py-2.5 px-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400" />

@@ -1,9 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
 import dotenv from 'dotenv';
-import path from 'path';
-
 import { connectDB } from '../server/config/db.js';
 
 import authRoutes from '../server/routes/authRoutes.js';
@@ -19,13 +16,6 @@ import uploadRoutes from '../server/routes/uploadRoutes.js';
 dotenv.config();
 
 const app = express();
-
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-    crossOriginEmbedderPolicy: false,
-  })
-);
 
 app.use(
   cors({
@@ -47,8 +37,9 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Health Check
+// Direct Health Check
 app.get(['/api/health', '/health'], (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
   res.json({
     status: 'online',
     database: 'MongoDB Atlas',
@@ -56,7 +47,7 @@ app.get(['/api/health', '/health'], (req, res) => {
   });
 });
 
-// Routes (supporting both /api/* and /*)
+// Mount Routes (supporting both /api/* and /*)
 app.use(['/api/auth', '/auth'], authRoutes);
 app.use(['/api/applications', '/applications'], applicationRoutes);
 app.use(['/api/payments', '/payments'], paymentRoutes);
@@ -76,6 +67,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-export default function handler(req, res) {
-  return app(req, res);
-}
+export default app;
