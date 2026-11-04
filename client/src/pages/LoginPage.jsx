@@ -35,7 +35,7 @@ export const LoginPage = () => {
     setLoading(true);
 
     try {
-      const res = await login(email, password);
+      const res = await login(email.trim(), password.trim());
       if (res?.user?.role === 'admin' && !queryParams.get('redirect')) {
         navigate('/admin');
       } else {
@@ -54,7 +54,7 @@ export const LoginPage = () => {
       setEmail('admin@samsher-wod.com');
       setPassword('AdminPassword@123');
     } else {
-      setEmail('rider.trainee@example.com');
+      setEmail('sushil@gmail.com');
       setPassword('Password@123');
     }
   };

@@ -63,11 +63,11 @@ export const RegisterPage = () => {
 
     try {
       await register({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        city: formData.city,
-        password: formData.password,
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        city: formData.city.trim(),
+        password: formData.password.trim(),
       });
 
       navigate(redirectPath);

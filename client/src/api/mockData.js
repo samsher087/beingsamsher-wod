@@ -86,6 +86,28 @@ export const initialUsers = [
     status: 'active',
     createdAt: new Date().toISOString(),
   },
+  {
+    _id: 'user_trainee_sushil',
+    name: 'Sushil',
+    email: 'sushil@gmail.com',
+    phone: '+91 98123 45678',
+    password: 'Password@123',
+    role: 'user',
+    city: 'Giridih, Jharkhand',
+    status: 'active',
+    createdAt: new Date().toISOString(),
+  },
+  {
+    _id: 'user_trainee_005',
+    name: 'Rohan Joshi',
+    email: 'rohan.joshi@example.com',
+    phone: '+91 96543 21098',
+    password: 'Password@123',
+    role: 'user',
+    city: 'Patna, Bihar',
+    status: 'active',
+    createdAt: new Date().toISOString(),
+  },
 ];
 
 export const initialCourse = {
