@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 import { connectDB } from '../server/config/db.js';
-import { seedDatabase } from '../server/utils/seedData.js';
 
 import authRoutes from '../server/routes/authRoutes.js';
 import applicationRoutes from '../server/routes/applicationRoutes.js';
@@ -17,7 +16,7 @@ import settingRoutes from '../server/routes/settingRoutes.js';
 import adminRoutes from '../server/routes/adminRoutes.js';
 import uploadRoutes from '../server/routes/uploadRoutes.js';
 
-dotenv.config({ path: path.resolve(process.cwd(), 'server/.env') });
+dotenv.config();
 
 const app = express();
 
@@ -38,15 +37,10 @@ app.use(
 app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
-// Ensure DB connected & seeded if empty
-let isSeeded = false;
+// Ensure DB connected on each request
 app.use(async (req, res, next) => {
   try {
-    const conn = await connectDB();
-    if (conn && !isSeeded) {
-      isSeeded = true;
-      seedDatabase().catch((e) => console.warn('[Seed Warn]:', e.message));
-    }
+    await connectDB();
   } catch (err) {
     console.warn('[DB Middleware Warn]:', err.message);
   }
@@ -54,7 +48,7 @@ app.use(async (req, res, next) => {
 });
 
 // Health Check
-app.get('/api/health', (req, res) => {
+app.get(['/api/health', '/health'], (req, res) => {
   res.json({
     status: 'online',
     database: 'MongoDB Atlas',
@@ -62,21 +56,16 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/applications', applicationRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/courses', courseRoutes);
-app.use('/api/gallery', galleryRoutes);
-app.use('/api/videos', videoRoutes);
-app.use('/api/settings', settingRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/upload', uploadRoutes);
-
-// Fallback 404 for API routes
-app.use('/api/*', (req, res) => {
-  res.status(404).json({ message: `API endpoint '${req.originalUrl}' not found` });
-});
+// Routes (supporting both /api/* and /*)
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/applications', '/applications'], applicationRoutes);
+app.use(['/api/payments', '/payments'], paymentRoutes);
+app.use(['/api/courses', '/courses'], courseRoutes);
+app.use(['/api/gallery', '/gallery'], galleryRoutes);
+app.use(['/api/videos', '/videos'], videoRoutes);
+app.use(['/api/settings', '/settings'], settingRoutes);
+app.use(['/api/admin', '/admin'], adminRoutes);
+app.use(['/api/upload', '/upload'], uploadRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {
@@ -87,5 +76,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-export default app;
-
+export default function handler(req, res) {
+  return app(req, res);
+}

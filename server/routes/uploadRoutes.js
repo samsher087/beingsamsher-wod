@@ -2,25 +2,21 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import os from 'os';
 import { fileURLToPath } from 'url';
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const uploadsDir = path.join(__dirname, '../uploads');
-const clientUploadsDir = path.join(__dirname, '../../client/public/uploads');
-
-// Ensure upload directories exist
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
-if (!fs.existsSync(clientUploadsDir)) {
-  try {
-    fs.mkdirSync(clientUploadsDir, { recursive: true });
-  } catch (err) {
-    // ignore directory creation error if client/public doesn't exist
+// In serverless environments (Vercel/AWS Lambda), only /tmp is writable
+const uploadsDir = path.join(os.tmpdir(), 'wod_uploads');
+try {
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
   }
+} catch (err) {
+  // Ignore in read-only environments
 }
 
 const storage = multer.diskStorage({
@@ -72,15 +68,6 @@ router.post('/', protect, adminOnly, (req, res) => {
       return res.status(400).json({ message: 'No image file was uploaded' });
     }
 
-    // Mirror to client public/uploads if directory exists for instant dev preview
-    try {
-      if (fs.existsSync(clientUploadsDir)) {
-        fs.copyFileSync(req.file.path, path.join(clientUploadsDir, req.file.filename));
-      }
-    } catch (copyErr) {
-      console.warn('Could not mirror upload to client/public/uploads:', copyErr.message);
-    }
-
     const fileUrl = `/uploads/${req.file.filename}`;
 
     return res.status(201).json({
@@ -94,4 +81,3 @@ router.post('/', protect, adminOnly, (req, res) => {
 });
 
 export default router;
-

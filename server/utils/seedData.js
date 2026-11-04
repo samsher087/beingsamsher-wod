@@ -12,7 +12,8 @@ import AdminAuditLog from '../models/AdminAuditLog.js';
 
 dotenv.config();
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/well_of_death';
+const DEFAULT_URI = 'mongodb+srv://info_db_user:mVZnTk06RiZIiZQe@cluster0.qvxniat.mongodb.net/beingsamsher?retryWrites=true&w=majority';
+const MONGODB_URI = process.env.MONGODB_URI || DEFAULT_URI;
 
 export const seedDatabase = async () => {
   try {
@@ -448,7 +449,7 @@ export const seedDatabase = async () => {
 };
 
 // Run directly if invoked from CLI
-if (process.argv[1].endsWith('seedData.js')) {
+if (process.argv[1] && process.argv[1].endsWith('seedData.js')) {
   seedDatabase().then(() => {
     mongoose.connection.close();
     process.exit(0);
