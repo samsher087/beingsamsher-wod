@@ -87,6 +87,24 @@ export const DashboardPage = () => {
       if (appRes?.application) {
         setApplication(appRes.application);
 
+        // Prepopulate application form with existing details
+        setAppForm((prev) => ({
+          ...prev,
+          fullName: appRes.application.fullName || prev.fullName,
+          email: appRes.application.email || prev.email,
+          phone: appRes.application.phone || prev.phone,
+          age: appRes.application.age || prev.age,
+          dob: appRes.application.dob ? appRes.application.dob.split('T')[0] : prev.dob,
+          city: appRes.application.city || prev.city,
+          state: appRes.application.state || prev.state,
+          experienceLevel: appRes.application.experienceLevel || prev.experienceLevel,
+          reason: appRes.application.reason || prev.reason,
+          emergencyContactName: appRes.application.emergencyContactName || prev.emergencyContactName,
+          emergencyContactPhone: appRes.application.emergencyContactPhone || prev.emergencyContactPhone,
+          additionalExperience: appRes.application.additionalExperience || prev.additionalExperience,
+          agreedToSafetyWaiver: appRes.application.agreedToSafetyWaiver ?? prev.agreedToSafetyWaiver,
+        }));
+
         // Prepopulate emergency contact if in application
         if (appRes.application.emergencyContactName) {
           setProfileEmergencyName(appRes.application.emergencyContactName);
@@ -239,24 +257,24 @@ export const DashboardPage = () => {
   const currentStep = getTimelineStep();
 
   return (
-    <div className="bg-slate-950 min-h-screen pt-36 pb-24 text-slate-300">
+    <div className="bg-slate-950 min-h-screen pt-24 sm:pt-28 pb-14 text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* User Welcome Banner */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900 card-top-line border border-white/10 shadow-2xl mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-600 via-teal-500 to-emerald-400 p-[2px] shadow-lg shadow-cyan-950/50">
-              <div className="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center font-black text-2xl text-cyan-400">
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900 card-top-line border border-white/10 shadow-xl mb-4 sm:mb-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-600 via-teal-500 to-emerald-400 p-[2px] shadow-lg shadow-cyan-950/50 shrink-0">
+              <div className="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center font-black text-xl text-cyan-400">
                 {user?.name?.charAt(0) || 'R'}
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-2.5 flex-wrap">
-                <h1 className="text-2xl font-black text-white">{user?.name}</h1>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-lg sm:text-xl font-black text-white">{user?.name}</h1>
                 <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-cyan-600/15 text-cyan-400 border border-cyan-500/30">
                   Trainee Portal
                 </span>
               </div>
-              <p className="text-xs text-zinc-400 mt-1 flex items-center gap-3">
+              <p className="text-xs text-zinc-400 mt-0.5 flex items-center gap-3">
                 <span className="flex items-center gap-1">
                   <Mail className="w-3 h-3 text-zinc-500" />
                   {user?.email}
@@ -269,65 +287,65 @@ export const DashboardPage = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+          <div className="flex items-center gap-2.5 w-full md:w-auto justify-end">
             {application && <StatusBadge status={application.status} />}
           </div>
         </div>
 
         {/* Dashboard Navigation Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 border-b border-white/10 scrollbar-none">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2.5 mb-4 sm:mb-5 border-b border-white/10 scrollbar-none">
           <button
             onClick={() => setActiveTab('status')}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'status'
+            className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'status'
                 ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
                 : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
           >
-            <Clock className="w-4 h-4" />
+            <Clock className="w-3.5 h-3.5" />
             <span>Application Timeline</span>
           </button>
 
           <button
             onClick={() => setActiveTab('apply')}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'apply'
+            className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'apply'
                 ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
                 : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
           >
-            <FileText className="w-4 h-4" />
+            <FileText className="w-3.5 h-3.5" />
             <span>{application ? 'Application Details' : 'Apply for Training'}</span>
           </button>
 
           <button
             onClick={() => setActiveTab('academy')}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'academy'
+            className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'academy'
                 ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
                 : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
           >
-            <GraduationCap className="w-4 h-4" />
+            <GraduationCap className="w-3.5 h-3.5" />
             <span>Training Academy {application?.status === 'Training Unlocked' ? '(Unlocked)' : '(Locked)'}</span>
           </button>
 
           <button
             onClick={() => setActiveTab('payments')}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'payments'
+            className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'payments'
                 ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
                 : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
           >
-            <CreditCard className="w-4 h-4" />
+            <CreditCard className="w-3.5 h-3.5" />
             <span>Receipts & Payments ({payments.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('profile')}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'profile'
+            className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${activeTab === 'profile'
                 ? 'bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white shadow-md shadow-cyan-950/50'
                 : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
           >
-            <User className="w-4 h-4" />
+            <User className="w-3.5 h-3.5" />
             <span>Account Settings</span>
           </button>
         </div>
@@ -579,258 +597,272 @@ export const DashboardPage = () => {
 
         {/* TAB 2: TRAINING APPLICATION FORM */}
         {activeTab === 'apply' && (
-          <div className="max-w-4xl mx-auto p-8 sm:p-10 rounded-3xl bg-slate-900/90 border border-slate-800 card-top-line shadow-2xl animate-in fade-in duration-200">
-            <div className="mb-8">
-              <h2 className="text-2xl font-black text-white uppercase tracking-tight">
-                Training Application Form
-              </h2>
-              <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-                Please provide accurate details. Every applicant is individually assessed for physical aptitude and safety awareness.
-              </p>
+          <div className="max-w-5xl mx-auto p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 card-top-line shadow-2xl animate-in fade-in duration-200">
+            {/* Form Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3.5 pb-2.5 border-b border-white/5">
+              <div>
+                <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight">
+                  Training Application Form
+                </h2>
+                <p className="text-[11px] text-zinc-400">
+                  Please provide accurate details for physical aptitude and safety assessment.
+                </p>
+              </div>
+              {application && (
+                <div className="self-start sm:self-auto">
+                  <StatusBadge status={application.status} />
+                </div>
+              )}
             </div>
 
             {formMsg.text && (
               <div
-                className={`mb-6 p-4 rounded-xl text-xs flex items-center gap-2.5 ${formMsg.type === 'success'
+                className={`mb-3 p-2.5 rounded-lg text-xs flex items-center gap-2 ${formMsg.type === 'success'
                     ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300'
                     : 'bg-red-500/10 border border-red-500/30 text-red-300'
                   }`}
               >
                 {formMsg.type === 'success' ? (
-                  <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 ) : (
-                  <AlertTriangle className="w-5 h-5 text-red-400 shrink-0" />
+                  <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
                 )}
                 <span>{formMsg.text}</span>
               </div>
             )}
 
-            <form onSubmit={handleApplicationSubmit} className="space-y-6">
-              {/* Personal Details */}
-              <div className="space-y-4">
-                <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-wider border-l-2 border-cyan-500 pl-2.5">
-                  1. Applicant Information
-                </h4>
+            <form onSubmit={handleApplicationSubmit}>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 items-start">
+                {/* LEFT COLUMN: Section 1 (Applicant Info) & Section 2 (Emergency Contact) */}
+                <div className="space-y-3">
+                  {/* 1. Applicant Information */}
+                  <div className="space-y-2">
+                    <h4 className="text-[11px] font-bold text-cyan-400 uppercase tracking-wider border-l-2 border-cyan-500 pl-2">
+                      1. Applicant Information
+                    </h4>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                      Full Legal Name *
-                    </label>
-                    <input
-                      type="text"
-                      value={appForm.fullName}
-                      onChange={(e) => setAppForm({ ...appForm, fullName: e.target.value })}
-                      required
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                    />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                          Full Legal Name *
+                        </label>
+                        <input
+                          type="text"
+                          value={appForm.fullName}
+                          onChange={(e) => setAppForm({ ...appForm, fullName: e.target.value })}
+                          required
+                          className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                          Email Address *
+                        </label>
+                        <input
+                          type="email"
+                          value={appForm.email}
+                          onChange={(e) => setAppForm({ ...appForm, email: e.target.value })}
+                          required
+                          className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2">
+                      <div>
+                        <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                          Mobile *
+                        </label>
+                        <input
+                          type="tel"
+                          value={appForm.phone}
+                          onChange={(e) => setAppForm({ ...appForm, phone: e.target.value })}
+                          required
+                          className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                          Age (18+) *
+                        </label>
+                        <input
+                          type="number"
+                          min="18"
+                          max="65"
+                          value={appForm.age}
+                          onChange={(e) => setAppForm({ ...appForm, age: e.target.value })}
+                          required
+                          className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                          Date of Birth
+                        </label>
+                        <input
+                          type="date"
+                          value={appForm.dob}
+                          onChange={(e) => setAppForm({ ...appForm, dob: e.target.value })}
+                          className="w-full px-2 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                          City *
+                        </label>
+                        <input
+                          type="text"
+                          value={appForm.city}
+                          onChange={(e) => setAppForm({ ...appForm, city: e.target.value })}
+                          required
+                          placeholder="e.g. New Delhi"
+                          className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                          State *
+                        </label>
+                        <input
+                          type="text"
+                          value={appForm.state}
+                          onChange={(e) => setAppForm({ ...appForm, state: e.target.value })}
+                          required
+                          placeholder="e.g. Uttar Pradesh"
+                          className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      value={appForm.email}
-                      onChange={(e) => setAppForm({ ...appForm, email: e.target.value })}
-                      required
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                    />
+
+                  {/* 2. Emergency Contact */}
+                  <div className="space-y-2 pt-2.5 border-t border-white/5">
+                    <h4 className="text-[11px] font-bold text-red-400 uppercase tracking-wider border-l-2 border-red-500 pl-2">
+                      2. Emergency Contact (Mandatory)
+                    </h4>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                          Contact Full Name *
+                        </label>
+                        <input
+                          type="text"
+                          value={appForm.emergencyContactName}
+                          onChange={(e) => setAppForm({ ...appForm, emergencyContactName: e.target.value })}
+                          required
+                          placeholder="Parent / Guardian / Spouse"
+                          className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                          Contact Mobile Phone *
+                        </label>
+                        <input
+                          type="tel"
+                          value={appForm.emergencyContactPhone}
+                          onChange={(e) => setAppForm({ ...appForm, emergencyContactPhone: e.target.value })}
+                          required
+                          placeholder="+91 7488405975"
+                          className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                      Mobile Number *
-                    </label>
-                    <input
-                      type="tel"
-                      value={appForm.phone}
-                      onChange={(e) => setAppForm({ ...appForm, phone: e.target.value })}
-                      required
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                      Age (Min 18) *
-                    </label>
-                    <input
-                      type="number"
-                      min="18"
-                      max="65"
-                      value={appForm.age}
-                      onChange={(e) => setAppForm({ ...appForm, age: e.target.value })}
-                      required
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                      Date of Birth
-                    </label>
-                    <input
-                      type="date"
-                      value={appForm.dob}
-                      onChange={(e) => setAppForm({ ...appForm, dob: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                </div>
+                {/* RIGHT COLUMN: Section 3 (Experience), Waiver & Submit */}
+                <div className="space-y-3">
+                  {/* 3. Experience & Motivation */}
+                  <div className="space-y-2">
+                    <h4 className="text-[11px] font-bold text-cyan-400 uppercase tracking-wider border-l-2 border-cyan-500 pl-2">
+                      3. Riding Experience & Motivation
+                    </h4>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                      City *
-                    </label>
-                    <input
-                      type="text"
-                      value={appForm.city}
-                      onChange={(e) => setAppForm({ ...appForm, city: e.target.value })}
-                      required
-                      placeholder="e.g. New Delhi"
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                      State *
-                    </label>
-                    <input
-                      type="text"
-                      value={appForm.state}
-                      onChange={(e) => setAppForm({ ...appForm, state: e.target.value })}
-                      required
-                      placeholder="e.g. Uttar Pradesh"
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                </div>
-              </div>
+                    <div>
+                      <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                        Previous Motorcycle Riding Level *
+                      </label>
+                      <select
+                        value={appForm.experienceLevel}
+                        onChange={(e) => setAppForm({ ...appForm, experienceLevel: e.target.value })}
+                        className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                      >
+                        <option value="Beginner" className="bg-zinc-900">Beginner (1-2 years regular street riding)</option>
+                        <option value="Intermediate" className="bg-zinc-900">Intermediate (3+ years manual clutch / track riding)</option>
+                        <option value="Experienced" className="bg-zinc-900">Experienced (Dirt / stunt / motorsport competitor)</option>
+                      </select>
+                    </div>
 
-              {/* Experience & Motivation */}
-              <div className="space-y-4 pt-4 border-t border-white/10">
-                <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-wider border-l-2 border-cyan-500 pl-2.5">
-                  2. Riding Experience & Motivation
-                </h4>
+                    <div>
+                      <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                        Why do you want to learn Well of Death riding? *
+                      </label>
+                      <textarea
+                        rows="2"
+                        value={appForm.reason}
+                        onChange={(e) => setAppForm({ ...appForm, reason: e.target.value })}
+                        required
+                        placeholder="Describe your motivations, aspirations, and commitment to discipline..."
+                        className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500 resize-none"
+                      />
+                    </div>
 
-                <div>
-                  <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                    Previous Motorcycle Riding Level *
-                  </label>
-                  <select
-                    value={appForm.experienceLevel}
-                    onChange={(e) => setAppForm({ ...appForm, experienceLevel: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                    <div>
+                      <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-0.5">
+                        Additional Stunt or Mechanical Skills (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        value={appForm.additionalExperience}
+                        onChange={(e) => setAppForm({ ...appForm, additionalExperience: e.target.value })}
+                        placeholder="e.g. 2-stroke engine mechanics, acrobatic balance"
+                        className="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Safety Waiver Agreement */}
+                  <div className="p-2.5 rounded-xl bg-red-950/20 border border-red-500/30">
+                    <label className="flex items-start gap-2 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        id="waiver"
+                        checked={appForm.agreedToSafetyWaiver}
+                        onChange={(e) => setAppForm({ ...appForm, agreedToSafetyWaiver: e.target.checked })}
+                        className="mt-0.5 rounded bg-black/60 border-red-500/50 text-red-600 focus:ring-0 shrink-0"
+                      />
+                      <span className="text-[11px] text-zinc-300 leading-snug">
+                        <strong className="text-red-400 font-bold mr-1">Safety & Risk Waiver:</strong>
+                        I certify medical fitness, agree to follow safety rules, and understand video training alone doesn't qualify independent riding without expert arena supervision.
+                      </span>
+                    </label>
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    disabled={formSubmitting}
+                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-950/50 flex items-center justify-center gap-2 cursor-pointer transition-all disabled:opacity-50"
                   >
-                    <option value="Beginner" className="bg-zinc-900">Beginner (1-2 years regular street riding)</option>
-                    <option value="Intermediate" className="bg-zinc-900">Intermediate (3+ years manual clutch / track riding)</option>
-                    <option value="Experienced" className="bg-zinc-900">Experienced (Dirt / stunt / motorsport competitor)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                    Why do you want to learn Well of Death riding? *
-                  </label>
-                  <textarea
-                    rows="3"
-                    value={appForm.reason}
-                    onChange={(e) => setAppForm({ ...appForm, reason: e.target.value })}
-                    required
-                    placeholder="Describe your motivations, aspirations, and commitment to discipline..."
-                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                    Additional Stunt or Mechanical Skills (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    value={appForm.additionalExperience}
-                    onChange={(e) => setAppForm({ ...appForm, additionalExperience: e.target.value })}
-                    placeholder="e.g. 2-stroke engine mechanics, dirt track balance, acrobatic sports"
-                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                  />
+                    {formSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Saving Application...</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShieldCheck className="w-4 h-4" />
+                        <span>{application ? 'Update & Resubmit Application' : 'Submit Application for Admin Review'}</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
-
-              {/* Emergency Contact */}
-              <div className="space-y-4 pt-4 border-t border-white/10">
-                <h4 className="text-xs font-bold text-red-400 uppercase tracking-wider border-l-2 border-red-500 pl-2.5">
-                  3. Emergency Contact (Mandatory for Arena Safety)
-                </h4>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                      Emergency Contact Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      value={appForm.emergencyContactName}
-                      onChange={(e) => setAppForm({ ...appForm, emergencyContactName: e.target.value })}
-                      required
-                      placeholder="e.g. Parent / Spouse / Guardian"
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold text-zinc-300 uppercase tracking-wider block mb-1">
-                      Emergency Contact Mobile Phone *
-                    </label>
-                    <input
-                      type="tel"
-                      value={appForm.emergencyContactPhone}
-                      onChange={(e) => setAppForm({ ...appForm, emergencyContactPhone: e.target.value })}
-                      required
-                      placeholder="+91 7488405975"
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Safety Waiver Agreement */}
-              <div className="p-4 rounded-xl bg-red-950/30 border border-red-500/30 space-y-3">
-                <div className="flex items-start gap-2.5">
-                  <input
-                    type="checkbox"
-                    id="waiver"
-                    checked={appForm.agreedToSafetyWaiver}
-                    onChange={(e) => setAppForm({ ...appForm, agreedToSafetyWaiver: e.target.checked })}
-                    className="mt-1 rounded bg-black/60 border-red-500/50 text-red-600 focus:ring-0"
-                  />
-                  <label htmlFor="waiver" className="text-xs text-zinc-300 leading-relaxed cursor-pointer select-none">
-                    <strong className="text-red-400 uppercase block font-bold mb-0.5">
-                      Legal Safety & Risk Waiver Acknowledgement
-                    </strong>
-                    I acknowledge that Well of Death riding entails high-risk centrifugal forces and G-loadings.
-                    I certify that I am medically fit, understand that video lessons require qualified supervision before any physical arena attempt, and will strictly adhere to instructor safety guidelines.
-                  </label>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={formSubmitting}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 text-white font-bold text-sm uppercase tracking-wider shadow-lg shadow-cyan-950/50 flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                {formSubmitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Saving Application...</span>
-                  </>
-                ) : (
-                  <>
-                    <ShieldCheck className="w-5 h-5" />
-                    <span>Submit Application for Admin Review</span>
-                  </>
-                )}
-              </button>
             </form>
           </div>
         )}
