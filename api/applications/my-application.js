@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { connectDB, User, TrainingApplication } from '../../_db.js';
+import { connectDB, User, TrainingApplication } from '../_db.js';
 
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json');
