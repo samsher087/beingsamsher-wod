@@ -94,7 +94,7 @@ const courseSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      default: 9999,
+      default: 4999,
     },
     isPublished: {
       type: Boolean,

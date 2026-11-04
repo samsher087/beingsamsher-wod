@@ -40,7 +40,7 @@ export const submitApplication = async (req, res) => {
 
     // Fetch configured training fee
     const setting = await Setting.findOne();
-    const trainingFee = setting?.trainingFee || 9999;
+    const trainingFee = setting?.trainingFee || 4999;
 
     if (application) {
       if (['Training Unlocked'].includes(application.status)) {
@@ -176,7 +176,7 @@ export const submitPaymentRef = async (req, res) => {
       return res.status(400).json({ message: 'Training is already unlocked for your account!' });
     }
 
-    const paidAmount = Number(amount) || application.trainingFee || 9999;
+    const paidAmount = Number(amount) || application.trainingFee || 4999;
     const cleanRefNo = paymentRefNo.trim();
     const method = paymentMethod || 'UPI / QR';
 
@@ -314,7 +314,7 @@ export const toggleTestSubscription = async (req, res) => {
         emergencyContactPhone: '+91 98765 43210',
         agreedToSafetyWaiver: true,
         status: 'Training Unlocked',
-        trainingFee: 9999,
+        trainingFee: 4999,
         unlockedAt: new Date(),
       });
     } else {

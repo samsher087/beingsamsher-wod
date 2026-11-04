@@ -766,7 +766,7 @@ const mockRouter = async (method, endpoint, body) => {
       _id: `pay_${Date.now()}`,
       user: app?.user || { name: currentUser?.name || 'Trainee', email: currentUser?.email },
       application: app?._id || applicationId,
-      amount: amount || 9999,
+      amount: amount || 4999,
       currency: 'INR',
       method: paymentMethod || 'UPI / QR Transfer',
       transactionId: ref || `TXN_${Date.now()}`,

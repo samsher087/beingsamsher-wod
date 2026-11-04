@@ -23,7 +23,7 @@ const ensureUserApplication = async (user) => {
 
     if (!app) {
       const setting = await Setting.findOne().catch(() => null);
-      const trainingFee = setting?.trainingFee || 9999;
+      const trainingFee = setting?.trainingFee || 4999;
 
       let status = 'Application Submitted';
       let paymentRefNo = '';

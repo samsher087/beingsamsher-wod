@@ -89,7 +89,7 @@ const trainingApplicationSchema = new mongoose.Schema(
     },
     trainingFee: {
       type: Number,
-      default: 9999,
+      default: 4999,
     },
     paymentRefNo: {
       type: String,
@@ -103,7 +103,7 @@ const trainingApplicationSchema = new mongoose.Schema(
     },
     paymentAmount: {
       type: Number,
-      default: 9999,
+      default: 4999,
     },
     paymentSubmittedAt: {
       type: Date,

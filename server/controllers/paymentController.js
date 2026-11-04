@@ -34,7 +34,7 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    const amountInINR = application.trainingFee || 9999;
+    const amountInINR = application.trainingFee || 4999;
     const amountInPaise = amountInINR * 100;
     const receipt = `RCP_${Date.now().toString().slice(-8)}`;
 

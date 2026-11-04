@@ -53,7 +53,7 @@ const settingSchema = new mongoose.Schema(
     },
     trainingFee: {
       type: Number,
-      default: 9999,
+      default: 4999,
     },
     contactEmail: {
       type: String,

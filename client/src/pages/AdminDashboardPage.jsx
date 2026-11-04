@@ -823,7 +823,7 @@ export const AdminDashboardPage = () => {
                                 {app.paymentRefNo}
                               </code>
                               <span className="text-[10px] text-zinc-400 block mt-0.5">
-                                {app.paymentMethod || 'UPI'} • ₹{(app.paymentAmount || app.trainingFee || 9999).toLocaleString('en-IN')}
+                                {app.paymentMethod || 'UPI'} • ₹{(app.paymentAmount || app.trainingFee || 4999).toLocaleString('en-IN')}
                               </span>
                             </div>
                           ) : (
@@ -840,7 +840,7 @@ export const AdminDashboardPage = () => {
                           <button
                             onClick={() => {
                               setSelectedApplication(app);
-                              setCustomFee(app.trainingFee || 9999);
+                              setCustomFee(app.trainingFee || 4999);
                               setAdminNotes(app.adminNotes || '');
                               setRejectionReason(app.rejectionReason || '');
                               setAdminActionModal('details');
@@ -1157,7 +1157,7 @@ export const AdminDashboardPage = () => {
                     <label className="text-xs font-bold text-zinc-300 block mb-1">Default Training Fee (INR)</label>
                     <input
                       type="number"
-                      value={cmsForm.trainingFee || 9999}
+                      value={cmsForm.trainingFee || 4999}
                       onChange={(e) => setCmsForm({ ...cmsForm, trainingFee: Number(e.target.value) })}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white"
                     />
@@ -1772,7 +1772,7 @@ export const AdminDashboardPage = () => {
                         Reported Amount
                       </span>
                       <span className="text-xs font-black text-emerald-400">
-                        ₹{(selectedApplication.paymentAmount || customFee || 9999).toLocaleString('en-IN')}
+                        ₹{(selectedApplication.paymentAmount || customFee || 4999).toLocaleString('en-IN')}
                       </span>
                     </div>
                     <div className="sm:col-span-3 text-[9px] text-zinc-400 flex items-center justify-between pt-0.5">

@@ -210,7 +210,7 @@ export const TrainingPage = () => {
               Official Program Tuition
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-white">
-              <span className="text-cyan-300">₹{(settings.trainingFee || 9999).toLocaleString('en-IN')}</span>{' '}
+              <span className="text-cyan-300">₹{(settings.trainingFee || 4999).toLocaleString('en-IN')}</span>{' '}
               <span className="text-sm font-normal text-slate-400">/ Complete Curriculum</span>
             </h2>
             <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400">
@@ -351,7 +351,7 @@ export const TrainingPage = () => {
                         className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-950/60 hover:scale-105 transition-all flex items-center gap-1.5 cursor-pointer"
                       >
                         <Unlock className="w-3.5 h-3.5" />
-                        <span>Subscribe & Unlock All Videos (₹{(settings.trainingFee || 9999).toLocaleString('en-IN')})</span>
+                        <span>Subscribe & Unlock All Videos (₹{(settings.trainingFee || 4999).toLocaleString('en-IN')})</span>
                       </button>
 
                       {/* Switch to Free Preview */}
@@ -868,7 +868,7 @@ export const TrainingPage = () => {
                   className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-cyan-950/60 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
                 >
                   <Unlock className="w-4 h-4" />
-                  <span>Subscribe & Unlock (₹{(settings.trainingFee || 9999).toLocaleString('en-IN')})</span>
+                  <span>Subscribe & Unlock (₹{(settings.trainingFee || 4999).toLocaleString('en-IN')})</span>
                 </button>
 
                 <button

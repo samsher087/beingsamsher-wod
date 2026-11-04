@@ -555,7 +555,7 @@ export const DashboardPage = () => {
                           <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-2">
                             <span className="text-zinc-500">Amount:</span>
                             <span className="text-white font-bold">
-                              ₹{(application.paymentAmount || application.trainingFee || 9999).toLocaleString('en-IN')}
+                              ₹{(application.paymentAmount || application.trainingFee || 4999).toLocaleString('en-IN')}
                             </span>
                           </div>
                           <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-2">
@@ -596,7 +596,7 @@ export const DashboardPage = () => {
                           Pay Training Fee & Attach Payment Reference No.
                         </h4>
                         <p className="text-xs text-zinc-300 max-w-xl leading-relaxed">
-                          Your application has been received! Please complete the training fee payment of <strong className="text-cyan-300">₹{(application.trainingFee || 9999).toLocaleString('en-IN')}</strong> via UPI, QR code, or Bank Transfer, and attach your transaction reference number (UTR) to submit for Admin Approval.
+                          Your application has been received! Please complete the training fee payment of <strong className="text-cyan-300">₹{(application.trainingFee || 4999).toLocaleString('en-IN')}</strong> via UPI, QR code, or Bank Transfer, and attach your transaction reference number (UTR) to submit for Admin Approval.
                         </p>
                       </div>
                     </div>
@@ -606,7 +606,7 @@ export const DashboardPage = () => {
                       className="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-cyan-950/60 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap flex items-center gap-2 shrink-0 self-start lg:self-auto cursor-pointer"
                     >
                       <CreditCard className="w-4 h-4" />
-                      <span>Pay & Attach Ref No. (₹{(application.trainingFee || 9999).toLocaleString('en-IN')})</span>
+                      <span>Pay & Attach Ref No. (₹{(application.trainingFee || 4999).toLocaleString('en-IN')})</span>
                     </button>
                   </div>
                 )}
@@ -1243,7 +1243,7 @@ export const DashboardPage = () => {
       <RazorpayPaymentModal
         isOpen={paymentModalOpen}
         onClose={() => setPaymentModalOpen(false)}
-        trainingFee={application?.trainingFee || settings.trainingFee || 9999}
+        trainingFee={application?.trainingFee || settings.trainingFee || 4999}
         existingRefNo={application?.paymentRefNo || ''}
         applicationId={application?._id}
         onPaymentSuccess={handlePaymentSuccess}

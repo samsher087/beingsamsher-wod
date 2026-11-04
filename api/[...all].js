@@ -118,7 +118,7 @@ export default async function handler(req, res) {
       });
       if (!app) {
         const setting = await Setting.findOne().catch(() => null);
-        const trainingFee = setting?.trainingFee || 9999;
+        const trainingFee = setting?.trainingFee || 4999;
         let status = 'Application Submitted';
         let paymentRefNo = '';
         let paymentAmount = 4999;
@@ -331,7 +331,7 @@ export default async function handler(req, res) {
           emergencyContactName: emergencyContactName || 'Family Contact',
           emergencyContactPhone: emergencyContactPhone || phone,
           status: 'Application Submitted',
-          trainingFee: 9999,
+          trainingFee: 4999,
           appliedAt: new Date(),
         });
       }
@@ -346,7 +346,7 @@ export default async function handler(req, res) {
       if (user) app = await TrainingApplication.findOne({ user: user._id });
       if (!app) return res.status(404).json({ success: false, message: 'Application not found' });
 
-      const paidAmount = Number(amount) || app.trainingFee || 9999;
+      const paidAmount = Number(amount) || app.trainingFee || 4999;
       const cleanRefNo = (paymentRefNo || '').trim();
       app.paymentRefNo = cleanRefNo;
       app.paymentMethod = paymentMethod || 'UPI / QR Transfer';

@@ -66,8 +66,8 @@ export const seedDatabase = async () => {
       if (userDoc && !existingApp) {
         let status = 'Application Submitted';
         let paymentRefNo = '';
-        let paymentAmount = 9999;
-        let trainingFee = 9999;
+        let paymentAmount = 4999;
+        let trainingFee = 4999;
         if (u.email === 'rider.trainee@example.com') {
           status = 'Training Unlocked';
           paymentRefNo = '529104829104';
@@ -119,7 +119,7 @@ export const seedDatabase = async () => {
       thumbnail: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1200&q=80',
       difficulty: 'Elite Professional / Supervised',
       estimatedDuration: '8 Weeks Intensive',
-      price: 9999,
+      price: 4999,
       isPublished: true,
       learningOutcomes: [
         'Master centrifugal force calculations and critical speed thresholds on vertical walls (85°-88°)',
@@ -429,7 +429,7 @@ export const seedDatabase = async () => {
     setting.statsArenaShows = 650;
     setting.statsWallIncline = '88°';
     setting.statsSafetyRecord = '100% Zero Severe Injury';
-    setting.trainingFee = 9999;
+    setting.trainingFee = 4999;
     setting.contactEmail = 'contact@najurider.com';
     setting.contactPhone = '+91 7488405975';
     setting.contactWhatsApp = '+917488405975';
