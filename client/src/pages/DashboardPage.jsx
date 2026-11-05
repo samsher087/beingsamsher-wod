@@ -584,7 +584,7 @@ export const DashboardPage = () => {
                   /* Step 02 Active: Application Submitted, now awaiting Payment Process & ref no attachment */
                   <div className="relative overflow-hidden p-6 sm:p-8 rounded-2xl bg-slate-900/90 border border-cyan-500/40 card-top-line flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-xl">
                     <div
-                      className="absolute inset-0 bg-cover bg-center opacity-70 pointer-events-none"
+                      className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none"
                       style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/70 to-slate-950/90 pointer-events-none" />

@@ -48,9 +48,9 @@ export const LoginPage = () => {
 
   return (
     <div className="bg-slate-950 min-h-screen pt-36 pb-20 flex items-center justify-center px-4 relative overflow-hidden text-slate-100">
-      {/* Abstract Wave Background with 70% Opacity */}
+      {/* Abstract Wave Background with 30% Opacity */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70 pointer-events-none"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 pointer-events-none"
         style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/45 to-slate-950/85 pointer-events-none" />

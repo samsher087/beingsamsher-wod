@@ -22,9 +22,9 @@ export const AboutPage = () => {
 
   return (
     <div className="bg-slate-950 min-h-screen pt-36 pb-24 text-slate-300 relative overflow-hidden">
-      {/* Abstract Wave Page Background with 70% Opacity */}
+      {/* Abstract Wave Page Background with 30% Opacity */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70 pointer-events-none"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 pointer-events-none"
         style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/60 to-slate-950/85 pointer-events-none" />
@@ -42,9 +42,9 @@ export const AboutPage = () => {
 
         {/* Hero Bio Banner */}
         <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 mb-16 shadow-2xl relative overflow-hidden card-top-line max-w-6xl mx-auto">
-          {/* Card Abstract Wave Background with 70% Opacity */}
+          {/* Card Abstract Wave Background with 30% Opacity */}
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-70 pointer-events-none"
+            className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none"
             style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/80 to-slate-950/90 pointer-events-none" />
@@ -160,7 +160,7 @@ export const AboutPage = () => {
         {/* Safety Protocols & Ethics Statement */}
         <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/40 card-top-line transition-colors">
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-70 pointer-events-none"
+            className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none"
             style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/70 to-slate-950/90 pointer-events-none" />

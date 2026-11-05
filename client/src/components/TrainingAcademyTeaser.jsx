@@ -76,9 +76,9 @@ export const TrainingAcademyTeaser = () => {
                 key={s.num}
                 className="relative p-6 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/60 transition-all duration-300 group hover:-translate-y-1 shadow-xl hover:shadow-cyan-500/15 flex flex-col justify-between card-top-line overflow-hidden"
               >
-                {/* Background Abstract Wave Image with 70% Opacity */}
+                {/* Background Abstract Wave Image with 30% Opacity */}
                 <div
-                  className="absolute inset-0 bg-cover bg-center opacity-70 group-hover:scale-105 group-hover:opacity-80 transition-all duration-500 pointer-events-none"
+                  className="absolute inset-0 bg-cover bg-center opacity-30 group-hover:scale-105 group-hover:opacity-40 transition-all duration-500 pointer-events-none"
                   style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
                 />
 
@@ -117,10 +117,10 @@ export const TrainingAcademyTeaser = () => {
           })}
         </div>
 
-        {/* CTA Banner Card with 70% Opacity Background */}
+        {/* CTA Banner Card with 30% Opacity Background */}
         <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/40 shadow-2xl card-top-line flex flex-col lg:flex-row items-center justify-between gap-8 transition-colors">
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-70 pointer-events-none"
+            className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none"
             style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/70 to-slate-950/90 pointer-events-none" />
