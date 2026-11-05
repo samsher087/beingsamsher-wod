@@ -203,9 +203,15 @@ export const TrainingPage = () => {
           </p>
         </div>
 
-        {/* Pricing & Enrollment Card */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/40 mb-14 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8 card-top-line transition-colors">
-          <div className="space-y-3">
+        {/* Pricing & Enrollment Card with 70% Opacity Background */}
+        <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/40 mb-14 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8 card-top-line transition-colors">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-70 pointer-events-none"
+            style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/70 to-slate-950/90 pointer-events-none" />
+
+          <div className="relative z-10 space-y-3">
             <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest block">
               Official Program Tuition
             </span>
@@ -229,7 +235,7 @@ export const TrainingPage = () => {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+          <div className="relative z-10 flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
             {/* Demo Mode Toggle Button */}
             {user && (
               <button

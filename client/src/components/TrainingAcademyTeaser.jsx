@@ -76,14 +76,14 @@ export const TrainingAcademyTeaser = () => {
                 key={s.num}
                 className="relative p-6 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/60 transition-all duration-300 group hover:-translate-y-1 shadow-xl hover:shadow-cyan-500/15 flex flex-col justify-between card-top-line overflow-hidden"
               >
-                {/* Background Stunt Image with 50% Opacity */}
+                {/* Background Abstract Wave Image with 70% Opacity */}
                 <div
-                  className="absolute inset-0 bg-cover bg-center opacity-50 group-hover:scale-105 group-hover:opacity-60 transition-all duration-500 pointer-events-none"
-                  style={{ backgroundImage: `url('/images/naju_rider_stunt_rx100.jpg')` }}
+                  className="absolute inset-0 bg-cover bg-center opacity-70 group-hover:scale-105 group-hover:opacity-80 transition-all duration-500 pointer-events-none"
+                  style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
                 />
 
-                {/* Subtle dark gradient overlay for optimal text readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/70 to-slate-950/90 pointer-events-none" />
+                {/* Dark gradient overlay for crisp text readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/60 to-slate-950/85 pointer-events-none" />
 
                 {/* Block Content */}
                 <div className="relative z-10">
@@ -117,9 +117,15 @@ export const TrainingAcademyTeaser = () => {
           })}
         </div>
 
-        {/* CTA Banner Card */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/40 shadow-2xl card-top-line flex flex-col lg:flex-row items-center justify-between gap-8 transition-colors">
-          <div className="space-y-2 text-center lg:text-left">
+        {/* CTA Banner Card with 70% Opacity Background */}
+        <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/40 shadow-2xl card-top-line flex flex-col lg:flex-row items-center justify-between gap-8 transition-colors">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-70 pointer-events-none"
+            style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/70 to-slate-950/90 pointer-events-none" />
+
+          <div className="relative z-10 space-y-2 text-center lg:text-left">
             <span className="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center justify-center lg:justify-start gap-1.5 bg-amber-400/10 border border-amber-400/20 px-3 py-1 rounded-full w-fit mx-auto lg:mx-0">
               <AlertTriangle className="w-4 h-4 text-amber-400" />
               Limited Intake Per Batch (Max 15 Trainees)
@@ -127,12 +133,12 @@ export const TrainingAcademyTeaser = () => {
             <h3 className="text-2xl sm:text-3xl font-black text-white">
               Enrollment Fee: <span className="text-cyan-300">₹{(settings.trainingFee || 4999).toLocaleString('en-IN')}</span>
             </h3>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-xl">
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
               Includes full access to 4 modules, 8 high-def masterclass videos, safety protocols, and personalized feedback from Naju Rider.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
+          <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 shrink-0">
             <Link
               to="/training"
               className="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-extrabold text-sm uppercase tracking-wider shadow-xl shadow-cyan-950/60 hover:shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
