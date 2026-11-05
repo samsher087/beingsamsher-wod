@@ -125,7 +125,7 @@ export const TrainingAcademyTeaser = () => {
               Limited Intake Per Batch (Max 15 Trainees)
             </span>
             <h3 className="text-2xl sm:text-3xl font-black text-white">
-              Enrollment Tuition Fee: <span className="text-cyan-300">₹{(settings.trainingFee || 4999).toLocaleString('en-IN')}</span>
+              Enrollment Fee: <span className="text-cyan-300">₹{(settings.trainingFee || 4999).toLocaleString('en-IN')}</span>
             </h3>
             <p className="text-xs sm:text-sm text-slate-400 max-w-xl">
               Includes full access to 4 modules, 8 high-def masterclass videos, safety protocols, and personalized feedback from Naju Rider.
