@@ -48,15 +48,8 @@ export const LoginPage = () => {
 
   return (
     <div className="bg-slate-950 min-h-screen pt-36 pb-20 flex items-center justify-center px-4 relative overflow-hidden text-slate-100">
-      {/* Abstract Wave Background with 30% Opacity */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 pointer-events-none"
-        style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/45 to-slate-950/85 pointer-events-none" />
-
       {/* Background SoftDeals Ambient Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/15 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-[130px] pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">

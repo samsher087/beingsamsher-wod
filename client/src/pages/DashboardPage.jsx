@@ -582,14 +582,8 @@ export const DashboardPage = () => {
                   </div>
                 ) : (
                   /* Step 02 Active: Application Submitted, now awaiting Payment Process & ref no attachment */
-                  <div className="relative overflow-hidden p-6 sm:p-8 rounded-2xl bg-slate-900/90 border border-cyan-500/40 card-top-line flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-xl">
-                    <div
-                      className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none"
-                      style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/70 to-slate-950/90 pointer-events-none" />
-
-                    <div className="relative z-10 flex items-start gap-4">
+                  <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/90 border border-cyan-500/40 card-top-line flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-xl">
+                    <div className="flex items-start gap-4">
                       <div className="p-3.5 rounded-2xl bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 shrink-0 mt-1">
                         <CreditCard className="w-7 h-7" />
                       </div>
@@ -609,7 +603,7 @@ export const DashboardPage = () => {
 
                     <button
                       onClick={() => setPaymentModalOpen(true)}
-                      className="relative z-10 px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-cyan-950/60 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap flex items-center gap-2 shrink-0 self-start lg:self-auto cursor-pointer"
+                      className="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-500 hover:from-cyan-500 hover:to-emerald-400 text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-cyan-950/60 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap flex items-center gap-2 shrink-0 self-start lg:self-auto cursor-pointer"
                     >
                       <CreditCard className="w-4 h-4" />
                       <span>Pay & Attach Ref No. (₹{(application.trainingFee || 4999).toLocaleString('en-IN')})</span>
