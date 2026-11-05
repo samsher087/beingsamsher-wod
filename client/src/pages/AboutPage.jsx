@@ -21,8 +21,18 @@ export const AboutPage = () => {
 
 
   return (
-    <div className="bg-slate-950 min-h-screen pt-36 pb-24 text-slate-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-slate-950 min-h-screen pt-36 pb-24 text-slate-300 relative overflow-hidden">
+      {/* Abstract Wave Page Background with 70% Opacity */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70 pointer-events-none"
+        style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/60 to-slate-950/85 pointer-events-none" />
+
+      {/* Ambient Glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Page Header */}
         <div className="w-full mb-16 text-center flex justify-center">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight whitespace-nowrap text-center">
@@ -32,7 +42,14 @@ export const AboutPage = () => {
 
         {/* Hero Bio Banner */}
         <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 mb-16 shadow-2xl relative overflow-hidden card-top-line max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+          {/* Card Abstract Wave Background with 70% Opacity */}
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-70 pointer-events-none"
+            style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/80 to-slate-950/90 pointer-events-none" />
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
             <div className="lg:col-span-7 space-y-4">
               <div className="inline-flex flex-col items-center">
                 <h2 className="text-2xl sm:text-4xl font-black text-white uppercase tracking-tight text-center">
@@ -141,8 +158,14 @@ export const AboutPage = () => {
 
 
         {/* Safety Protocols & Ethics Statement */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/40 card-top-line transition-colors">
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+        <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-slate-900/90 backdrop-blur-xl border border-slate-800 hover:border-cyan-500/40 card-top-line transition-colors">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-70 pointer-events-none"
+            style={{ backgroundImage: `url('/images/abstract_wave_bg.jpg')` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/70 to-slate-950/90 pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6">
             <div className="p-4 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 shrink-0">
               <ShieldCheck className="w-8 h-8" />
             </div>
