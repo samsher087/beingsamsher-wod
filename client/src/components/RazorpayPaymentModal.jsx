@@ -68,9 +68,7 @@ export const RazorpayPaymentModal = ({
         paymentMethod:
           selectedMethod === 'UPI'
             ? 'UPI / QR Transfer'
-            : selectedMethod === 'Bank'
-              ? 'Bank Transfer (IMPS/NEFT)'
-              : 'Online Payment Gateway',
+            : 'Bank Transfer (IMPS/NEFT)',
         amount: trainingFee,
         paymentNotes: paymentNotes.trim(),
       });
@@ -154,12 +152,12 @@ export const RazorpayPaymentModal = ({
             <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
               Choose Payment Mode
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => setSelectedMethod('UPI')}
-                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${selectedMethod === 'UPI'
-                    ? 'border-cyan-500 bg-cyan-500/15 text-cyan-300 shadow-md'
+                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all cursor-pointer ${selectedMethod === 'UPI'
+                    ? 'border-cyan-500 bg-cyan-500/15 text-cyan-300 shadow-md ring-1 ring-cyan-500/30'
                     : 'border-slate-800 bg-slate-950 text-slate-400 hover:bg-slate-800'
                   }`}
               >
@@ -169,24 +167,13 @@ export const RazorpayPaymentModal = ({
               <button
                 type="button"
                 onClick={() => setSelectedMethod('Bank')}
-                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${selectedMethod === 'Bank'
-                    ? 'border-cyan-500 bg-cyan-500/15 text-cyan-300 shadow-md'
+                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all cursor-pointer ${selectedMethod === 'Bank'
+                    ? 'border-cyan-500 bg-cyan-500/15 text-cyan-300 shadow-md ring-1 ring-cyan-500/30'
                     : 'border-slate-800 bg-slate-950 text-slate-400 hover:bg-slate-800'
                   }`}
               >
                 <Building className="w-4 h-4" />
                 Bank Transfer
-              </button>
-              <button
-                type="button"
-                onClick={() => setSelectedMethod('Gateway')}
-                className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${selectedMethod === 'Gateway'
-                    ? 'border-cyan-500 bg-cyan-500/15 text-cyan-300 shadow-md'
-                    : 'border-slate-800 bg-slate-950 text-slate-400 hover:bg-slate-800'
-                  }`}
-              >
-                <CreditCard className="w-4 h-4" />
-                Online / Card
               </button>
             </div>
           </div>
@@ -224,22 +211,26 @@ export const RazorpayPaymentModal = ({
 
           {selectedMethod === 'Bank' && (
             <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2.5 text-xs animate-in fade-in">
-              <div className="flex justify-between">
+              <div className="flex justify-between items-center">
                 <span className="text-slate-400">Account Name:</span>
-                <span className="font-bold text-white">Samsher Alam (Well of Death Academy)</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-400">Bank Name:</span>
-                <span className="font-bold text-white">HDFC Bank Ltd</span>
+                <span className="font-bold text-white">Md Nijamuddin Ansari</span>
               </div>
               <div className="flex justify-between items-center">
+                <span className="text-slate-400">Bank Name:</span>
+                <span className="font-bold text-white">Bank of India</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-400">Branch:</span>
+                <span className="font-medium text-slate-300">Remba (Giridih, Jharkhand)</span>
+              </div>
+              <div className="flex justify-between items-center pt-1 border-t border-slate-800/80">
                 <span className="text-slate-400">Account Number:</span>
                 <div className="flex items-center gap-2">
-                  <code className="text-cyan-300 font-mono font-bold">50100492817291</code>
+                  <code className="text-cyan-300 font-mono font-bold select-all">48710110003304</code>
                   <button
                     type="button"
-                    onClick={() => handleCopy('50100492817291', 'acc')}
-                    className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"
+                    onClick={() => handleCopy('48710110003304', 'acc')}
+                    className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer transition-colors"
                   >
                     {copiedField === 'acc' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
@@ -248,28 +239,16 @@ export const RazorpayPaymentModal = ({
               <div className="flex justify-between items-center">
                 <span className="text-slate-400">IFSC Code:</span>
                 <div className="flex items-center gap-2">
-                  <code className="text-cyan-300 font-mono font-bold">HDFC0001234</code>
+                  <code className="text-cyan-300 font-mono font-bold select-all">BKID0004887</code>
                   <button
                     type="button"
-                    onClick={() => handleCopy('HDFC0001234', 'ifsc')}
-                    className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"
+                    onClick={() => handleCopy('BKID0004887', 'ifsc')}
+                    className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer transition-colors"
                   >
                     {copiedField === 'ifsc' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                 </div>
               </div>
-            </div>
-          )}
-
-          {selectedMethod === 'Gateway' && (
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2.5 text-xs animate-in fade-in">
-              <div className="flex items-center gap-2 text-slate-300">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Card / NetBanking / Online Transfer</span>
-              </div>
-              <p className="text-[11px] text-slate-400 leading-relaxed">
-                If paying via online banking or card, copy the Transaction Reference Number from your payment receipt and manually enter it into the field below.
-              </p>
             </div>
           )}
 
