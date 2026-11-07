@@ -427,10 +427,11 @@ QRCodeGenerator.createBytes = function (buffer, rsBlocks) {
 };
 
 export const UpiQrCode = ({
-  upiId = 'samsher.wod@okhdfcbank',
-  name = 'Samsher Alam (Well of Death Academy)',
+  upiId = '9006284803-2@axl',
+  name = 'Md Nijamuddin Ansari',
   amount = 4999,
   note = 'Well of Death Training Fee',
+  qrImageUrl = '/images/payment_upi_qr.jpg',
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -438,11 +439,12 @@ export const UpiQrCode = ({
   const upiUri = useMemo(() => {
     return `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(
       name
-    )}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+    )}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}&mode=02&purpose=00`;
   }, [upiId, name, amount, note]);
 
-  // Generate SVG QR Matrix
+  // Generate SVG QR Matrix (fallback if image not present)
   const { moduleCount, modules } = useMemo(() => {
+    if (qrImageUrl) return { moduleCount: 0, modules: [] };
     try {
       const qr = new QRCodeGenerator(0, QRErrorCorrectLevel.M);
       qr.addData(upiUri);
@@ -461,7 +463,7 @@ export const UpiQrCode = ({
       console.warn('QR generation fallback:', e);
       return { moduleCount: 0, modules: [] };
     }
-  }, [upiUri]);
+  }, [upiUri, qrImageUrl]);
 
   const handleCopyUpi = () => {
     navigator.clipboard.writeText(upiId);
@@ -487,8 +489,14 @@ export const UpiQrCode = ({
 
       {/* Main Scannable QR Code Card */}
       <div className="relative inline-block mx-auto">
-        <div className="p-4 bg-white rounded-2xl shadow-2xl border-4 border-slate-900 inline-block relative group">
-          {moduleCount > 0 ? (
+        <div className="p-3 bg-white rounded-2xl shadow-2xl border-2 border-cyan-500/40 inline-block relative group max-w-[260px] sm:max-w-[280px]">
+          {qrImageUrl ? (
+            <img
+              src={qrImageUrl}
+              alt="Official Payment QR Code"
+              className="w-full h-auto block rounded-xl shadow-sm object-contain"
+            />
+          ) : moduleCount > 0 ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox={`0 0 ${moduleCount} ${moduleCount}`}
@@ -516,33 +524,44 @@ export const UpiQrCode = ({
               Loading QR...
             </div>
           )}
-
-          {/* Center Branded UPI Pill Overlay */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="bg-white px-2 py-0.5 rounded-md shadow-md border border-slate-300 flex items-center gap-1">
-              <span className="font-black text-[10px] tracking-tighter text-blue-800">BHIM</span>
-              <span className="font-black text-[10px] tracking-tighter text-emerald-600">UPI</span>
-            </div>
-          </div>
         </div>
 
         {/* Scan instruction subtitle */}
         <p className="text-[11px] font-semibold text-zinc-300 mt-2.5 flex items-center justify-center gap-1.5">
           <ShieldCheck className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-          <span>Scan with Google Pay, PhonePe, Paytm, or BHIM</span>
+          <span>Scan with PhonePe, Google Pay, Paytm, or BHIM</span>
         </p>
       </div>
 
       {/* UPI Apps supported bar */}
       <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-zinc-400 uppercase tracking-wider py-1.5 px-3 rounded-xl bg-slate-900 border border-slate-800">
         <span className="text-white">Supported:</span>
-        <span className="text-cyan-400">GPay</span>
+        <span className="text-purple-400 font-extrabold">PhonePe</span>
         <span>•</span>
-        <span className="text-purple-400">PhonePe</span>
+        <span className="text-cyan-400">GPay</span>
         <span>•</span>
         <span className="text-sky-400">Paytm</span>
         <span>•</span>
         <span className="text-emerald-400">BHIM UPI</span>
+      </div>
+
+      {/* Payee Details Card */}
+      <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5 text-xs text-left">
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] uppercase font-bold text-zinc-500">
+            Payee Name
+          </span>
+          <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+            Verified Merchant
+          </span>
+        </div>
+        <div className="font-bold text-white text-sm">
+          {name}
+        </div>
+        <div className="text-[11px] text-zinc-400 flex items-center gap-1.5">
+          <span className="inline-block w-2 h-2 rounded-full bg-cyan-400" />
+          <span>Airtel Payments Bank (A/C: •••• 4803)</span>
+        </div>
       </div>
 
       {/* UPI ID Row with Quick Copy */}

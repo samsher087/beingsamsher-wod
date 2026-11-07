@@ -195,20 +195,21 @@ export const RazorpayPaymentModal = ({
           {selectedMethod === 'UPI' && (
             <div className="space-y-3 animate-in fade-in">
               <UpiQrCode
-                upiId="samsher.wod@okhdfcbank"
-                name="Samsher Alam (Well of Death Academy)"
+                upiId="9006284803-2@axl"
+                name="Md Nijamuddin Ansari (Naju Rider)"
                 amount={trainingFee}
                 note="Well of Death Training Fee"
+                qrImageUrl="/images/payment_upi_qr.jpg"
               />
 
               <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
                 <span className="text-slate-400">Official Mobile / GPay / PhonePe:</span>
                 <div className="flex items-center gap-2">
-                  <code className="text-slate-200 font-mono font-bold">+91 7488405975</code>
+                  <code className="text-slate-200 font-mono font-bold">+91 9006284803</code>
                   <button
                     type="button"
-                    onClick={() => handleCopy('+91 7488405975', 'phone')}
-                    className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                    onClick={() => handleCopy('+91 9006284803', 'phone')}
+                    className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
                   >
                     {copiedField === 'phone' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
@@ -216,7 +217,7 @@ export const RazorpayPaymentModal = ({
               </div>
 
               <p className="text-[11px] text-slate-400 leading-relaxed px-1">
-                Scan the QR code above with Google Pay, PhonePe, Paytm, or BHIM. After payment is completed, copy the 12-digit UPI Reference / UTR Number and paste it in the field below.
+                Scan the QR code above with PhonePe, Google Pay, Paytm, or BHIM. After payment is completed, copy the 12-digit UPI Reference / UTR Number and paste it in the field below.
               </p>
             </div>
           )}
